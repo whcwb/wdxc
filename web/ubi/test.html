@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报价接口测试</title>
+</head>
+<body>
+<div id="params">
+
+</div>
+<input>
+<button onclick="quote()">请求报价</button>
+<button onclick="getQuoteResult()">查询报价</button>
+<p id="res"></p>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="md51.js"></script>
+<script>
+    let agent = 76691;
+    let secret = "270cfcad37b"
+    let quoteUrl = 'http://iu.91bihu.com/api/CarInsurance/PostNewPrecisePrice';
+    let quoteParam = {
+        Agent: agent,
+        BoLi: "0",
+        BuJiMianCheSun: "0",
+        BuJiMianChengKe: "0",
+        BuJiMianDaoQiang: "0",
+        BuJiMianHuaHen: "0",
+        BuJiMianJingShenSunShi: "0",
+        BuJiMianSanZhe: "0",
+        BuJiMianSheShui: "0",
+        BuJiMianSiJi: "0",
+        BuJiMianZiRan: "0",
+        CarOwnersName: "冯小刚",
+        CarVin: "WAURGB4H8CN034XXX",
+        CheSun: "0",
+        ChengKe: "0",
+        CityCode: "19",
+        CustKey: "bihutest520",
+        DaoQiang: "0",
+        EngineNo: "CMD006XXX",
+        ForceTax: "2",
+        HolderIdCard: "420381199111031218",
+        HolderIdType: "1",
+        HolderName: "冯小刚",
+        HuaHen: "0",
+        IdCard: "420381199111031218",
+        InsuredIdCard: "420381199111031218",
+        InsuredIdType: "1",
+        InsuredName: "冯小刚",
+        LicenseNo: "鄂XXXXXX",
+        MoldName: "奥迪AUDI A8L 6.3FSI QUATTRO轿车",
+        OwnerIdCardType: "1",
+        QuoteGroup: "1",
+        QuoteParalelConflict: "0",
+        RegisterDate: "2014-09-22",
+        SanZhe: "0",
+        SiJi: "0",
+        SubmitGroup: "1",
+        ZiRan: "0"
+    }
+
+    $(document).ready(function(){
+        init();
+    })
+    function init(){
+        for (let k in quoteParam){
+            let p = '<label>'+k+':</label><input name="'+k+'" value="'+quoteParam[k]+'" ><br>';
+            $("#params").append(p)
+        }
+    }
+
+    function genSecCode(param) {
+        let s = '';
+        for (let k in param) {
+            s += '&' + k + '=' + param[k]
+        }
+        s = s.substring(1) + secret;
+        console.log(s);
+        return $.md5(s);
+    }
+
+    function quote() {
+        quoteParam.SecCode = genSecCode(quoteParam);
+        console.log('SecCode',quoteParam.SecCode);
+        $("input[name=SecCode]").val(quoteParam.SecCode)
+        let jsonParam = JSON.stringify(quoteParam)
+        $.ajax({
+            type: 'POST',
+            url: quoteUrl,
+            data: jsonParam,
+            // contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+            },
+        })
+    }
+    let getQuoteResultParam = {
+        LicenseNo:'',   // 必须，String，车牌号
+        QuoteGroup:'',  // 必须，Long，意向投保公司（单个的枚举值）
+        Agent:'',       // 必须，Int，调用平台标识
+        CustKey:'',     // 必须，String，客户端标识（用来区分客户）（10-32位字符）
+    }
+    function getQuoteResult(){
+        getQuoteResultParam.LicenseNo = quoteParam.LicenseNo;
+        getQuoteResultParam.QuoteGroup = quoteParam.QuoteGroup;
+        getQuoteResultParam.Agent = quoteParam.Agent;
+        getQuoteResultParam.CustKey = quoteParam.CustKey;
+        getQuoteResultParam.SecCode = genSecCode(getQuoteResultParam);
+        $.ajax({
+            type: 'GET',
+            url: 'http://iu.91bihu.com/api/CarInsurance/GetPrecisePrice',
+            data: getQuoteResultParam,
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            success: function (data) {
+                $("#res").val(JSON.stringify(data));
+                console.log(data);
+            },
+        })
+    }
+
+
+
+    let quoteParam1 = {
+        LicenseNo: '1',              // 必须，String，车牌号（字母全部大写）
+        CarOwnersName: '1',          // 必须，String，车主姓名
+        IdCard: '1',                 // 必须，String，车主证件号（字母全部大写）
+        OwnerIdCardType: '1',        // 必须，String，车主证件类型
+        QuoteGroup: '1',             // 必须，Long，需要报价的 保险资源的枚举值之和
+        SubmitGroup: '1',            // 必须，Long，需要核保的 保险资源的枚举值之和（这个范围应该是QuoteGroup的子集，必须报价了，才可以核保）
+        Email: '',                  // 非必须，String，车主邮箱
+        OwnerSex: '',               // 非必须，Int，车主性别（身份证采集用）1男2女
+        OwnerAuthority: '',         // 非必须，String，车主证件签发机关（身份证采集用）
+        OwnerNation: '',            // 非必须，String，车主民族（身份证采集用）
+        OwnerBirthday: '',          // 非必须，String，车主生日（身份证采集用）格式为：xxxx-xx-xx
+        InsuredName: '',            // 非必须，String，被保险人姓名
+        InsuredIdCard: '',          // 非必须，String，被保险人证件号（字母全部大写）
+        InsuredIdType: '',          // 非必须，Int，被保险人证件类型：
+        InsuredMobile: '',          // 非必须，String，被保险人手机号
+        InsuredEmail: '',           // 非必须，String，被保人邮箱（用来接收电子保单，所以电子保单的地区，请完善此参数）备注：北京地区报价该字段必填；如果需要平安核保，该字段必填。
+        InsuredAddress: '',         // 非必须，String，被保险人地址
+        InsuredCertiStartdate: '',  // 非必须，String，被保险人身份证有效期起期（yyyy-mm-dd北京平安必填）
+        InsuredCertiEnddate: '',    // 非必须，String，被保险人身份证有效期止期（yyyy-mm-dd北京平安必填；长期请标识为：9999-12-31）
+        InsuredSex: '',             // 非必须，Int，被保险人性别（身份证采集用）1男2女
+        InsuredAuthority: '',       // 非必须，String，被保险人证件签发机关（身份证采集用）
+        InsuredNation: '',          // 非必须，String，被保险人民族（身份证采集用）
+        InsuredBirthday: '',        // 非必须，String，被保险人生日（身份证采集用）格式为：xxxx-xx-xx
+        HolderIdCard: '1',           // 必须，String，投保人证件号（字母全部大写）
+        HolderName: '1',             // 必须，String，投保人姓名
+        HolderIdType: '1',           // 必须，String，投保人证件类型（类型同被保人）
+        HolderMobile: '',           // 非必须，String，投保人手机号
+        HolderEmail: '',            // 非必须，String，投保人邮箱
+        HolderAddress: '',          // 非必须，String，投保人地址
+        HolderCertiStartdate: '',   // 非必须，String，投保人身份证有效期起期（yyyy-mm-dd北京平安必填）
+        HolderCertiEnddate: '',     // 非必须，String，投保人身份证有效期止期（yyyy-mm-dd北京平安必填；长期请标识为：9999-12-31）
+        HolderSex: '',              // 非必须，Int，投保人性别（身份证采集用）1男2女
+        HolderAuthority: '',        // 非必须，String，投保人证件签发机关（身份证采集用）
+        HolderNation: '',           // 非必须，String，投保人民族（身份证采集用）
+        HolderBirthday: '',         // 非必须，String，投保人生日（身份证采集用）格式为：xxxx-xx-xx
+        IsNewCar: '',               // 非必须，Int，是否新车（1：新车  2：旧车（默认）；）
+        CarType: '',                // 非必须，Int，车辆类型
+        CarUsedType: '',            // 非必须，Int，使用性质
+        CityCode: '19',             // 必须，Int，参考文档上部 城市列表
+        EngineNo: '1',               // 必须，String，发动机号 （字母全部大写）
+        CarVin: '1',                 // 必须，String，车架号（字母全部大写，长度不允许大于17位）
+        RegisterDate: '1',           // 必须，String，注册日期(如：2014-08-07)（校验：符合日期格式，且小于当前日期）
+        MoldName: '1',               // 必须，String，品牌型号（如果存在空格等特殊字符，需要urlencode转码）
+        ForceTax: '1',               // 必须，Int，0:单商业 ，1：商业+交强车船，2：单交强+车船。如果单交强（即该值为2，则下文的商业险不允许选择投保）
+        BizTimeStamp: '',           // 非必须，String，商业险起保时间（Unix时间戳格式）单位是秒（如果投保商业险 ，此字段必须有值）
+        ForceTimeStamp: '',         // 非必须，String，交强险起保时间（Unix时间戳格式）单位是秒（如果投保交强险，此字段必须有值）
+        BoLi: '1',                   // 必须，Double，玻璃单独破碎险，0-不投保，1国产，2进口
+        BuJiMianCheSun: '1',         // 必须，Double，不计免赔险(车损) ，0-不投保，1投保
+        BuJiMianDaoQiang: '1',       // 必须，Double，不计免赔险(盗抢) ，0-不投保，1投保
+        BuJiMianSanZhe: '1',         // 必须，Double，不计免赔险(三者) ，0-不投保，1投保
+        BuJiMianChengKe: '1',        // 必须，Double，不计免乘客0-不投保，1投保
+        BuJiMianSiJi: '1',           // 必须，Double，不计免乘客0-不投保，1投保
+        BuJiMianHuaHen: '1',         // 必须，Double，不计免划痕0-不投保，1投保
+        BuJiMianSheShui: '1',        // 必须，Double，不计免划痕0-不投保，1投保
+        BuJiMianHuaHen: '1',         // 必须，Double，不计免涉水0-不投保，1投保
+        BuJiMianZiRan: '1',          // 必须，Double，不计免自燃0-不投保，1投保
+        BuJiMianJingShenSunShi: '1', // 必须，Double，不计免精神损失0-不投保，1投保
+        SheShui: '1',                // 必须，Double，涉水行驶损失险，0-不投保，1投保
+        HuaHen: '1',                 // 必须，Double，车身划痕损失险，0-不投保，>0投保(具体金额) 2，000；5，000；10，000；20，000
+        SiJi: '1',                   // 必须，Double，车上人员责任险(司机) ，0-不投保，>0投保(具体金额）
+        ChengKe: '1',                // 必须，Double，车上人员责任险(乘客) ，0-不投保，>0投保(具体金额)
+        CheSun: '1',                 // 必须，Double，机动车损失保险，0-不投保，1-投保
+        DaoQiang: '1',               // 必须，Double，全车盗抢保险，0-不投保，1-投保
+        SanZhe: '1',                 // 必须，Double，第三者责任保险，0-不投保，>0投保(具体金额)
+        ZiRan: '1',                  // 必须，Double，自燃损失险，0-不投保，1投保
+        SeatCount: '',              // 非必须，Int，核定载客量
+        TonCount: '',               // 非必须，Double，核定载质量
+
+        QuoteParalelConflict: '0',   // 必须，Int，报价并发冲突检查标识：0（默认） 1：检测。
+        IsOrderChangeRelation: '',  // 非必须，Int，请求报价是否需要将关系人信息同步到保司：1是、0否（默认0）。注意：1，因为特殊原因限制，仅适用于人保；2，仅同步“电话、邮箱、地址”字段，因为如果变更了姓名等关系人字段，人保需要介入审核，影响正常报价。
+        SeatUpdated: '',            // 非必须，Int，是否变更座位数：1是、0否（默认0）。如果您需要变更座位数，SeatCount传变更后的（须>0，否则会提示校验会失败），此参数必传1，否则，无需理会。
+        SpecialOption: '',          // 非必须，String，带值的特约内容。该参数必须满足Json的形式（数字也必须加双引号）
+        IsLoans: '',                // 非必须，Int，是否是贷款车。枚举值：0，非贷款；1，贷款。默认值是0
+        SanZheJieJiaRi: '',         // 非必须，Int，可空类型。三责险附加法定节假日限额翻倍险。枚举值：1投保；0不投保。默认为0
+        Remark: '',                 // 非必须，String，备注。如传值，则最小5位，最多100位字符。目前仅支持国寿财的验证码、平安的备注信息。
+        IsPaFloorPrice: '',         // 非必须，Int，平安底价报价。1是0否。仅支持广西平安
+        CustKey: '1',                // 必须，String，客户端标识（用来区分客户）（10-32位字符）
+        Agent: '1',                 // 必须，Int，调用平台标识
+        SecCode: '',                // 必须，String，除了SecCode参数之外的所有参数拼接后再加密钥的字符串后的MD5值（32位小写）（壁虎提供）
+    }
+</script>
+</html>

@@ -1,0 +1,12 @@
+spring:
+  #redis配置信息
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    maxIdle: 200
+    maxTotal: 1024
+    maxWait: 1000
+  
+server:
+  port: 8081
+  

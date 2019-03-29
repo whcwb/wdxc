@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldz.dao.biz.mapper.ClSbyxsjjlMapper">
+
+	<select id="historyTrajectory" parameterType="com.ldz.dao.biz.bean.gpsSJInfo"
+		resultType="com.ldz.dao.biz.model.ClSbyxsjjl">
+		select * from CL_SBYXSJJL t where t.CJSJ between
+		#{startTime}
+		and
+		#{endTime} and ZDBH=#{zdbh} and
+		(t.SJLX=#{ignition} or t.SJLX=#{brennschluss}) ORDER BY CJSJ ASC
+	</select>
+
+	<!-- <select id="gpsInitSan" resultType="ClSbyxsjjl">
+		select a.* from CL_SBYXSJJL a where not exists(select 1 from CL_SBYXSJJL
+		b where b.ZDBH=a.ZDBH and b.CJSJ>a.CJSJ) AND (CJSJ> (sysdate-(3/1440))) </select> -->
+
+<!-- 	<select id="gpsInit" resultType="ClSbyxsjjl">
+		select * from (
+		select l.*,row_number() OVER(PARTITION BY zdbh ORDER BY l.cjsj desc) as
+		row_flg
+		from CL_SBYXSJJL L
+		) where row_flg =1
+	</select> -->
+  <select id="Safedriving" resultType="com.ldz.dao.biz.bean.SafedrivingModel">
+  SELECT T1.sjxm,T1.cph,T2.*,t3.*,t4.*,t5.*  FROM CL_CL t1
+  LEFT JOIN (select ZDBH ,count(SJLX) as "speedupCount" FROM CL_SBYXSJJL  t WHERE t.SJLX='10' GROUP BY zdbh) t2 on T1.ZDBH=T2.ZDBH
+  LEFT JOIN (select ZDBH ,count(SJLX) as "speedownCount" FROM CL_SBYXSJJL  t WHERE t.SJLX='20' GROUP BY zdbh) t3 on T1.ZDBH=T3.ZDBH
+  LEFT JOIN (select ZDBH ,count(SJLX) as "wheelCount" FROM CL_SBYXSJJL  t WHERE t.SJLX='30' GROUP BY zdbh) t4 on T1.ZDBH=T4.ZDBH
+  LEFT JOIN (select ZDBH ,count(SJLX) as "overspeedCount" FROM CL_SBYXSJJL  t WHERE t.SJLX='40' GROUP BY zdbh) t5 on T1.ZDBH=T5.ZDBH
+      where
+      <if test="sjxmLike != null and sjxmLike != ''">
+           T1.sjxm like '%${sjxmLike}%' and
+      </if>
+      t1.ZDBH in ( select zdbh from CL_ZDGL t6 where t6.JGDM like '${jgdm}%')
+  </select>
+
+<!--   <resultMap type="" id="">
+  <result column="SJ" property="sj" />
+		<result column="SJXM" property="sjxm" />
+		<result column="ZDBH" property="zdbh" />
+		<result column="JGMC" property="jgmc" />
+		<result column="CL_ID" property="clId" />
+		<result column="CJSJ" property="cjsj" />
+
+  </resultMap> -->
+
+  <select id="findByCphAndTime" resultType="com.ldz.dao.biz.model.ClSbyxsjjl">
+  	SELECT t.* FROM CL_SBYXSJJL t WHERE t.SJLX='40' AND t.CPH=#{cph} AND t.CJSJ BETWEEN #{start} and #{end}
+  </select>
+</mapper>

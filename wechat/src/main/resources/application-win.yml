@@ -1,0 +1,16 @@
+spring:
+  #redis配置信息
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  #数据库连接配置信息
+  datasource:
+    url: jdbc:oracle:thin:@//47.98.39.45:1521/orcl
+    username: 'C##wdxc_admin'
+    password: 'wdxc123456'
+
+
+server:
+  port: 8091
+  
+staticPath: E:\statistics\8090

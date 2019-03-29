@@ -1,0 +1,12 @@
+{
+    "workbench.colorTheme": "Adapta Nokto",
+    "touchui.deving": false,
+    "touchui.builded": true,
+    "touchui.enable": true,
+    "files.associations": {
+        "*.ui": "vue"
+    },
+    "vetur.extensions": [
+        ".ui"
+    ]
+}

@@ -1,0 +1,104 @@
+﻿
+武大电子站牌 协议
+
+tcp，长连接,端口待定
+
+#login报文
+2430303034307b22636f6d6d616e64223a226c6f67696e222c22746964223a22313233343536373839306162227d
+
+包体协议
+$00029{json}
+每包以$(0x24)开头；
+包长度为5个字节（不足长度左补0）
+包体为json消息体
+
+{
+"command":"login",
+"tid":"1234567890ab",
+}
+
+//buses下面的state 共有三项:inStation进站，runing正常  off离线
+{
+"command": "routeInfo",
+"tid":"1234567890ab",
+"shwoName":"当前站点名称",
+"routes":[
+	{	"routeId":"001",
+		"routeName":"武1"，
+		"startTime":"06:00",
+		"endTime":"22:00",
+		"routeType":"round",
+		"tips":"票价两元，不找零，欢迎使用一卡通！",
+		"stations":[
+			{"stationNo":"01","direct":"up","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"0"},
+			{"stationNo":"02","direct":"up","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			{"stationNo":"03","direct":"up","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			{"stationNo":"01","direct":"down","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			{"stationNo":"02","direct":"down","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			...
+		],
+		"buses":[
+			{"plate":"鄂A123RT","id":"112","currentStationNo":"3","state":"inStation or off or runing","direct":"up or down"},
+			{},
+			{},
+		]
+
+	},
+	
+	{other route},
+	{other route}
+
+]
+
+}
+
+
+{
+"command":"reporting",
+"tid":"1234567890ab",
+"routeName":"环2",
+"routeId":"123",
+"direct":"up",
+"type":"in",
+"stationNo":"7",
+"bus_plate":"鄂A123RT"
+}
+
+
+{
+"command":"tick",
+"tid":"1234567890ab",
+}
+
+
+//group:10 上 20 中 30 下
+{
+	"command":"media",
+	"tid":"1234567890ab",
+	"url":
+	[
+		{"path":"http:\\123.jpg","size":"123","md5":"123456","group":"1"},
+		{"path":"http:\\222.jpg","size":"123","md5":"123456","group":"1"},
+		{"path":"http:\\666.jpg","size":"123","md5":"123456","group":"1"}
+	]
+}
+
+
+{
+	"command":"led",
+	"tid":"1234567890ab",
+	"content":"武汉欢迎你！",
+	"speed":"4",
+	"method":"up-down"
+}
+
+
+
+
+socket地址：47.98.39.45
+端口号：8899 
+测试终端号TID是：1234567890ab
+
+
+
+

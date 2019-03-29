@@ -1,0 +1,16 @@
+
+#
+/api/reporting
+{
+    "channelId": "234234121313",
+    "deviceId": "234234121313",
+    "deviceTag": "89860617080069335832",
+    "endTime": "2018031515",
+    "eventType": "04",
+    "fxj": "8988",
+    "gpsjd": "58",
+    "latitude": "30.5311635881",
+    "longitude": "114.4157130709",
+    "speed": "99988",
+    "startTime": "20180403161616"
+}

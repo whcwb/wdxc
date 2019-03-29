@@ -1,0 +1,44 @@
+<!---->
+<template>
+  <ui-page  style="overflow-y: hidden;">
+      <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FF7F50'} }}">
+          <ui-row height="46">
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="Goback">
+              <ui-icon type="left" size="16" color="#fff"></ui-icon>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center">
+              <ui-view class="nav_title">意见反馈信息</ui-view>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center" width="60">
+            </ui-col>
+          </ui-row>
+      </ui-nav-bar>
+
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"意见反馈",
+    title:'意见反馈',
+    backgroundColor:'#fff',
+    delay:false,//延迟加载
+  },
+  data() {
+    return {}
+  },
+  methods: {
+    Goback(){
+      ui.navigateBack()
+    },
+  },
+  mounted() {}
+}
+</script>
+
+<style lang="less">
+
+</style>

@@ -1,0 +1,346 @@
+<template>
+  <ui-page  style="overflow-y: hidden;">
+      <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FF7F50'} }}">
+          <ui-row height="46">
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="backPoject">
+              <ui-icon type="return" size="20" color="#e2e2e2"></ui-icon>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center">
+              <ui-view class="nav_title">约车</ui-view>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="goProp">
+              <ui-icon type="yijianfankui" size="18" color="#fff"></ui-icon>
+            </ui-col>
+          </ui-row>
+      </ui-nav-bar>
+      <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+          <ui-view class="logoback">
+            <ui-view class="logTit">
+              {{ usermess.userInfo.xm.charAt(0)}}
+            </ui-view>
+            <ui-view class="name">
+              {{usermess.userInfo.xm}}
+            </ui-view>
+            <ui-view class="fen">
+                {{usermess.grade}}分
+            </ui-view>
+          </ui-view>
+          <ui-view class="tabsSty">
+            <ui-tabs index="{{ tabCurrent }}" ink-bar
+              active-tab-style="{{activeTabStyle}}"
+              ink-bar-style="{{inkBarStyle}}"
+              bindchange="handleChange($event, 'tabCurrent')">
+                <ui-tab>待确认</ui-tab>
+                <ui-tab>历史订单</ui-tab>
+            </ui-tabs>
+          </ui-view>
+          <ui-view class="box_col_auto boxSty">
+            <!-- 页面内容 start-->
+              <!-- <ui-swiper class="box_col" current="{{ tabCurrent }}"
+               bindchange="handleChange($event, 'tabCurrent')">
+                  <ui-swiper-item class="box_col_auto boxSty"> -->
+                      <ui-scroll-view
+                        scroll-y
+                        height="{{pageHeight(-240)}}"
+                        pull-down="{{ pullDown }}"
+                        enable-reach-bottom-load ="{{loadMore}}"
+                        on-load-more="{{ handleLoadMore }}">
+                            <ui-view>
+                                <ui-view class="pagerList box_row" ui:for="{{pagerLists}}" bindtap="goMess(item)">
+                                    <ui-view class="titLog">
+                                        <ui-view class="log">
+                                            {{item.jgmc.charAt(0)}}
+                                        </ui-view>
+                                    </ui-view>
+                                    <ui-view class="box_row_100 mess">
+                                        <ui-view class="time">
+                                          {{item.yysj}}
+                                          <ui-view style="float:right">
+                                             {{item.ddzt | ddzt}}
+                                          </ui-view>
+                                        </ui-view>
+                                        <ui-view>
+                                          <ui-icon type="webicon318" size="20" color="#40a02f"></ui-icon>
+                                          {{item.hcdz}}
+                                        </ui-view>
+                                        <ui-view>
+                                          <ui-icon type="webicon318" size="20" color="#ff9b00"></ui-icon>
+                                          {{item.mdd}}
+                                        </ui-view>
+                                    </ui-view>
+                                    <ui-view class="rightIcon">
+                                      <ui-icon type="right1" size="#f2f2f2" color="#adadad"></ui-icon>
+                                    </ui-view>
+                                </ui-view>
+                            </ui-view>
+                            <ui-view style="width:200px;margin:0 auto;">
+                                  <ui-divider ui:show="{{!loadMore || pagerLists.length == 0}}">没有新数据了</ui-divider>
+                            </ui-view>
+                      </ui-scroll-view>
+                  <!-- </ui-swiper-item>
+                  <ui-swiper-item class="box_col_auto boxSty">
+                        <ui-button type="primary">目的地</ui-button>
+                  </ui-swiper-item>
+              </ui-swiper> -->
+            <!-- 页面内容 end-->
+          </ui-view>
+      </ui-view>
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#26a2ff",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"列表",
+    title:'列表',
+    backgroundColor:'#f2f2f2',
+    delay:false,//延迟加载
+  },
+  data () {
+    return {
+      usermess:{
+        userInfo:{
+          xm:''
+        }
+      },
+      tabCurrent:0,
+      activeTabStyle:{
+        'color': '#ff7f50',
+      },
+      inkBarStyle:{
+        'border-bottom': '#ff7f50 2px solid',
+        'width':'60%',
+        'color':'red'
+      },
+      pagerLists:[],
+      pullDown: {
+        distance: 50,
+        onBegin: () => {},
+        onActive: this.handleActive,
+        onAfter: this.handlePullDownAfter
+      },
+      count:0,
+      loadMore:true,
+      pageNum:1,//当前页面
+      pages:0,//页面总数
+      listType:0
+    }
+  },
+  filters:{
+    ddzt:(val)=>{
+      if(val == 10){
+        return "待审核"
+      }else if(val == 11){
+        return "待派单"
+      }else if(val == 12){
+        return "被驳回"
+      }else if(val == 13){
+        return "已派单"
+      }else if(val == 20){
+        return "已完成"
+      }else if(val == 30){
+        return "队长确认"
+      }else if(val == 40){
+        return "财务已收"
+      }
+    }
+  },
+  watch:{
+    tabCurrent:(n,o)=>{
+      // this.pagerList = []
+        console.log(n);
+      //   this.dqr(n,1)
+    }
+  },
+  methods: {
+    dqr(val,num){//待确认列表
+      var v = this
+      let listType = 2
+      if(val==0){
+        listType = 2
+      }else if(val==1){
+        listType = 3
+      }
+      this.$http('POST',ui.getApp().apis.MESLIST.QUERTY,{'ddType':listType,pageSize:10,pageNum:num},(res)=>{
+        console.log(res);
+        if(res.code==200 && res.page.list.length>0){
+          v.pages = res.page.pages
+          if(res.page.pages>0){
+            res.page.list.forEach((item,index) => {
+                v.pagerLists.push(item)
+            });
+          }else{
+            v.loadMore = false
+          }
+        }
+        
+      })
+    },
+    handleLoadMore () {
+      if(this.pageNum<this.pages){
+        this.pageNum ++
+        this.getpropList(this.pageNum)
+      }else{
+        window.setTimeout(() => {
+          this.loadMore = false
+          return
+        }, 1500)
+      }
+    },
+    handleActive () {
+    },
+    // 下拉结束后，执行的函数。因为只要下拉即时没有到达刷新的高度也会触发这个方法
+    // flag 为1表示执行了handleActive。为undefined代表handleActive没有执行。
+    handlePullDownAfter (flag) {
+      // if (flag) {
+        // ui.showToast({
+        //   title: '处理下拉刷新'
+        // })
+
+        this.pageNum =1
+        this.pagerLists = []
+        this.dqr(this.tabCurrent,this.pageNum)
+        if(this.pageNum<this.pages){
+          this.loadMore = true
+        }
+      // }
+    },
+    goProp(){
+      ui.navigateTo({
+        url: '/pages/prop/add'
+      })
+    },
+    goStarPage(){
+      ui.navigateTo({
+        url: '/pages/xlmap'
+      })
+    },
+    goMess(item){
+      ui.getApp().orderMess = item
+      ui.navigateTo({
+        url: '/pages/xlMess'
+      })
+    },
+    handleChange (index, key) {
+      this[key] = index
+      console.log('123132',index);
+      this.pagerLists = []
+      this.dqr(index,1)
+      
+    },
+    backPoject(){//退出登录
+        ui.navigateTo({
+          url: '/pages/login'
+        })
+       localStorage.clear()
+    },
+    getUserMess(){
+      var v = this
+      this.$http("POST",ui.getApp().apis.INFO,{},(res)=>{
+        if(res.result.grade == 'NaN'){
+          res.result.grade = 0
+        }
+        res.result.userInfo = JSON.parse(res.result.userInfo)
+        console.log('**********************',res.result);
+        v.usermess = res.result
+        
+      })
+    }
+  },
+  created () {
+    this.dqr(0,1)
+    this.getUserMess()
+  },
+  mounted() {
+    
+
+    //首屏页面需要在mounted中延时才能调用框架api，其他页面不需要延时
+    setTimeout(() => {
+      //关闭app启动图
+      ui.closeSplashscreen()
+    }, 1000);
+  }
+}
+
+</script>
+
+<style lang="less">
+  .logoback{
+    height: 340rpx;
+    background-image: url('../static/img/drive/backTit.png');
+    background: 100% no-repeat top;
+    position: relative;
+    text-align: center;
+    .logTit{
+      background-color: #5e6dbd;
+      color: #fff;
+      width: 120rpx;
+      height: 120rpx;
+      border-radius: 60rpx;
+      line-height: 120rpx;
+      font-size: 50rpx;
+      font-weight: 700;
+      position: absolute;
+      top:10%;
+      left: 50%;
+      transform: translate(-50%,0);
+    }
+    .name{
+      position: absolute;
+      top: 170rpx;
+      width: 100%;
+      font-size: 40rpx;
+      font-weight: 700;
+      color: #616161;
+    }
+    .fen{
+      position: absolute;
+      top: 240rpx;
+      width: 100%;
+      font-size: 40rpx;
+      font-weight: 700;
+      color: #ffa700;
+    }
+  }
+  .tabsSty{
+    background-color: #fff;
+  }
+  .boxSty{
+    // background-color: #ffa700;
+    padding: 20rpx 25rpx;
+    .pagerList{
+      background-color: #fff;
+      margin-bottom: 15rpx;
+      .titLog{
+        width: 180rpx;
+        height: 180rpx;
+        padding: 20rpx;
+        .log{
+          margin: auto;
+          width: 140rpx;
+          height: 140rpx;
+          background-color: #5e6dbd;
+          border-radius: 70rpx;
+          text-align: center;
+          line-height: 140rpx;
+          color: #fff;
+          font-size: 22px;
+        }
+      }
+      .mess{
+        padding: 20rpx 12rpx 0 12rpx;
+        .time{
+
+        }
+      }
+      .rightIcon{
+        line-height:180rpx;
+        text-align: center;
+        width: 60rpx;
+      }
+    }
+  }
+</style>

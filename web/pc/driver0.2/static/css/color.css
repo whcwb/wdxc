@@ -1,0 +1,31 @@
+.Theme1 {
+  color: #ff550c;
+}
+.Theme2 {
+  color: #FF7F50;
+}
+.IconAnima {
+  animation: iconColor 4s linear infinite reverse;
+}
+@keyframes iconColor {
+  0% {
+    color: #ffd9cc;
+  }
+  50% {
+    color: #ff3c00;
+  }
+  100% {
+    color: #ffd9cc;
+  }
+}
+.rot2D {
+  animation: newMessSty 4s ease 1 reverse;
+}
+@keyframes newMessSty {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1800deg);
+  }
+}

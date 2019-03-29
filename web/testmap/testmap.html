@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>测试地图4</title>
+    <script type="text/javascript">
+        let lat = 39.915
+        let lng = 116.404
+        let radius = 1000
+        let map = null;
+        let circle = null
+        function addCircle(){
+            setTimeout(function(){
+                if (circle != null){
+                    map.removeOverlay(circle)
+                }
+                circle = new BMap.Circle(new BMap.Point(lng, lat), radius, {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5}); //创建圆
+                circle.disableMassClear()
+                map.addOverlay(circle);
+            },100)
+        }
+        function addPolygon(){
+            var polygon = new BMap.Polygon([
+                new BMap.Point(116.387112,39.920977),
+                new BMap.Point(116.385243,39.913063),
+                new BMap.Point(116.394226,39.917988),
+                new BMap.Point(116.401772,39.921364),
+                new BMap.Point(116.41248,39.927893)
+            ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形
+            map.addOverlay(polygon);
+        }
+        function initialize() {
+            map = new BMap.Map('map');
+            let p = new BMap.Point(lng, lat)
+            map.centerAndZoom(p, 15);
+            map.addControl(new BMap.MapTypeControl({
+                mapTypes: [
+                    BMAP_NORMAL_MAP,
+                    BMAP_HYBRID_MAP
+                ]
+            }));
+            map.enableScrollWheelZoom(true);
+            let marker = new BMap.Marker(p);
+            map.addOverlay(marker)
+            map.addControl(new BMap.NavigationControl()); 				// 添加平移缩放控件
+            addCircle();
+            // map.addEventListener("click", function(e){
+            //     lat = e.point.lat
+            //     lng = e.point.lng
+            //     initialize();
+            //     console.log(e.point.lng + ", " + e.point.lat);
+            // });
+            // map.addEventListener("dragend", function(){
+            //     var center = map.getCenter();
+            //     lat = center.lat
+            //     lng = center.lng
+            //     addCircle();
+            //     console.log("地图中心点变更为：" + center.lng + ", " + center.lat);
+            // });
+            // map.addEventListener("zoomend", function(){
+            //     initialize();
+            //     console.log("地图缩放至：" + this.getZoom() + "级");
+            // });
+        }
+
+        function loadScript() {
+            var script = document.createElement("script");
+            script.src = "https://api.map.baidu.com/api?v=2.0&ak=evDHwrRoILvlkrvaZEFiGp30&callback=initialize";
+            document.body.appendChild(script);
+        }
+
+        window.onload = loadScript;
+    </script>
+</head>
+<body>
+<input type="button" value="circle" onclick="addCircle()">
+<div id="map" style="position: absolute;height: 400px;width: 300px"></div>
+</body>
+</html>

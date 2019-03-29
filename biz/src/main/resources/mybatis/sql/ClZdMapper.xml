@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldz.dao.biz.mapper.ClZdMapper">
+
+<!-- 启用二级缓存，收回策略使用FIFO：先进先出:按对象进入缓存的顺序来移除它们。
+		LRU – 最近最少使用的:移除最长时间不被使用的对象。（默认）
+     	FIFO – 先进先出:按对象进入缓存的顺序来移除它们。
+      	SOFT – 软引用:移除基于垃圾回收器状态和软引用规则的对象。
+      	WEAK – 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+	 -->
+	<!--<cache type="com.jxba.mybatis.cache.MybatisRedisCache"></cache>-->
+ <select id="getAllClzd" resultType="com.ldz.dao.biz.model.ClZd">
+       select * from CL_ZD t1  WHERE t1.ID  IN
+        <foreach collection="clzds" item="ID" index="index"
+            open="(" close=")" separator=",">
+            #{ID}
+        </foreach>
+    </select>
+</mapper>

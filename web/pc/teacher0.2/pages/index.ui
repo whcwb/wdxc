@@ -1,0 +1,807 @@
+<template>
+  <ui-page  style="overflow-y: hidden;">
+      <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+            <!-- 页面内容 start-->
+            <ui-view>
+
+            </ui-view>
+            <ui-view class="log_box">
+                <ui-view>
+                    <ui-row style="height:32px">
+                      <ui-icon type="webicon318" style="color:#19be6b;line-height:32px"></ui-icon>
+                      <ui-input ui:model="{{form.hcdz}}" placeholder="你在哪儿" bindtap="getStarGps()"></ui-input>
+                    </ui-row>
+                </ui-view>
+                <ui-view>
+                    <ui-row style="height:32px">
+                      <ui-icon type="webicon318" style="color:orange;line-height:32px"></ui-icon>
+                      <ui-input ui:model="{{form.mdd}}" placeholder="要去哪儿" bindtap="getEndGps()"></ui-input>
+                    </ui-row>
+                </ui-view>
+                <ui-view>
+                  <ui-row>
+                     <ui-col sapn=1>
+                        <ui-icon type="shijianshizhongdaojishi" bindtap="radioCalendaropen" style="color:#808695"></ui-icon>
+                      </ui-col >
+                      <ui-col span=7 bindtap="radioCalendaropen" align="left" >
+                        <ui-text ui:if="showSelectTime == ''">选择用车时间</ui-text>
+                        <ui-text ui:else>{{ showSelectTime }}</ui-text>
+                     </ui-col>
+                     <ui-col span=1>
+                        <ui-icon type="wo"  style="color:#808695"></ui-icon>
+                      </ui-col>
+                      <ui-col span=3 align="left" bindtap="getmyself()">
+                        <ui-text>{{people}}</ui-text>
+                     </ui-col>
+                  </ui-row>
+                </ui-view>
+
+               <!-- <ui-view ui:show="{{people == '他人乘坐'}}">
+                  <ui-row>
+                      <ui-col span=2>
+                        <ui-text>姓名</ui-text>
+                      </ui-col>
+                      <ui-col span=3>
+                        <ui-text>{{form.ck}}</ui-text>
+                      </ui-col>
+                      <ui-col>
+                        <ui-text span=2>联系电话</ui-text>
+                      </ui-col>
+                      <ui-col>
+                        <ui-text>{{form.cklxdh}} </ui-text>
+                      </ui-col>
+                  </ui-row>
+                </ui-view>  -->
+
+                <ui-popup ui:model="{{ show5 }}" height="570" background="transparent">
+                    <ui-view class="popup5">
+                      <ui-row height="40" border-bottom>
+                        <ui-col vertical-align="middle" space-left="20"></ui-col>
+                        <ui-col width="40" vertical-align="middle" align="center" bindtap="handleShow('show5')">
+                          <ui-icon name="x" size="18" color="#FC8950"></ui-icon>
+                        </ui-col>
+                      </ui-row>
+                      <ui-view>
+                        <ui-view style="background-color:#ffffff" padding="10px 20px 10px 20px">
+                          <ui-row>
+                            <ui-col span=12 align=center space-left=10 style="position:relative">
+                                <ui-icon type="wo" size=22 color="#b5b5b5" style="position:absolute;left:15px;top:-5px"></ui-icon>
+                              <ui-input ui:model="{{form.ck}}" placeholder="请输入姓名" style="padding-left:32px"></ui-input>
+                            </ui-col>
+                            </ui-row>
+                            <ui-row>
+                            <ui-col span=12 align=center space-left=10 style="position:relative">
+                              <ui-icon type="shouji" size=22 color="#b5b5b5" style="position:absolute;left:15px;top:-5px"></ui-icon>
+                            
+                              <ui-input ui:model="{{form.cklxdh }}"  type="number" placeholder="请输入手机号码" style="padding-left:32px"></ui-input>
+                            </ui-col>
+                          </ui-row>
+                        </ui-view>
+                        </ui-view>
+                        <ui-view>
+                          
+                            
+                        </ui-view>
+                        <ui-row height="50">
+                        <ui-col space-left="20" space-right="20" vertical-align="middle">
+                          <ui-button type="primary" color="red" bindtap="getinputmessage()">确定</ui-button>
+                        </ui-col>
+                      </ui-row>
+                      <ui-view>
+                        <ui-scroll-view scroll-y  height="300">
+                          <ui-view style="background-color:#fff">
+                        
+                          <ui-row border-bottom=true>
+                              <ui-divider color="red">历史乘车人</ui-divider>
+                          </ui-row>
+                          <ui-row border-bottom=true style="font-size:18px;" ui:for="{{hisList}}" bindtap="getHisck(item)">
+                            <ui-col space-left=10>
+                              {{(index+1)}} .  {{item.name}} · {{item.phone}}
+                            </ui-col>
+                          </ui-row>
+
+                      </ui-view>
+                        </ui-scroll-view>
+                        
+                        
+                      </ui-view>
+                    </ui-view>
+                  </ui-popup>
+                
+                <ui-view>
+                   <ui-row height="100">
+                     <ui-col ui:for="{{carlist}}" bindtap="getcarnum(item,index)">
+                       <!-- <ui-text>xiaoche </ui-text> -->
+                       <ui-image src="{{item.photo}}" mode="widthFix" width="90%" align="center" ></ui-image>
+                       <ui-text align="center" style="{{ {fontSize:'20px',color:item.color} }}">{{item.val}}座</ui-text>
+                     </ui-col>
+                   </ui-row>
+                </ui-view>
+               
+                <ui-button class="login" bindtap="submit()">提交订单</ui-button>
+                
+            </ui-view>
+            <!-- 页面内容 end-->
+            <!-- <ui-button type="primary" bindtap="goStarPage">出发地</ui-button>
+            <ui-button type="primary" bindtap="goEndPage">目的地</ui-button> -->
+            <!-- 單選日期 -->
+            <!-- <ui-button type="primary" full-width="false" bindtab="radioCalendar = true">主要操作</ui-button> -->
+            <!-- <ui-mask ui:model="true">
+                <ui-view class="content">sdfs
+                </ui-view>
+            </ui-mask> -->
+            <ui-popup ui:model="{{ show  }}">
+              <ui-view class="popup1">
+                <ui-row height="{{headerHeight}}">
+                  <ui-col align="left" vertical-align="middle" width="70" space-left="10" bindtap="handleSelect('radioCalendar')">
+                      <ui-icon type="close" color="#e60012"></ui-icon>
+                  </ui-col>
+                  <ui-col align="center" vertical-align="middle">
+                    <ui-text>选择日期</ui-text>
+                  </ui-col>
+                  <ui-col align="center" vertical-align="middle" width="70">
+                  </ui-col>
+
+                </ui-row>
+
+              <ui-picker-view mode="multiSelector" is-chain range="{{ selectTimeRange }}" value="{{ time }}" bindchange="handleChange4"></ui-picker-view>
+              <ui-button  bindtap="resetPicker2">确定</ui-button>
+              </ui-view>
+            </ui-popup>
+            <!-- 单选结束 -->
+            <!-- <ui-view class="win">
+              <ui-row space-top="15">
+                <ui-button class="btnyd">立即预订</ui-button>
+              </ui-row>
+          </ui-view> -->
+          
+          
+
+      </ui-view>
+      
+  </ui-page>
+</template>
+
+<script>
+import util from "static/utils/util";
+import moment from 'moment';
+var formatLocation = util.formatLocation
+export default {
+    // navigationStyle: 'custom',
+  config: {
+    navigationBarBackgroundColor:"#FF7F50",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"首页约车",
+    title:'首页约车',
+    backgroundColor:'#fff',
+    delay:false,//延迟加载
+    "touchSlideMenu": true
+  },
+  data () {
+    return {
+      // list:{  //他人乘车乘客信息
+      //   name:'',
+      //   phone:''
+      // },
+      hisList:[//历史乘车人信息
+      ],
+      //日期级联选择
+      selectTimeRange: [],
+      showSelectTime:'',
+      show5: false,
+      newnum:'',
+      yysj: '00:00',
+      show:false,
+      radioCalendar:false,
+      radioYears:new Date().getFullYear(),
+      date:'',
+      dataMess:{
+         ck:'',             //乘客姓名
+         cklxdh:'',         //乘客联系电话
+      },
+      form:{
+        hcdz:'',            // 候车地址
+        mdd:'',             // 目的地
+        ck:'',              // 乘客姓名
+        cklxdh:'',          // 乘客联系电话
+        yysj:'',            // 预约时间
+        originLat:'',       // 起始经度
+        originLng:'',       // 起始纬度
+        destinationLat:'',  // 目的地经度
+        destinationLng:'',  // 目的地纬度
+        zws:'5',             // 座位数
+        cllx:10
+      },
+      time:null,
+      choosedCar:'',
+      carlist:[
+        {
+          val:5,
+          color:"#000",
+          photo:'/static/img/teacher/car5.png'
+        },
+        {
+          val:7,
+          color:"#000",
+          photo:'/static/img/teacher/car7.png'
+        },
+        {
+          val:11,
+          color:"#000",
+          photo:'/static/img/teacher/car11.png'
+        }
+      ],
+      people:'本人乘坐',
+      statusBarHeight: ui.STATUS_BAR_HEIGHT,
+        headerHeight: ui.DEFAULT_HEADER_HEIGHT,
+        // 单选日历，popup显隐控制
+        radioCalendar: false,
+        // 单选日历value
+        radioDate: '',
+        // 单选月
+        radioMonth: '',
+        // 单选天
+        radioDay: '',
+        // 存储临时变化的时间
+        dateobj: {},
+        // 双选，默认选中的时间
+        defaultMonthrange: [],
+        // 双选默认不选中日历，popup显隐控制
+        rangeCalendar: false,
+        // 双选默认选中日历，popup显隐控制
+        rangeCalendarDefault: false,
+        // 双选默认不选中 时间差
+        differ: '',
+        // 时间差显隐控制
+        differShow: false,
+        // 双选默认选中 时间差
+        differ2: '2',
+        // 双选默认不选中日历 value
+        rangeDate: '',
+        // 双选默认选中日历 value
+        rangeDate2: '',
+        // 双选默认不选中日历 开始日期
+        rangestart: '',
+        // 双选默认不选中日历 结束日期
+        rangeend: '',
+        // 双选默认选中日历 开始日期
+        rangestart2: '',
+        // 双选默认选中日历 结束日期
+        rangeend2: '',
+        height: ui.WIN_HEIGHT
+    
+    }
+  },
+  watch:{
+  },
+  methods: {
+     getHisck(item){
+       this.form.ck = item.name;
+       this.form.cklxdh = item.phone
+     },
+     getinputmessage(){
+      console.log(this.form);
+      this.hisList.push({name:this.form.ck,phone:this.form.cklxdh})//历史记录添加
+
+      localStorage.setItem('hisList',JSON.stringify(this.hisList)) 
+      this.getHisList();
+      this.people = this.form.ck
+    },
+    getHisList(){//获取历史乘车人信息
+      var hisMess = localStorage.getItem('hisList')
+      if(hisMess != null){
+        this.hisList = JSON.parse(hisMess)
+        
+      }
+      this.show5 = false
+    },
+    gethcdz(gps){//进入首页获取到我的位置
+        let that = this
+        var script = document.createElement("script")
+        script.type = "text/javascript"
+        var callbackName = '_callback'+Date.now()
+        window[callbackName]= function(){
+        var myGeo = new BMap.Geocoder();    
+      // 根据坐标得到地址描述    
+      myGeo.getLocation(new BMap.Point(gps.longitude,gps.latitude), function(result){      
+         if (result){
+            console.log(result);
+            that.form.hcdz = result.address
+            }      
+      });
+    }
+    script.src="https://api.map.baidu.com/api?v=2.0&ak=mSjqt13IyQy0GOlkAEGBO5FA2aiIT4q7&callback="+callbackName
+    document.body.appendChild(script)
+    },
+    handleShowMask1 (show) {
+      console.log('-------------------');
+      this.showMask1 = show
+    },
+    indexYZ(){
+      var v = this
+      console.log(v.form)
+      if(v.form.hcdz==''){
+         ui.showToast({ title: '请选择您的位置!'})
+          return false
+      }
+      if(v.form.mdd==''){
+        ui.showToast({ title: '请选择目的地!'})
+          return false
+      }
+      if(v.form.zws==''){
+        ui.showToast({ title: '请选择车型!'})
+          return false
+      }
+      console.log('yysj',v.yysj)
+      if(v.form.yysj==''){
+        ui.showToast({ title: '请选择上车时间!'})
+          return false
+      }
+
+      if(v.people==='他人乘车'&& v.form.cklxdh =='' && v.form.ck=='' ){
+         ui.showToast({ title: '请输入乘车人信息!'})
+          return false
+      }
+      return true
+
+
+    },
+    submit(){
+      if(!this.indexYZ()) return
+      this.$http("POST",ui.getApp().apis.DDSAVE.SAVE,this.form,(res)=>{
+        if(res.code==200){
+          ui.showToast({ title: '提交成功'})
+          this.goorder()
+        }else{
+          ui.showToast({ title: '提交失败'})
+        }
+      });
+    },  
+    handleNavIconTap () {
+      ui.getApp().showSlideMenu = !ui.getApp().showSlideMenu
+    },
+    getmyself(){
+      var v = this
+      const itemLists = [
+          '本人乘坐',
+          '他人乘坐'
+        ]
+      ui.showActionSheet({
+        itemList:itemLists ,
+        success: (index) => {
+          console.log(index)
+          if(index==1){
+            v.openPopup5()
+          }
+          v.people = itemLists[index]
+        }
+      })
+    },
+    getcarnum(val,num){
+      console.log(val)
+       var v = this
+       this.choosedCar = val;
+       v.carlist.forEach((item,index) => {
+         if(index==num){
+           item.color="#f00"
+           v.form.zws = item.val
+         }else{
+           item.color="#000"
+         }
+       });
+    },
+    getInput(){
+       var v =  this
+      ui.showPrompt({
+        
+        title: '新的乘车人号码',
+        placeholder: '电话号码',
+        value:'',
+        success: (result) => {
+         console.log(result)
+         v.newnum = result.value
+        },
+      })
+    },
+    handleChange4 (val) {
+      this.time = val
+      console.log('val:',val)
+    },
+    resetPicker2 () {
+      this.show=false
+      this.form.yysj = this.time[0] + " " + this.time[1] + ':00:00';
+      this.showSelectTime = moment(this.form.yysj).format('MM月DD日 HH时');
+    },
+    selectedChange(val){
+        console.log('s事件++++++++++++++',val)
+    },
+    getGPS(){
+      console.log('GPS');
+      
+      var v = this
+      ui.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          v.form.originLat = res.latitude
+          v.form.originLng = res.longitude
+          console.log(v.form);
+          
+        }
+      })
+    },
+    getStarGps(){
+      var that = this
+      ui.chooseLocation({
+        backgroundColor:'#000',
+        success: function (res) {
+          console.log('success:', res)
+          that.form.hcdz = res.name;
+          that.form.originLat = res.latitude;
+          that.form.originLng = res.longitude;
+          console.log('获取GPS',that.form);
+          
+        },
+        fail: function (res) {
+          console.log('fail:', res)
+        }
+      })
+    },
+    getEndGps(){
+      var that = this
+      ui.chooseLocation({
+        backgroundColor:'#000',
+        success: function (res) {
+          console.log('success:', res)
+          that.form.mdd = res.name;
+          that.form.destinationLat = res.latitude;
+          that.form.destinationLng = res.longitude;
+        },
+        fail: function (res) {
+          console.log('fail:', res)
+        }
+      })
+    },
+    goProp(){
+      ui.navigateTo({
+        url: '/pages/prop/add'
+      })
+    },
+    goStarPage(){
+      ui.navigateTo({
+        url: '/pages/xlmap'
+      })
+    },
+    goEndPage(){
+      ui.navigateTo({
+        url: '/pages/xlMess'
+      })
+    },
+    goorder(){
+      ui.navigateTo({
+        url: '/pages/orders'
+      })
+    },
+    handleShow (key) {
+      this[key] = false
+    },
+    openPopup5 () {
+      this.show5 = true
+    },
+    // 单选日历。获取月和天
+      radioinit (thisdate) {
+        this.dateobj.radioDate = thisdate
+        this.dateobj.radioDate = thisdate.split('/')
+        this.radioMonth = this.dateobj.radioDate[1]
+        this.radioDay = this.dateobj.radioDate[2]
+      },
+       rangeinit (thisdate) {
+        let start, end
+        this.dateobj.rangestart = thisdate.rangedate[0]
+        this.dateobj.rangeend = thisdate.rangedate[1]
+        start = this.dateobj.rangestart.split('/')
+        end = this.dateobj.rangeend.split('/')
+        this.rangestart = `${start[1]}月${start[2]}日`
+        this.rangeend = `${end[1]}月${end[2]}日`
+      },
+      // 双选默认选中日历。格式化日期格式，将开始和结束的日期格式化为‘年-月’
+      rangeinit2 (thisdate) {
+        let start, end
+        this.dateobj.rangestart2 = thisdate.rangedate2[0]
+        this.dateobj.rangeend2 = thisdate.rangedate2[1]
+        start = this.dateobj.rangestart2.split('/')
+        end = this.dateobj.rangeend2.split('/')
+        this.rangestart2 = `${start[1]}-${start[2]}`
+        this.rangeend2 = `${end[1]}-${end[2]}`
+      },
+      // 单选change事件，选择日期后触发。改变绑定的val值，关闭相应popup
+      selectedChange (e) {
+        this.radioDate = e
+        this.radioinit(e)
+        setTimeout(() => {
+          this.radioCalendar = false
+        }, 100)
+      },
+      // 双选默认不选日历。结束事件。改变绑定的val值，关闭相应popup
+      selectedEndHandler (e) {
+        this.rangeDate = e
+        this.dateobj.rangedate = e
+        setTimeout(() => {
+          this.rangeCalendar = false
+        }, 200)
+        this.calculationDays()
+        this.rangeinit(this.dateobj)
+      },
+    // 双选默认不选。选择范围错误
+      failedHandler (err) {
+        if (err === 1) {
+          ui.showToast({ title: '您选择的时间超过30天,请重新选择' })
+        }
+      },
+      // 双选默认选中日历。结束事件。改变绑定的val值，关闭相应popup
+      selectedEndHandler2 (e) {
+        this.rangeDate2 = e
+        this.defaultMonthrange = e
+        this.dateobj.rangedate2 = e
+        setTimeout(() => {
+          this.rangeCalendarDefault = false
+        }, 200)
+        this.calculationDays2()
+        this.rangeinit2(this.dateobj)
+      },
+      // 双选默认选中。选择范围错误
+      failedHandler2 (err) {
+        if (err === 1) {
+          ui.showToast({ title: '您选择的时间超过30天,请重新选择' })
+        }
+      },
+      // 将日期格式化成 "年/月/日" 格式
+      format (obj) {
+        var date = new Date(obj)
+        var y = 1900 + date.getYear()
+        var m = '0' + (date.getMonth() + 1)
+        var d = '0' + date.getDate()
+        return y + '/' + m.substring(m.length - 2, m.length) + '/' + d.substring(d.length - 2, d.length)
+      },
+      // 单选日历 打开事件
+      radioCalendaropen () {
+        this.show = true
+      },
+      // 双选默认不选中 日历打开事件
+      rangeCalendaropen (state) {
+        this.rangeCalendar = true
+      },
+
+      //双选默认选中 日历打开事件
+      rangeCalendarDefaultOpen () {
+        this.rangeCalendarDefault = true
+      },
+      // 关闭popup
+      handleSelect (key) {
+        this[key] = false
+      },
+      // 双选默认不选中，根据选择日期，计算几晚
+      calculationDays () {
+        let start, end
+        start = Date.parse(this.dateobj.rangedate[0])
+        end = Date.parse(this.dateobj.rangedate[1])
+        this.differ = Math.floor((end - start) / (24 * 3600 * 1000))
+        this.differShow = true
+      },
+      //双选默认选中。根据选择日期，计算几晚
+      calculationDays2 () {
+        let start, end
+        start = Date.parse(this.dateobj.rangedate2[0])
+        end = Date.parse(this.dateobj.rangedate2[1])
+        this.differ2 = Math.floor((end - start) / (24 * 3600 * 1000))
+      },
+      getTime() {
+        var NowDate = new Date()
+        let Year = NowDate.getFullYear()
+        let Month = NowDate.getMonth() + 1
+        let Day = NowDate.getDate()
+        let Hours = NowDate.getHours()
+        let Minutes = NowDate.getMinutes()
+        let Seconds = NowDate.getSeconds()
+        if (Month < 10) {
+          Month = '0' + Month
+        }
+        if (Day < 10) {
+          Day = '0' + Day
+        }
+        let time = Year + '-' + Month + '-' + Day + ' ' + Hours + ':' + Minutes + ':' + Seconds
+        return time
+      },
+    //初始化出行时间选择控件
+    initSelectTime(){
+      this.selectTimeRange = [];
+      for (let d=0; d<10; d++){
+        let monthDay = moment().add('days',d);
+        let hourStart = 0;
+        let hourEnd = 24;
+        if (d == 0){
+          hourStart = parseInt(monthDay.format("HH")) + 1;
+        }
+        let hours = [];
+        for (let i=hourStart; i<hourEnd; i++){
+          let append = '';
+          if (i < 10){
+            append = '0';
+          }
+          hours.push({
+            name:append + i  + '点',
+            value:append + i
+          });
+        }
+
+        if (hours.length == 0){
+          continue;
+        }
+        this.selectTimeRange.push(
+          {
+            name: monthDay.format("MM月DD日"),
+            value: monthDay.format("YYYY-MM-DD"),
+            children:hours
+          }
+        );
+      }
+    }
+  },
+  created () {
+    this.getHisList()
+
+    var v = this
+    ui.getLocation({//获取位置信息
+      type: 'wgs84',
+      success: function (res) {
+        v.gethcdz(res)
+        ui.request({
+          url: 'http://apis.map.qq.com/ws/geocoder/v1/?', 
+          data: {
+            location: res.latitude+','+ res.longitude,
+            key: 'RHGBZ-S2LAU-5MRV7-4QPTZ-JI25K-HVBDV'
+          },
+          success: (res) => {
+          }
+        })
+      }
+    })
+    this.getGPS()
+    //this.getTime()
+  },
+  mounted() {
+    this.initSelectTime();
+    //首屏页面需要在mounted中延时才能调用框架api，其他页面不需要延时
+    setTimeout(() => {
+      //关闭app启动图
+      ui.closeSplashscreen()
+    }, 1000);
+  }
+}
+
+</script>
+
+<style lang="less">
+.popup5{
+  width: 95%;
+  background-color:#ddd;
+  height:550px;
+  margin:0 auto;
+  border-radius:5px;
+  overflow:hidden;
+  .ui-view{
+    line-height: 30px;
+    padding: 10px 20px;
+  }
+}
+.demo{
+  height: 300rpx;
+}
+.tabsSty{
+  border-top:#f2f2f2 4rpx solid;
+  border-bottom:#f2f2f2 4rpx solid;
+}
+
+.ListItemSty{
+  padding: 15rpx 20rpx;
+  .stationName{
+    font-size: 32rpx;
+    font-weight: 700;
+    border-bottom:#f2f2f2 3rpx solid;
+    .distanceSty{
+      font-size: 26rpx;
+      color:#8a8a8a;
+    }
+  }
+  .stationRouterBox{
+    .stationRouterItem{
+      border-bottom:#f2f2f2 3rpx solid;
+      padding: 10rpx 0;
+      .xlName{
+        font-size: 28rpx;
+      }
+      .toCode{
+        color:#8a8a8a;
+        font-size: 24rpx;
+        padding-top: 15rpx;
+      }
+    }
+  }
+  // --------
+
+}
+.ui-row {
+  height: 50px;
+  line-height: 50px;
+  // background-color: #fff;
+  font-size: 14px;
+}
+
+.ui-sms-input {
+  .ui-button {
+    width: 110px;
+  }
+}
+
+.log_box{
+  padding: 20px 50px;
+  .login{
+    background-color: #F64E16;
+    border: 0;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 30px;
+  }
+  .ui-view{
+    padding: 10px 0 5px 0;
+    .mix-1px(0, 0, 1, 0, #ccc);
+    .ui-input{
+      border: 0;
+    }
+    .ui-input-inner{
+      height: 30px;
+    }
+    .ui-button {
+      background-color: #F64E16;
+      border-color: #F64E16;
+      border-radius: 25px;
+    }
+  }
+  
+  .swiper-slide {
+    .ui-image {
+        width: 100%;
+    }
+    }
+ 
+  .smalltitle{
+        font-size:12px;
+        color:#666
+    }
+  .smalltitle2{
+        background-color:#ebc7c8;
+        color: #C01920;
+        padding:0px 3px;
+        border-radius: 5px;
+        font-size:12px;
+    }
+
+  .btnyd {
+        background-color: #C01920;
+        border-radius: 20px;
+        border-color: #C01920;
+        box-shadow: 3px 3px 8px #E57A7E;
+        color: #fff;
+    }
+  }
+  .otherscc{
+    &.content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+  }
+  }
+</style>

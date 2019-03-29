@@ -1,0 +1,64 @@
+<!---->
+<template>
+  <ui-page  style="overflow-y: hidden;">
+    <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FC8609'} }}">
+        <ui-row height="46">
+          <ui-col vertical-align="middle" align="center" width="60" bindtap="Goback">
+            <ui-icon type="left" size="16" color="#fff"></ui-icon>
+          </ui-col>
+          <ui-col vertical-align="middle" align="center">
+            <ui-view class="nav_title">地图查看</ui-view>
+          </ui-col>
+          <ui-col vertical-align="middle" align="center" width="60">
+          </ui-col>
+        </ui-row>
+      </ui-nav-bar>
+      <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+<!-- 页面内容 start-->
+<!-- 页面内容 end-->
+          </ui-view>
+  </ui-page>
+</template>
+
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#26a2ff",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"地图查看",
+    title:'地图查看',
+    backgroundColor:'#f2f2f2',
+    delay:false,//延迟加载
+  },
+  data() {
+    return {
+    }
+  },
+  created(){
+  },
+  methods: {
+    Goback(){
+      ui.navigateBack()
+    }
+  }
+  
+}
+</script>
+
+<style lang="less">
+.lineMess{
+  .ui-timeline-wrapper{
+    .ui-timeline-row{
+      overflow: auto;
+      ul{
+        display: flex;
+        flex-direction: row ;
+        flex-wrap:nowrap ;
+        height: 100%;
+      }
+    }
+  }
+}
+</style>

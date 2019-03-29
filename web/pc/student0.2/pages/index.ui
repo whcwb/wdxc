@@ -1,0 +1,318 @@
+<template>
+  <ui-page  pull-down="{{ pullDown }}"  style="overflow-y: hidden;">
+      <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FF7F50'} }}">
+          <ui-row height="46">
+            <ui-col vertical-align="middle" align="center" width="60">
+            </ui-col>
+            <ui-col vertical-align="middle" align="center">
+              <ui-view class="nav_title">首页</ui-view>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="goProp">
+              <ui-icon type="yijianfankui" size="18" color="#fff"></ui-icon>
+            </ui-col>
+          </ui-row>
+      </ui-nav-bar>
+      <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+          <!-- 轮播图 -->
+          <ui-view class="demo">
+            <ui-ex-swiper ui:if="swiperShow" pagination autoplay="{{ {delay:2*1000} }}" loop>
+              <ui-ex-swiper-item ui:for="{{swiperImg}}">
+                <ui-image width=100% height=100% src="{{item.url}}" mode="simple"></ui-image>
+              </ui-ex-swiper-item>
+            </ui-ex-swiper>
+          </ui-view>
+
+          <!-- <ui-view >
+                {{GPSMESS}}
+          </ui-view> -->
+          <ui-tabs class="tabsSty" index="{{ tabCurrent }}" bindchange="handleChange($event, 'tabCurrent')">
+              <ui-tab>附近站点</ui-tab>
+              <ui-tab>校园巴士</ui-tab>
+              <ui-tab>班车线路</ui-tab>
+          </ui-tabs>
+          <ui-view class="box_col_auto">
+            <!-- 页面内容 start-->
+
+            <ui-swiper class="box_col" current="{{ tabCurrent }}" bindchange="handleChange($event, 'tabCurrent')">
+                <ui-swiper-item class="box_col_auto boxLisSty">
+                    <ui-view class="errmess" ui:if="{{StationMess.nearbyStations && StationMess.nearbyStations.length==0}}">
+                        附近无站点
+                    </ui-view>
+                    <ui-view ui:else class="ListItemSty" ui:for="{{StationMess.nearbyStations}}">
+                        
+                        <ui-view class="stationName box_row colCenter">
+                          <ui-view>
+                              <ui-icon class="Theme2" type="gongjiaozhanpai" size="30"></ui-icon>
+                          </ui-view>
+                          <ui-view class="box_row_100">
+                              {{item.name}}
+                          </ui-view>
+                          <ui-view class="distanceSty">
+                              {{item.distance}}米
+                          </ui-view>
+                        </ui-view>
+
+                        <ui-view class="stationRouterBox">
+                            <ui-view class="stationRouterItem" ui:for="{{item.routerList}}" ui:for-item="xlitem"  bindtap="golineMess(item,xlitem)">
+                                <ui-view class="xlName">
+                                  {{xlitem.name}}
+                                </ui-view>
+                                <ui-view class="toCode">
+                                  <ui-icon class="Theme2" type="jiantouarrow591" size="14"></ui-icon>
+                                  开往 - {{xlitem.endStation.mc}}
+                                  <ui-view style="float:right">
+                                          <ui-icon class="IconAnima" type="xinhao1" size="18"></ui-icon>
+                                          {{xlitem.nextBus[0]}}站
+                                  </ui-view>
+                                </ui-view>
+                            </ui-view>
+                        </ui-view>
+
+                    </ui-view>
+
+                </ui-swiper-item>
+
+                <ui-swiper-item class="box_col_auto">
+                    <ui-view class="ListItemSty">
+                      <ui-view class="stationRouterBox">
+                        <ui-view class="errmess" ui:if="{{StationMess.scheduledBusRouters && StationMess.scheduledBusRouters.length==0}}">
+                            暂无数据
+                        </ui-view>
+                          <ui-view ui:else class="stationRouterItem" ui:for="{{StationMess.scheduledBusRouters}}" bindtap="golineMessOther(item)">
+                              <ui-view class="xlName">
+                                <ui-icon class="Theme2" type="bus2" size="18"></ui-icon>
+                                {{item.name}}
+                              </ui-view>
+                              <ui-view class="toCode">
+                                <ui-icon class="Theme2" type="jiantouarrow591" size="14"></ui-icon>
+                                开往 - {{item.endStation.mc}}
+                              </ui-view>
+                          </ui-view>
+                      </ui-view>
+                    </ui-view>
+                </ui-swiper-item>
+                <ui-swiper-item class="box_col_auto">
+                    <ui-view class="ListItemSty">
+                      <ui-view class="stationRouterBox">
+                          <ui-view class="errmess"  ui:if="{{StationMess.otherRouters && StationMess.otherRouters.length==0}}">
+                              暂无数据
+                          </ui-view>
+                          <ui-view ui:else class="stationRouterItem" ui:for="{{StationMess.otherRouters}}" bindtap="golineMessOther(item)">
+                              <ui-view class="xlName">
+                                <ui-icon class="Theme2" type="bus2" size="18"></ui-icon>
+                                {{item.name}}
+                              </ui-view>
+                              <ui-view class="toCode">
+                                <ui-icon class="Theme2" type="jiantouarrow591" size="14"></ui-icon>
+                                {{item.startTime}}-{{item.endTime}}
+                                <!-- 开往 - {{item.endStation.mc}} -->
+                              </ui-view>
+                          </ui-view>
+                      </ui-view>
+                    </ui-view>
+                </ui-swiper-item>
+            </ui-swiper>
+            <!-- 页面内容 end-->
+          </ui-view>
+      </ui-view>
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#26a2ff",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"首页",
+    title:'首页',
+    backgroundColor:'#fff',
+    delay:false,//延迟加载
+  },
+  data () {
+    return {
+      tabCurrent:0,
+      swiperShow:false,
+      swiperImg: [],
+      StationMess:{},
+      bcLine:[],//班车线路信息
+      GPSMESS:{},
+      pullDown: {
+        distance: 100,
+        onAfter: this.handleAfter
+      }
+    }
+  },
+  methods: {
+    goProp(){
+      ui.navigateTo({
+        url: '/pages/prop/add'
+      })
+    },
+    handleAfter (flag) {
+      ui.showLoading({
+        text: '数据更新中'
+      })
+      let a = false
+      this.getGPSmess((res)=>{
+          if(res.longitude){
+            a = true
+          }else{
+            a = false
+          }
+      })
+      setTimeout(() => {
+        ui.hideLoading()
+        ui.showToast({ title: a ? '数据更新':'数据更新失败', icon: 'success', duration: 3000 })
+      }, 1.5*1000);
+    },
+    getGPSmess(callback){
+        var v = this
+        ui.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          let mes = {}
+          if(res.longitude){
+            mes = res
+            v.GPSMESS = res
+          }else{
+            v.GPSMESS = {
+              longitude:'114.372681',
+              latitude:'30.544854'
+            }
+            mes = v.GPSMESS
+          }
+          v.getStationMess()
+          // v.getbcLine()
+          callback && callback(mes)
+        }
+      })
+    },
+    handleChange (index, key) {
+      this[key] = index
+    },
+    goXlMess () {
+      ui.navigateTo({
+        url: '/pages/xlMess'
+      })
+    },
+    golineMess(code,line){
+      ui.getApp().station.stationID = code.id
+      ui.getApp().station.xlID = line.id
+      ui.getApp().lineMess = line
+      ui.navigateTo({
+        url: '/pages/xlMess'
+      })
+    },
+    golineMessOther(item){
+      console.log('1234156',item);
+      
+      ui.getApp().station.stationID = item.endStation.id
+      ui.getApp().station.xlID = item.id
+      ui.getApp().lineMess = item
+      ui.getApp().lineMess.order = item.endStation.routeOrder
+
+      ui.navigateTo({
+        url: '/pages/xlMess'
+      })
+    },
+    getSwiperImg(){
+      var v = this
+      this.$http('POST',ui.getApp().apis.SWIPER,{},(res)=>{
+        console.log('轮播图片',res);
+        if(res.code == 200){
+            this.swiperImg = res.result
+            this.swiperShow = true
+        }
+        
+      })
+    },
+    getStationMess(){
+      var v = this
+      this.$http('POST',ui.getApp().apis.STATIONCODE,{lng:v.GPSMESS.longitude,lat:v.GPSMESS.latitude},(res)=>{
+        console.log('站点信息',res);
+        if(res.code == 200){
+            this.StationMess = res.result
+        }
+        
+      })
+    },
+    getbcLine(){
+      this.$http('POST',ui.getApp().apis.ALLLINE,{lx:20},(res)=>{
+        console.log('站点信息',res);
+        if(res.code == 200 && res.result){
+            this.bcLine = res.result
+        }else{
+          this.bcLine = []
+        }
+        
+      })
+    }
+  },
+  created () {
+    var v = this
+    this.getSwiperImg()
+    this.getGPSmess()
+  },
+  mounted() {
+    
+    
+
+
+
+    //首屏页面需要在mounted中延时才能调用框架api，其他页面不需要延时
+    setTimeout(() => {
+      //关闭app启动图
+      ui.closeSplashscreen()
+    }, 1000);
+  }
+}
+
+</script>
+
+<style lang="less">
+.errmess{
+  text-align: center;
+  line-height: 400rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #bbb;
+}
+.demo{
+  height: 300rpx;
+}
+.tabsSty{
+  border-top:#f2f2f2 4rpx solid;
+  border-bottom:#f2f2f2 4rpx solid;
+}
+.boxLisSty{
+}
+.ListItemSty{
+  padding: 15rpx 20rpx;
+  .stationName{
+    font-size: 32rpx;
+    font-weight: 700;
+    border-bottom:#f2f2f2 3rpx solid;
+    .distanceSty{
+      font-size: 26rpx;
+      color:#8a8a8a;
+    }
+  }
+  .stationRouterBox{
+    .stationRouterItem{
+      border-bottom:#f2f2f2 3rpx solid;
+      padding: 10rpx 0;
+      .xlName{
+        font-size: 28rpx;
+      }
+      .toCode{
+        color:#8a8a8a;
+        font-size: 24rpx;
+        padding-top: 15rpx;
+      }
+    }
+  }
+  // --------
+
+}
+</style>

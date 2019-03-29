@@ -1,0 +1,126 @@
+*{
+  font-family: Arial,"微软雅黑","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+a{
+  text-decoration: none;
+}
+.leftf5{
+  //.icon-msnui-refresh-line{
+    //名字 周期 运动曲线
+    animation: f_five 4s infinite
+  //}
+}
+@keyframes f_five {
+  0%{
+    transform:rotate(0deg);
+  }
+  100%{
+    transform: rotate(360*10deg);
+  }
+}
+.boxHeader{
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    .titLeft,.titRight{
+      width: 0.7rem;
+      line-height: 1rem;
+      color: #949494;
+    }
+    .titCenter{
+      height: 1rem;
+      line-height: 1rem;
+      font-weight: 700;
+      color: #949494;
+    }
+}
+.input{
+  display: inline-block;
+  width: 80%;
+  height: 0.5rem;
+  line-height: 1.5;
+  padding: 4px 7px;
+  font-size: 12px;
+  border: 1px solid #dddee1;
+  border-radius: 40px;
+  outline: none!important;
+  text-align: center;
+  color: #495060;
+  background-color: #fff;
+  background-image: none;
+  position: relative;
+  cursor: text;
+  transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
+}
+.input::-webkit-input-placeholder{
+  color: #818181;
+  font-size: 16px;
+}
+.input::-moz-placeholder{
+  color: #dddee1;
+}
+.box{//纵向
+  height: 100%;
+  display: flex;
+  flex-direction: column ;
+  .body-D{
+    flex:1;
+  }
+  .body{
+    flex:1;
+    overflow: auto;
+  }
+}
+.box-row{//横向
+  height: 100%;
+  display: flex;
+  flex-direction: row ;
+  .body-O{
+    flex:1;
+  }
+  .body-F{
+    flex:1;
+    overflow: auto;
+  }
+  .body-r-1{
+    flex:1;
+    overflow: auto;
+  }
+  .body-r-2{
+    flex:2;
+    overflow: auto;
+  }
+  .body-r-3{
+    flex:3;
+    overflow: auto;
+  }
+  .body-r-4{
+    flex:4;
+    overflow: auto;
+  }
+}
+.box-row-z{//横向布局禁止换行
+  display: flex;
+  flex-direction: row ;
+  flex-wrap:nowrap ;
+  height: 100%;
+}
+.box-row-list{//横向布局自动换行
+  display: flex;
+  flex-direction: row ;
+  flex-wrap:wrap;
+  .bodyC{
+    width: 23%;
+    margin:5px 1%;
+    .videoFile{
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .bodyWidth{
+    width: 30%;
+    margin:5px 1%;
+    //  margin: auto;
+    margin-bottom: 8px;
+  }
+}

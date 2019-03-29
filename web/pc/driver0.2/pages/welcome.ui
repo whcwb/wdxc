@@ -1,0 +1,87 @@
+<!--flash-->
+<template>
+  <ui-page top='0' style="overflow:hidden">
+          <!-- logo -->
+        <ui-view class="titSty">
+          <ui-image src="static/img/logo.jpg" width=160 height=160></ui-image>
+        </ui-view>
+           <!-- 进度条 -->
+        <ui-view class="progressSty">
+          <ui-progress percent="{{ num }}" 
+           border-radius="10" stroke-width="20" 
+          active-color="#FC8609, #f40" background-color="#FCD9C1"></ui-progress>
+          
+        </ui-view>
+        
+           <!-- 数字 -->
+        <ui-view class="sample_block" align="center">武漢大學</ui-view>
+
+    
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationBarTitleText: "欢迎",
+     navigationStyle: 'custom',
+    
+  },
+  watch:{
+    num:(n,o)=>{
+      console.log(n);
+      console.log(o);
+    }
+  },
+  data() {
+    return {
+      num:0
+    }
+  },
+  created(){
+    setInterval(()=>{
+      if(this.num>99){
+            clearInterval()
+            return
+      }
+      this.num++;
+    },20)
+  },
+  methods: {},
+  mounted() {}
+}
+</script>
+
+<style lang="less">
+
+.titSty{
+  padding: 100rpx 0;
+  .ui-image-container{
+    margin: auto;
+  }
+}
+.sample_block {
+  font-size: 28px;
+  
+}
+
+.ui-progress {
+  margin: 225px 0;
+}
+.sample_content{
+  padding: 0px 30px 0px 30px;
+  position: fixed;
+  bottom: 10rpx;
+  width:100%;
+}
+.progressSty{
+  padding: 0 30rpx;
+  position: fixed;
+  bottom: 50rpx;
+  width: 100%;
+  .ui-progress{
+    margin: 0;
+  }
+}
+
+</style>

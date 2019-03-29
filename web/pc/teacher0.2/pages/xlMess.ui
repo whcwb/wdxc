@@ -1,0 +1,109 @@
+<!---->
+<template>
+  <ui-page  style="overflow-y: hidden;">
+      <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FF7F50'} }}">
+          <ui-row height="46">
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="Goback">
+              <ui-icon type="left" size="16" color="#fff"></ui-icon>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center">
+              <ui-view class="nav_title">目的地</ui-view>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="goXlMap">
+              <ui-icon type="ditu1" size="28"
+                color="#fff"></ui-icon>
+            </ui-col>
+          </ui-row>
+      </ui-nav-bar>
+      <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+
+          <ui-view class="box_col_auto">
+            <!-- 页面内容 start-->
+
+            <!-- 页面内容 end-->
+          </ui-view>
+      </ui-view>
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#FF7F50",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"线路详情",
+    title:'线路详情',
+    backgroundColor:'#fff',
+    delay:false,
+    disableScroll:true,//延迟加载
+  },
+  name:'xlMess',
+  data() {
+    return {
+    }
+  },
+  methods: {
+    Goback(){
+      ui.navigateBack()
+    },
+    goIndex () {
+      ui.navigateTo({
+        url: '/pages/index'
+      })
+    },
+    goXlMap () {
+      ui.navigateTo({
+        url: '/pages/xlMap'
+      })
+    }
+  },
+  created () {
+  },
+  mounted() {
+  }
+}
+</script>
+
+<style lang="less">
+.f5{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: #ff7f50;
+  color:#fff;
+  padding: 25rpx;
+  width: 240rpx;
+  .f5Tit{
+    font-size: 42rpx;
+    padding:10rpx 15rpx;
+  }
+}
+.boxRowAuto{
+  height: 600rpx;
+  background: #fff;
+  overflow-x: auto;
+  padding: 0 30rpx;
+  .ui-timeline-row{
+    ul{
+      overflow-x: auto;
+    }
+  }
+}
+
+.lineMess{
+  padding: 15rpx 25rpx;
+}
+.busMess{
+  padding: 50rpx 0;
+  border-top: #f2f2f2 3rpx solid;
+  border-bottom: #f2f2f2 5rpx solid;
+  text-align: center;
+  .leftmess{
+    border-right:#dedede 2rpx solid
+  }
+  .rightmess{
+    border-left:#dedede 2rpx solid
+  }
+}
+</style>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+    <title>车险报价</title>
+    <style type="text/css">
+        .top {
+            padding: 6px;;
+            color: #007AFF;
+            text-align: center;
+        }
+
+        .mui-row {
+            vertical-align: middle;
+        }
+
+        .row_col {
+            vertical-align: middle;
+            height: 40px;
+        }
+
+        .footer {
+            text-align: center;
+        }
+
+        .gray {
+            color: #aaaaaa;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            text-align: center;
+        }
+
+        .blue_block {
+            width: 4px;
+            background-color: #0062CC;
+            color: #0062CC;
+        }
+        .mui-table-view-radio .mui-table-view-cell{
+            padding-right: 0;
+        }
+    </style>
+</head>
+<body style="background-color: #f3f3f3;overflow: auto;">
+<div class="top">
+    里程险
+</div>
+
+<ul class="mui-table-view mui-table-view-radio">
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-6 mui-col-xs-6">
+                <span class="blue_block">.</span>
+                里程险
+            </div>
+            <div class="mui-col-sm-6 mui-col-xs-6 gray" style="font-size: 12px;">
+                里程险对您的商业险有不同折扣
+            </div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label for="lc10000">10000公里</label>
+                    <input id="lc10000" name="radio" type="radio" checked>
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>4.5折</span></div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>15000公里</label>
+                    <input name="radio" type="radio">
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>5.2折</span></div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>20000公里</label>
+                    <input name="radio" type="radio">
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>6.1折</span></div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>25000公里</label>
+                    <input name="radio" type="radio">
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>6.9折</span></div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>30000公里</label>
+                    <input name="radio" type="radio">
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>7.3折</span></div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>35000公里</label>
+                    <input name="radio" type="radio">
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>8.1折</span></div>
+        </div>
+    </li>
+    <li class="mui-table-view-cell">
+        <div class="mui-row">
+            <div class="mui-col-sm-10 mui-col-xs-10">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>50000公里以上</label>
+                    <input name="radio" type="radio">
+                </div>
+            </div>
+            <div class="mui-col-sm-2 mui-col-xs-2 row_col"><span>无折扣</span></div>
+        </div>
+    </li>
+
+</ul>
+
+<div class="footer">
+    <button type="button" class="mui-btn mui-btn-primary" style="width: 90%;font-size: 20px" onclick="next()">下一步</button>
+</div>
+</body>
+<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/util.js"></script>
+<script type="text/javascript">
+    let d = 10000;
+    function next() {
+        let car_id = GetQueryString("car_id");
+        let token = GetQueryString("token");
+        window.location.href = 'page1.html?lc='+d+"&car_id="+car_id+"&token="+token
+    }
+
+    (function ($) {
+        $.init();
+        var list = document.querySelector('.mui-table-view.mui-table-view-radio');
+        list.addEventListener('selected',function(e){
+            d = getDistance(e.detail.el.innerText)
+            console.log("当前选中的为："+d);
+        });
+    })(mui);
+
+    function getDistance(s){
+        return s.substring(0,s.indexOf("公里"))
+    }
+</script>
+</html>

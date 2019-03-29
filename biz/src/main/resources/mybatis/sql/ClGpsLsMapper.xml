@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldz.dao.biz.mapper.ClGpsLsMapper">
+
+<select id="getZdbhAllLsGps" parameterType="com.ldz.dao.biz.bean.gpsSJInfo" resultType="com.ldz.dao.biz.model.ClGpsLs">
+select * from CL_GPS_LS t where   t.CJSJ between #{startTime}
+ and #{endTime} and ZDBH=#{zdbh} ORDER BY CJSJ ASC
+</select>
+
+<!-- <resultMap type="com.ldz.biz.module.bean.GuiJiGps" id="GuijiGps">
+        <result column="ID" property="id" />
+        <result column="BDJD" property="bdjd" />
+		<result column="BDWD" property="bdwd" />
+        <result column="YXSD" property="yxsd" />
+        <result column="CJSJ" property="cjsj" />
+        <result column="FXJ" property="fxj" />
+        <result column="JD" property="jd" />
+        <result column="WD" property="wd" />
+        <result column="GDJD" property="gdjd" />
+        <result column="GDWD" property="gdwd" />
+</resultMap> -->
+</mapper>

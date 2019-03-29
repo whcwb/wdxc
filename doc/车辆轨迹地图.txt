@@ -1,0 +1,227 @@
+
+<template>
+    <div >
+        <Row style="position:absolute;width:100%;padding-top:30px;padding-left:30px;z-index:9999">
+          <Col span="8">
+            <Input placeholder="查设备、找车辆、找司机" size="large">
+                <Button slot="append" type="primary" icon="ios-search"></Button>
+            </Input>
+            <Tabs ref="tabRef" style="background-color:white;">
+                <TabPane :label="dhlabel" name="name1" style="height:300px;overflow:auto;" v-show="tabShowFlag">
+                  <Row @click.native="clickDevice">
+                    <Col span="24">
+                      <Card style="margin:0 15px 5px 15px;">
+                        <p slot="title">
+                          <Icon type="soup-can-outline"></Icon>
+                          85430012983
+                        </p>
+                        <p slot="extra" style="color:#19be6b">
+                            2018-06-11 10:00:00
+                        </p>
+                        <Row  type="flex" justify="start">
+                          <Col span="6">
+                            <Icon type="model-s"></Icon>
+                            鄂A01202
+                          </Col>
+                          <Col span="6">
+                            <Icon type="person"></Icon>
+                            暂无绑定
+                          </Col>
+                          <Col span="2" offset="9">
+                            <Button type="ghost">OBD</Button>
+                          </Col>
+                        </Row>
+                      </Card>
+                    </Col>
+                  </Row>
+                  <Row @click.native="clickDevice">
+                    <Col span="24">
+                      <Card style="margin:0 15px 5px 15px;">
+                        <p slot="title">
+                          <Icon type="soup-can-outline"></Icon>
+                          85430012983
+                        </p>
+                        <p slot="extra" style="color:#19be6b">
+                            2018-06-11 10:00:00
+                        </p>
+                        <Row  type="flex" justify="start">
+                          <Col span="6">
+                            <Icon type="model-s"></Icon>
+                            鄂A01202
+                          </Col>
+                          <Col span="6">
+                            <Icon type="person"></Icon>
+                            暂无绑定
+                          </Col>
+                        </Row>
+                      </Card>
+                    </Col>
+                  </Row>
+                </TabPane>
+                <TabPane :label="xhlabel" name="name2" style="height:300px;overflow:auto;" v-show="tabShowFlag">
+                  <Row>
+                    <Col span="24">
+                      <Card style="margin:0 15px 0 15px;">
+                        <p slot="title">
+                          <Icon type="soup-can-outline"></Icon>
+                          85430012983
+                        </p>
+                        <p slot="extra" style="color:#ed3f14">
+                            2018-06-11 11:00:00
+                        </p>
+                        <Row  type="flex" justify="start">
+                          <Col span="6">
+                            <Icon type="model-s"></Icon>
+                            鄂A01202
+                          </Col>
+                          <Col span="6">
+                            <Icon type="person"></Icon>
+                            暂无绑定
+                          </Col>
+                        </Row>
+                      </Card>
+                    </Col>
+                  </Row>
+                </TabPane>
+                <TabPane :label="lxlabel" name="name3" style="height:300px;overflow:auto;" v-show="tabShowFlag">
+                  <Row>
+                    <Col span="24">
+                      <Card style="margin:0 15px 5px 15px;">
+                        <p slot="title">
+                          <Icon type="soup-can-outline"></Icon>
+                          85430012983
+                        </p>
+                        <p slot="extra">
+                            2018-06-11 00:00:00
+                        </p>
+                        <Row  type="flex" justify="start">
+                          <Col span="6">
+                            <Icon type="model-s"></Icon>
+                            鄂A01202
+                          </Col>
+                          <Col span="6">
+                            <Icon type="person"></Icon>
+                            暂无绑定
+                          </Col>
+                        </Row>
+                      </Card>
+                    </Col>
+                  </Row>
+                </TabPane>
+                <Button type="primary" size="small" :icon="changeBtnIcon" slot="extra" style="margin:5px" @click.native="changeBtn"></Button>
+            </Tabs>
+          </Col>
+        </Row>
+        <Row style="position:absolute;width:100%;top:0;right:0;z-index:9990;padding-top:30px;padding-right:30px" type="flex" justify="end">
+          <Col span="6">
+            <Card>
+              <p slot="title">
+                <Icon type="soup-can-outline"></Icon>
+                85430012983
+              </p>
+              <a href="#" slot="extra">
+                <Icon type="close"></Icon>
+              </a>
+              <Row  type="flex" justify="start">
+                <Col span="6">
+                  <Icon type="model-s"></Icon>
+                  鄂A01202
+                </Col>
+                <Col span="6">
+                  <Icon type="person"></Icon>
+                  暂无绑定
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <div id="mapDiv" style="height:800px"></div>
+          </Col>
+        </Row>
+    </div>
+</template>
+
+<script>
+//<Button type="primary" shape="circle" icon="ios-search"></Button>
+export default {
+  data () {
+          return {
+              changeBtnIcon:'chevron-down',
+              tabShowFlag:false,
+              dhlabel: (h) => {
+                  return h('div', [
+                      h('span','点火 '),
+                      h('Button', {
+                          props: {
+                              shape:'circle',
+                              size:'small',
+                              disabled:true
+                          },
+                          style:'background-color:#19be6b;color:white'
+                      }, '10')
+                  ])
+              },
+              xhlabel: (h) => {
+                  return h('div', [
+                      h('span','熄火 '),
+                      h('Button', {
+                          props: {
+                              shape:'circle',
+                              size:'small',
+                              disabled:true
+                          },
+                          style:'background-color:#ed3f14;color:white'
+                      }, '10')
+                  ])
+              },
+              lxlabel: (h) => {
+                  return h('div', [
+                      h('span','离线 '),
+                      h('Button', {
+                          props: {
+                              shape:'circle',
+                              size:'small',
+                              disabled:true
+                          },
+                          style:'background-color:#657180;color:white'
+                      }, '10')
+                  ])
+              }
+          }
+      },
+    mounted:function(){
+      let map = new BMap.Map("mapDiv");    // 创建Map实例
+  		map.centerAndZoom(new BMap.Point(114.3854460000,30.5155630000), 15);  // 初始化地图,设置中心点坐标和地图级别
+  		//添加地图类型控件
+  		map.setCurrentCity("武汉");          // 设置地图显示的城市 此项是必须设置的
+  		map.enableScrollWheelZoom(true);
+
+      //this.$refs.tabRef.$el
+    },
+    methods:{
+      changeBtn(){
+        if (this.changeBtnIcon == "chevron-down"){
+          this.changeBtnIcon = "chevron-up";
+          this.tabShowFlag = true;
+        }else{
+          this.changeBtnIcon = "chevron-down";
+          this.tabShowFlag = false;
+        }
+      },
+      clickDevice(e){
+        for (let element of e.path){
+          if (element.className.indexOf("ivu-card ") != -1){
+            element.style.backgroundColor = "#ECF594";
+            break;
+          }
+        }
+      }
+    }
+};
+</script>
+
+<style>
+
+</style>

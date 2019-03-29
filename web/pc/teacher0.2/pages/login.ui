@@ -1,0 +1,116 @@
+<template>
+    <ui-page>
+      <ui-row style="margin:30px 0 30px 0">
+        <ui-col align="center" vertical-align="middle">
+          <ui-image src="static/img/teacher/logo.png"></ui-image>
+        </ui-col>
+      </ui-row>
+
+ <ui-row align="center" vertical-align="middle">
+
+   
+   <ui-col style="padding:0 20px 0 20px" span="10" align="left">
+      <ui-input show-clear="false" ui:model="{{form.name}}" placeholder="请输入用户名" maxlength="10"></ui-input>
+   </ui-col>
+   
+</ui-row>
+
+<ui-row align="center" vertical-align="middle" style="margin:20px 0 0 0">
+
+   
+   <ui-col style="padding:0 20px 0 20px" span="10" align="left">
+<ui-input show-clear="false" ui:model="{{form.zjhm}}" placeholder="请输入手机号"></ui-input>
+   </ui-col>
+   
+</ui-row>
+
+
+
+<ui-row style="margin:30px 0 0 0" bindtap="loginYZ">
+  <ui-col style="padding:0 60px 0 60px">
+  <ui-button type="primary">登录</ui-button>
+  </ui-col>
+</ui-row>
+
+
+<ui-row style="margin:80px 0 0 0"> 
+  <ui-col>
+    <ui-image src="static/img/teacher/logbotimg.jpg" mode="aspectFit" width="400" height="400"></ui-image>
+  </ui-col>
+</ui-row>
+    </ui-page>
+    
+</template>
+
+<script>
+export default {
+  config: {
+    
+    navigationBarTitleText: '',
+    navigationStyle:'default',
+    backgroundColor: '#fff',
+    navigationBarTextStyle: 'custom'
+  },
+  data () {
+    return {
+      form:{
+          name:'宋林殊',//宋林殊
+          zjhm:'32948289347289'//32948289347289
+      }
+    }
+  },
+  methods: {//判断用户名和手机号逻辑
+    loginYZ(){
+      var v = this
+      if(v.form.name==''){
+        ui.showToast({ title: '请输入用户名!'})
+          return
+        }else if(v.form.zjhm==''){
+        ui.showToast({ title: '请输证件号码!'})
+          return
+        }else {
+        v.login()
+      } 
+    },
+    login(){
+        var v =this
+        this.$http('POST',ui.getApp().apis.LOGIN.QUERTY,this.form,(res)=>{
+          console.log(res);
+          if(res.code==200 && res.result){
+            localStorage.setItem('token',res.result)
+            v.goindex()
+          }
+          
+        })
+    },
+      gomap(){
+        ui.navigateTo({
+          url: '/pages/map'
+        }) 
+      },
+      goindex(){
+      ui.navigateTo({
+        url: '/pages/index'
+      })
+    },
+      
+  }
+}
+
+</script>
+
+<style lang="less">
+.lmw{
+  background: #fff;
+  border-radius: 5rpx;
+  border:	#D8D8D8	 2rpx solid;
+  margin: 20rpx;
+}
+
+
+
+
+
+
+
+</style>

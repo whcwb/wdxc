@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldz.dao.biz.mapper.ClClMapper">
+
+<!-- 启用二级缓存，收回策略使用FIFO：先进先出:按对象进入缓存的顺序来移除它们。
+		LRU – 最近最少使用的:移除最长时间不被使用的对象。（默认）
+     	FIFO – 先进先出:按对象进入缓存的顺序来移除它们。
+      	SOFT – 软引用:移除基于垃圾回收器状态和软引用规则的对象。
+      	WEAK – 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+	 -->
+	<!--<cache type="com.jxba.mybatis.cache.MybatisRedisCache"></cache>-->
+<select id="seleByZdbh" resultMap="ClClresultMap" parameterType="java.lang.String">
+SELECT t1.*,t2.*,t3.ID as wlid,t3.WLMC,t3.JGDM as jg_dm,t3.JGMC as jg_mc,t3.MJ,t3.DLXXZB,t3.KSJD,t3.KSWD,t3.ZT as z_t,t3.cjsj as cj_sj,t3.CJR as cj_r,t3.XGSJ as xg_sj,t3.XGR as xg_r from 
+CL_CL t1 LEFT JOIN CL_DZWL_CL t2 ON t1.CL_ID=t2.CL_ID  LEFT JOIN CL_DZWL t3 on t2.WL_ID=t3.id WHERE t1.ZDBH=#{deviceId}
+</select>
+
+ <select id="getAllClInfo" resultMap="ClClresultMap">
+       select * from CL_CL t1  WHERE t1.CL_ID IN
+        <foreach collection="list" item="ClId" index="index"
+            open="(" close=")" separator=",">
+            #{ClId}
+        </foreach>
+    </select>
+
+
+ <select id="seleClInfoByZdbh" parameterType="java.lang.String" resultMap="ClClresultMap">
+ SELECT * FROM CL_CL t WHERE t.zdbh=#{deviceId}
+</select>
+
+
+<resultMap type="com.ldz.dao.biz.model.ClCl" id="ClClresultMap">
+        <id column="CL_ID" property="clId" />
+		<result column="CPH" property="cph" />
+		<result column="JGDM" property="jgdm" />
+		<result column="JGMC" property="jgmc" />
+		<result column="CX" property="cx" />
+		<result column="ZKL" property="zkl" />
+		<result column="DL" property="dl" />
+		<result column="CJSJ" property="cjsj" />
+		<result column="CJR" property="cjr" />
+		<result column="XGSJ" property="xgsj" />
+		<result column="XGR" property="xgr" />
+		<result column="SJ_ID" property="sjId" />
+		<result column="SJXM" property="sjxm" />
+		<result column="ZT" property="zt" />
+		<result column="TP" property="tp" />
+		<result column="SCS" property="scs" />
+		<result column="XH" property="xh" />
+		<result column="ZDBH" property="zdbh" />
+        <result column="CCDJRQ" property="ccdjrq" />
+		<result column="CDBH" property="cdbh" />
+		<result column="BXGSMC" property="bxgsmc" />
+		<result column="BXSJ" property="bxsj" />
+		<result column="NSSJ" property="nssj" />
+		<result column="OBD_CODE" property="obdCode" />
+		<collection property="clDzwlCl" ofType="com.ldz.dao.biz.model.ClDzwlCl">
+		<id column="ID" property="id" />
+		<result column="WL_ID" property="wlId" />
+		<result column="CL_ID" property="clId" />
+		<result column="CPH" property="cph" />
+		<result column="CJSJ" property="cjsj" />
+		<result column="CJR" property="cjr" />
+		</collection>
+		<collection property="clDzwl" ofType="com.ldz.dao.biz.model.ClDzwl">
+		<id column="wlid" property="id" />
+		<result column="WLMC" property="wlmc" />
+		<result column="jg_dm" property="jgdm" />
+		<result column="jg_mc" property="jgmc" />
+		<result column="MJ" property="mj" />
+		<result column="DLXXZB" property="dlxxzb" />
+		<result column="KSJD" property="ksjd" />
+		<result column="KSWD" property="kswd" />
+		<result column="z_t" property="zt" />
+		<result column="cj_sj" property="cjsj" />
+		<result column="cj_r" property="cjr" />
+		<result column="xg_sj" property="xgsj" />
+		<result column="xg_r" property="xgr" />
+		</collection>
+</resultMap>
+
+</mapper>

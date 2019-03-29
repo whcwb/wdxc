@@ -1,0 +1,140 @@
+<!--others-->
+<template>
+  <ui-page>
+    <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#F64E16'} }}">
+        <ui-row height="46">
+          <ui-col vertical-align="middle" align="center" width="60">
+            <!-- <ui-icon type="left" size="16" color="#fff"></ui-icon> -->
+          </ui-col>
+          <ui-col vertical-align="middle" align="center">
+            <ui-view class="nav_title">更换乘车人</ui-view>
+          </ui-col>
+          <ui-col vertical-align="middle" align="center" width="60">
+          </ui-col>
+        </ui-row>
+      </ui-nav-bar>
+    <!-- <ui-view class="content">
+      <ui-view class="log_box">
+        <ui-row space-top=280>
+          <ui-input  placeholder="姓名" maxlength="11"></ui-input>
+        </ui-row>  
+        <ui-row>
+          <ui-input  placeholder="手机号码" ></ui-input>
+        </ui-row>
+      <ui-button  plain="false" type="success" >确认</ui-button>
+      </ui-view>
+    </ui-view> -->
+    <ui-view class="log_box">
+      <ui-view>
+          <ui-input ui:model="{{list.name}}" placeholder="请输入姓名"></ui-input>
+      </ui-view>
+      <ui-view>
+          <ui-input ui:model="{{list.phone}}"  type="number" placeholder="请输入手机号码"></ui-input>
+      </ui-view>
+      <ui-button class="login" bindtap="getinputmessage()">提交</ui-button>
+    </ui-view>
+    <ui-view class="box_col">
+        <ui-row border-bottom=true>
+          历史乘车人
+        </ui-row>
+    </ui-view>
+    <ui-view class="box_col">
+        <ui-row border-bottom=true style="font-size:20px" ui:for="{{hisList}}">
+          <ui-col span=9 align=center>
+             {{item.name}} · {{item.phone}}
+          </ui-col>
+          <ui-col>
+              <ui-icon type="webicon318" size=28 bindtap=""></ui-icon>
+          </ui-col>
+        </ui-row>
+    </ui-view>
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarTitleText: "12324"
+  },
+  data() {
+    return {
+      list:{
+        name:'',
+        phone:''
+      },
+      hisList:[{
+        name:'6',
+        phone:'6'
+      }]
+    }
+  },
+  methods: {
+    getinputmessage(){
+      console.log(this.list);
+      ui.getApp().peopleMess = this.list//全局变量赋值
+      this.hisList.push(this.list)//历史记录添加
+      this.list = {
+        name:'',
+        phone:''
+      }
+      localStorage.setItem('hisList',JSON.stringify(this.hisList)) 
+      this.getHisList()
+      
+    },
+    getHisList(){
+      var hisMess = localStorage.getItem('hisList')
+      if(hisMess != null){
+        this.hisList = JSON.parse(hisMess)
+      }
+    },
+    
+  },
+  mounted() {},
+  created(){
+    this.getHisList()
+    
+  }
+}
+</script>
+
+<style lang="less">
+.ui-row {
+  height: 50px;
+  line-height: 50px;
+  font-size: 14px;
+}
+
+.ui-sms-input {
+  .ui-button {
+    width: 110px;
+  }
+}
+
+.log_box{
+  padding: 20px 50px;
+  .ui-view{
+    padding: 10px 0 5px 0;
+    .mix-1px(0, 0, 1, 0, #ccc);
+    .ui-input{
+      border: 0;
+    }
+    .ui-input-inner{
+      height: 30px;
+    }
+    .ui-button {
+      background-color: #F64E16;
+      border-color: #F64E16;
+      border-radius: 25px;
+    }
+  }
+  .login{
+    background-color: #F64E16;
+    border: 3;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 30px;
+  }
+}
+</style>

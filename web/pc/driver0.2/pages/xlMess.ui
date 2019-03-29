@@ -1,0 +1,353 @@
+<!---->
+<template>
+  <ui-page  style="overflow-y: hidden;">
+      <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FF7F50'} }}">
+          <ui-row height="46">
+            <ui-col vertical-align="middle" align="center" width="60" bindtap="Goback">
+              <ui-icon type="left" size="16" color="#fff"></ui-icon>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center">
+              <ui-view class="nav_title">行程</ui-view>
+            </ui-col>
+            <ui-col vertical-align="middle" align="center" width="60">
+            </ui-col>
+          </ui-row>
+      </ui-nav-bar>
+      <!-- <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+          <ui-view class="box_col_auto" 
+            ui:if="{{orderMess.originLat!=''}}"
+            style="{{ {backgroundImage:'url(http://api.map.baidu.com/staticimage/v2?ak=evDHwrRoILvlkrvaZEFiGp30&width='+
+            pageWidth()+'&height='+pageHeight(-370)+
+            '&center='+(orderMess.originLng+orderMess.destinationLng)/2+','+(orderMess.originLat+orderMess.destinationLat)/2+
+            '&markers='+ orderMess.originLng+','+orderMess.originLat+'|'+ orderMess.destinationLng+','+orderMess.destinationLat+
+            '&zoom='+zoom+'&markerStyles=-1,http://47.98.39.45:9092/icon/map_line_begin.png|-1,http://47.98.39.45:9092/icon/map_line_end.png)'} }}">
+            <!-页面内容 start-->
+
+            <!-- 页面内容 end-->
+          <!-- </ui-view>
+          <ui-view class="box_col_auto"
+          ui:else
+          style="{{ {backgroundImage:'url(http://api.map.baidu.com/staticimage/v2?ak=evDHwrRoILvlkrvaZEFiGp30&width='+
+          pageWidth()+'&height='+pageHeight(-370)+
+          '&center='+orderMess.hcdz+
+          '&markers='+ orderMess.hcdz +'|'+ orderMess.mdd +
+          '&zoom=10&markerStyles=-1,http://47.98.39.45:9092/icon/map_line_begin.png|-1,http://47.98.39.45:9092/icon/map_line_end.png)'} }}">
+          </ui-view> -->
+             <div id="allmap" style="{{{height:height+'px'}}}"></div>
+  <ui-fixed-view bottom="20" left="10" right="10">
+          <ui-view class="usermess">
+              <ui-view class="box_row colCenter">
+                  <ui-view class="box_row_100">
+                    <ui-icon type="head-g" size=35 style="color:#888888"></ui-icon>
+                    <ui-text>{{orderMess.ck}}</ui-text>
+                  </ui-view>
+                  <a :href="'tel:'+orderMess.cklxdh"  class="box_row_100">
+                    <ui-icon type="dianhua" size=30 style="color:#888888"></ui-icon>
+                    <ui-text>{{orderMess.cklxdh}}</ui-text>
+                  </a>
+              </ui-view>
+              <ui-view class="box_row colCenter">
+                <ui-icon type="qidian" size=32 style="color:#489c14"></ui-icon>
+                <ui-text>
+                    {{orderMess.hcdz}}
+                </ui-text>
+                <ui-icon type="zhongdian" size=32 style="color:#ff9900"></ui-icon>
+                <ui-text>
+                    {{orderMess.mdd}}
+                </ui-text>
+              </ui-view>
+          </ui-view>
+          <ui-view class="popup" ui:if="{{orderMess.ddzt == '13'}}">
+            <ui-row space-top=15>
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                里程
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                单价
+              </ui-col>
+            </ui-row>
+            <ui-row height="30">
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                <ui-input ui:model="{{ form.lc }}" 
+                 type='number'
+                 placeholder="0"></ui-input>
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                <ui-input ui:model="{{ form.dj }}"
+                 type='number'
+                 placeholder="0"></ui-input>
+              </ui-col>
+            </ui-row>
+            <ui-row space-top=15>
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                过桥费
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                路停费
+              </ui-col>
+            </ui-row>
+            <ui-row height="30">
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                <ui-input ui:model="{{ form.gqf }}"
+                 type='number'
+                 placeholder="0"></ui-input>
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                <ui-input ui:model="{{ form.glf }}"
+                 type='number'
+                 placeholder="0"></ui-input>
+              </ui-col>
+            </ui-row>
+            <ui-view>
+              <ui-button type="primary" bindtap="orderYZ">行程结束</ui-button>
+            </ui-view>
+          </ui-view>
+          <ui-view class="popup" ui:elif="{{orderMess.ddzt == '20' ||orderMess.ddzt == '30' || orderMess.ddzt == '40'}}">
+            <ui-row space-top=15>
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                里程/公里
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                单价/元
+              </ui-col>
+            </ui-row>
+            <ui-row height="50">
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                <ui-input ui:model="{{ orderMess.lc }}"
+                  disabled
+                  placeholder="0"></ui-input>
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                <ui-input ui:model="{{ orderMess.dj }}"
+                  disabled
+                  placeholder="0"></ui-input>
+              </ui-col>
+            </ui-row>
+            <ui-row space-top=15>
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                过桥费/元
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                路停费/元
+              </ui-col>
+            </ui-row>
+            <ui-row height="50">
+              <ui-col space-left="20" space-right="10" vertical-align="middle">
+                <ui-input ui:model="{{ orderMess.gqf }}" 
+                  disabled
+                  placeholder="0"></ui-input>
+              </ui-col>
+              <ui-col space-left="10" space-right="20" vertical-align="middle">
+                <ui-input ui:model="{{ orderMess.glf }}"
+                  disabled
+                  placeholder="0"></ui-input>
+              </ui-col>
+            </ui-row>
+          </ui-view>
+      </ui-fixed-view>
+      
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#FF7F50",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"线路详情",
+    title:'线路详情',
+    backgroundColor:'#fff',
+    delay:false,
+    disableScroll:true,//延迟加载
+  },
+  name:'xlMess',
+  data() {
+    return {
+      form:{
+        id:'',
+        lc:'',
+        dj:'',
+        gqf:'',
+        glf:''
+      },
+      points:[],
+      orderMess:{},
+      zoom:12,
+      height:ui.WIN_HEIGHT,
+    }
+  },
+  methods: {
+    addMarker(points) {
+      console.log('666',points);
+        var pt = new BMap.Point(points[0].longitude, points[0].latitude);
+        var myIcon = new BMap.Icon("/static/img/qd.png", new BMap.Size(70,70),{imageSize: new BMap.Size(40,40),anchor: new BMap.Size(25, 25)});
+        var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+        this.map.addOverlay(marker2);              // 将标注添加到地图中
+      },
+      addMarkert(points) {
+      console.log('666',points.length);
+        var pt = new BMap.Point(points[points.length-1].longitude, points[points.length-1].latitude);
+        var myIcon = new BMap.Icon("/static/img/zd.png", new BMap.Size(70,70),{imageSize: new BMap.Size(40,40),anchor: new BMap.Size(25, 25)});
+        var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+        this.map.addOverlay(marker2);              // 将标注添加到地图中
+      },
+    orderYZ(){
+      if(this.form.lc == ''){
+        ui.showToast({ title: '请输入里程数' })
+        return
+      }else if(this.form.dj == ''){
+        ui.showToast({ title: '请输入行程单价' })
+        return
+      }else if(this.form.dj == ''){
+        ui.showToast({ title: '请输入过桥费' })
+        return
+      }else if(this.form.dj == ''){
+        ui.showToast({ title: '请输入路停费' })
+        return
+      }else{
+        this.orderOk()
+      }
+    },
+    orderOk(){
+      var v = this
+      this.$http('POST',ui.getApp().apis.LISTOK.CHANGE,this.form,(res)=>{
+        if(res.code == 200){
+          ui.showToast({ title: '行程结束' })
+          v.Goback()
+        }
+      })
+    },
+    showLine(points){
+      let ps = [];
+      this.map.centerAndZoom(new BMap.Point(points[(points.length -(points.length % 2))/2].longitude, points[(points.length -(points.length % 2))/2].latitude), 14);
+      for (let r of points){
+          ps.push(new BMap.Point(r.longitude, r.latitude));
+      }
+      var polyline = new BMap.Polyline(ps,
+          {strokeColor:"green", strokeWeight:5, strokeOpacity:0.5}
+      );
+
+       this.map.addOverlay(polyline);
+    },
+     getDdGpsList(){
+      this.$http('POST',ui.getApp().apis.HISTORYGJ,{orderId: this.orderMess.id},(res)=>{
+        console.log(res.result);
+        
+        if(res.code == 200 && res.result){
+          this.points= res.result;
+          if(this.points.length > 0){
+            this.showLine(this.points);
+            this.addMarker(this.points);
+            this.addMarkert(this.points)
+          }
+        }else{
+          ui.showToast({title: res.message});
+        }
+        // this.addMarker()
+      })
+    },
+    initMap(){
+      var script = document.createElement("script")
+      script.type = "text/javascript"
+      var callbackName = '_callback'+Date.now()
+      let v = this
+      window[callbackName]= function(){
+       console.log(BMap)
+      v.map = new BMap.Map("allmap");    // 创建Map实例
+      v.map.centerAndZoom(new BMap.Point(114.368107, 30.543083), 11);  // 初始化地图,设置中心点坐标和地图级别
+      var point = new BMap.Point(114.368107, 30.543083);
+      v.map.centerAndZoom(point, 15);    
+      var marker = new BMap.Marker(point,);
+      // v.map.addOverlay(marker);     
+      //添加地图类型控件
+      v.map.addControl(new BMap.MapTypeControl({
+        mapTypes:[
+                BMAP_NORMAL_MAP,
+                BMAP_HYBRID_MAP
+            ]}));   
+      v.map.setCurrentCity("武汉");          // 设置地图显示的城市 此项是必须设置的
+      v.map.enableScrollWheelZoom(true);
+      
+        v.getDdGpsList()
+           //开启鼠标滚轮缩放
+      delete window[callbackName]
+    }
+        script.src="https://api.map.baidu.com/api?v=2.0&ak=evDHwrRoILvlkrvaZEFiGp30&callback="+callbackName
+        document.body.appendChild(script)
+    },
+    Goback(){
+      ui.navigateBack()
+    },
+    getZoom(line){
+      let zoom = [
+        [1000000,500000,4],
+        [500000,200000,5],
+        [200000,100000,6],
+        [100000,50000,7],
+        [50000,25000,8],
+        [25000,20000,9],
+        [20000,10000,10],
+        [10000,5000,11],
+        [5000,2000,12],
+        [2000,1000,13],
+        [1000,500,14],
+        [500,200,15],
+        [200,100,16],
+        [100,50,17],
+        [50,20,18]
+      ]
+
+      zoom.forEach((item,index) => {
+        if(line<=item[0]&&line>=item[1]){
+          this.zoom =  item[2]
+         console.log(item[2]);
+        }
+      });
+    }
+  },
+  created () {
+    console.log(ui.getApp().orderMess);
+    this.orderMess = ui.getApp().orderMess
+    if(!(this.orderMess.originLng && this.orderMess.destinationLng) && !(this.orderMess.hcdz && this.orderMess.mdd)){
+      this.Goback()
+      ui.showToast({ title: 'GPS数据丢失请重新查看' })
+    }
+    this.form.id = this.orderMess.id
+    if(this.orderMess.lc!='' && this.orderMess.dj!='' && this.orderMess.gqf!='' && this.orderMess.glf!=''){
+    }
+    this.getZoom(parseFloat(this.orderMess.gpsDistance))
+  },
+  mounted() {
+     this.initMap();
+     setTimeout(() => {
+      //关闭app启动图
+      ui.closeSplashscreen();
+    }, 1000);
+    console.log(this.pageWidth());
+    
+  }
+}
+</script>
+
+<style lang="less">
+.usermess{
+  background-color: #fff;
+  border-top:solid 3rpx #f2f2f2;
+  padding: 25rpx;
+  height: 120px;
+}
+.popup{
+  width: 100%;
+  background-color:#fff;
+  height:200px;
+  margin:0 auto;
+  border-radius:5px;
+  overflow:hidden;
+  border-top: #f2f2f2 2px solid;
+  .ui-view{
+    line-height: 30px;
+    padding: 10px 20px;
+  }
+}
+</style>

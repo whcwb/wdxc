@@ -1,0 +1,344 @@
+<!---->
+<template>
+  <ui-page style="{{ { height: pageHeight(0)+ 'px'} }}">
+        <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FF7F50'} }}">
+            <ui-row height="46">
+              <ui-col vertical-align="middle" align="center" width="60" bindtap="Goback">
+                <ui-icon type="left" size="16" color="#fff"></ui-icon>
+              </ui-col>
+              <ui-col vertical-align="middle" align="center">
+                <ui-view class="nav_title">意见反馈</ui-view>
+              </ui-col>
+              <ui-col vertical-align="middle" align="center" width="60">
+              </ui-col>
+            </ui-row>
+        </ui-nav-bar>
+        
+        <ui-view class="box_col">
+            <ui-view class="box_col_auto">
+                <ui-view>
+                    <ui-tabs width="200" style="margin:0 auto;"
+                    active-tab-style="{{activeTabStyle}}"
+                    index="{{ current }}"  bindchange="handleChange">
+                        <ui-tab>
+                            <ui-view>建议</ui-view>
+                        </ui-tab>
+                        <ui-tab>
+                            <ui-view>投诉</ui-view>
+                        </ui-tab>
+                        <ui-tab>
+                            <ui-view>反馈</ui-view>
+                        </ui-tab>
+                    </ui-tabs>
+                </ui-view>
+                <!-- 反馈信息 -->
+                <ui-view class="messbox">
+                    <ui-view class="sample_content">
+                      <ui-textarea placeholder="{{placeholderTit}}" 
+                      placeholder-class="blue-placeholder" ui:model="{{ textareaValue }}"></ui-textarea>
+                    </ui-view>
+
+                    <ui-view class="submitBut">
+                        <ui-button type="primary" bindtap="upMess">提交</ui-button>
+                    </ui-view>
+
+                </ui-view>
+
+                <!-- 反馈信息列表 -->
+                <ui-view class="fkboxSty">
+                  <ui-sticky stick-on-tap  custom-style="{{ customStyle }}">
+                    <ui-view>
+                      <ui-view class="title">
+                          <ui-divider color="#ff9900">
+                            <ui-view style="color:#ff9900">
+                              建议--投诉--反馈
+                            </ui-view>
+                          </ui-divider>
+                      </ui-view>
+                    </ui-view>
+                    <ui-view slot="sticky">
+                      <ui-view class="title">
+                          <ui-divider color="#ff9900">
+                            <ui-view style="color:#ff9900">
+                              评论
+                            </ui-view>
+                          </ui-divider>
+                      </ui-view>
+                    </ui-view>
+                  </ui-sticky>
+                </ui-view>
+
+                <!-- <ui-divider color="#ff9900">
+                  <ui-view style="color:#ff9900">
+                    *请注意您的学车进度！
+                  </ui-view>
+                </ui-divider> -->
+
+                <ui-view>
+                </ui-view>
+                <ui-scroll-view
+                scroll-y
+                height="{{pageHeight(0)}}"
+                pull-down="{{ pullDown }}"
+                enable-reach-bottom-load ="{{loadMore}}"
+                on-load-more="{{ handleLoadMore }}">
+                  <ui-view class="content_list">
+                    <ui-view ui:for="{{ items }}">
+                        <ui-view class="box_row propMessSty">
+                          <ui-view class="messImg">
+                              <ui-image src="static/img/logo.jpg" width="60" height="60"></ui-image>
+                          </ui-view>
+                          <ui-view class="box_row_100 messmess">
+                              <ui-view class="box_row">
+                                  <ui-view class="box_row_100">
+                                    <ui-view class="time">
+                                      {{item.cjsj}}
+                                    </ui-view>
+                                  </ui-view>
+
+                                  <ui-view style="color:#ff7f50">
+                                    {{item.yjlx | yjlx}}
+                                  </ui-view>
+                              </ui-view>
+                              <ui-view class="nrboxSty">
+                                <ui-textarea value="{{ item.nr }}"
+                                  readonly auto-height rows="1"
+                                  show-counter="false"></ui-textarea>
+                              </ui-view>
+
+                              <ui-view class="box_row cljg" ui:if="{{item.cljg!=''}}">
+                                <ui-view>
+                                    结果回复：
+                                </ui-view>
+                                <ui-view class="box_row_100">
+                                    <ui-textarea value="{{ item.cljg }}"
+                                    readonly auto-height rows="1"
+                                    show-counter="false"></ui-textarea>
+                                </ui-view>
+                              </ui-view>
+
+                          </ui-view>
+
+                        </ui-view>
+                    </ui-view>
+                  </ui-view>
+
+                  <ui-view style="width:200px;margin:0 auto;">
+                    <ui-divider ui:show="{{!loadMore}}">没有新数据了</ui-divider>
+                  </ui-view>
+                </ui-scroll-view>
+            </ui-view>
+        </ui-view>
+
+  </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"新增意见反馈",
+    title:'新增意见反馈',
+    backgroundColor:'#fff',
+    delay:false,//延迟加载
+  },
+  filters: {
+    yjlx:(val)=>{
+      switch (val) {
+        case '00':
+          return '建议';
+          break;
+        case '10':
+          return '反馈';
+          break;
+        case '20':
+          return '投诉';
+          break;
+        default:
+          return '建议'
+          break;
+      }
+    }
+  },
+  data() {
+    return {
+      activeTabStyle:{
+        'color': '#FF7F50',
+        'border-bottom': '1px solid #FF7F50',
+      },
+      current:0,
+      textareaValue:'',
+      placeholderTitList:[
+        '请输入您的建议信息',
+        '请输入您的投诉内容',
+        '请输入您的反馈内容'
+      ],
+      placeholderTit:'请输入您的建议信息',
+      customStyle:{
+        'background-color':'#fff'
+      },
+      items: [],
+      pullDown: {
+        distance: 50,
+        onBegin: () => {},
+        onActive: this.handleActive,
+        onAfter: this.handlePullDownAfter
+      },
+      count:0,
+      loadMore:true,
+      pageNum:1,//当前页面
+      pages:0,//页面总数
+    }
+  },
+  methods: {
+    Goback(){
+      ui.navigateBack()
+    },
+    handleChange(val){
+      this.placeholderTit = this.placeholderTitList[val]
+      this.current = val
+      console.log(val);
+    },
+    upMess(){
+      var v  = this
+      var a = '00'
+      if(this.current == 0){
+        a = '00'
+      }else if(this.current == 1){
+        a = '20'
+      }else if(this.current == 2){
+        a = '10'
+      }
+      console.log(this.textareaValue+this.current);
+      if(this.textareaValue == ''){
+        ui.showToast({ title: '请填写文字信息' })
+        return
+      }
+
+      this.$http('POST',ui.getApp().apis.PROPOSAL,{yjlx:a,nr:this.textareaValue},(res)=>{
+        console.log(res)
+        if (res.code == 200) {
+          v.textareaValue = ''
+
+          v.handlePullDownAfter()
+          ui.showToast({ title: '信息提交成功', icon: 'success', duration: 3000 })
+        }else{
+          ui.showToast({ title: '信息提交失败，请重新提交' })
+        }
+      })
+      
+    },
+    getpropList(num){
+      var v = this
+      this.$http('POST',ui.getApp().apis.PROPList,{yjLx:'',pageSize:10,pageNum:num},(res)=>{
+          if(res.code==200){
+                v.pages = res.page.pages
+                if(res.page.list){
+                  res.page.list.forEach((item,index) => {
+                      v.items.push(item)
+                  });
+                }
+          }
+      })
+    },
+    handleLoadMore () {
+      if(this.pageNum<this.pages){
+        this.pageNum ++
+        this.getpropList(this.pageNum)
+      }else{
+        window.setTimeout(() => {
+          this.loadMore = false
+          return
+        }, 1500)
+      }
+    },
+    handleActive () {//下拉刷新时的方法
+      // 将返回的请求接管，实现让请求结果来控制下拉刷新的状态
+      // return ui.request({
+      //   // promise设置为true，让请求返回promise，这样就可以接管请求
+      //   // 请求结束后页面自动回弹
+      //   promise: true,
+      //   url: '/touchui-backstage/listInfo.do?state=1',
+      //   success: (response) => {
+      //   },
+      //   fail: (err) => {
+      //   }
+      // })
+    },
+    // 下拉结束后，执行的函数。因为只要下拉即时没有到达刷新的高度也会触发这个方法
+    // flag 为1表示执行了handleActive。为undefined代表handleActive没有执行。
+    handlePullDownAfter (flag) {
+      this.pageNum =1
+      this.items = []
+      this.getpropList(this.pageNum)
+      if(this.pageNum<this.pages){
+        this.loadMore = true
+      }
+    }
+  },
+  mounted() {
+    this.getpropList(1)
+  }
+}
+</script>
+
+<style lang="less">
+.ui-transfer-dom{
+  background-color: #eee!important;
+}
+.fkboxSty{
+  .title {
+    padding:0 30rpx;
+    font-weight: 700;
+  }
+}
+.propMessSty{
+  padding: 15rpx;
+  border: #f2f2f2 3rpx solid;
+  .messImg{
+    padding:15rpx;
+  }
+  .messmess{
+    padding: 10rpx 20rpx;
+    .time{
+      padding: 10rpx 0;
+      font-size: 26rpx;
+    }
+    .nrboxSty{
+      .ui-textarea-wrapper{
+        background-color: #fff;
+        // border: none;
+        padding-left:0; 
+        textarea{
+          background-color: #fff;
+          color: #000;
+        }
+      }
+    }
+    .cljg{
+      padding: 15rpx 0;
+      .ui-textarea-wrapper{
+        background-color: #f2f2f2;
+        border: none;
+        textarea{
+          background-color: #f2f2f2;
+        }
+      }
+    }
+  }
+}
+.messbox{
+  padding: 15rpx 25rpx;
+  .blue-placeholder::-webkit-input-placeholder {
+    color:#FF7F50;
+  }
+  .submitBut{
+    padding: 10rpx 0;
+  }
+}
+.sticky-in-relative-container {
+  position: relative;
+  height: 46px;
+}
+</style>

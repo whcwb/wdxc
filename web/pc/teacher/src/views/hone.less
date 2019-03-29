@@ -1,0 +1,143 @@
+.header{
+  height: 1rem;
+  background-color: #fff;
+  .titLeft,.titRight{
+    width: 80px;
+    height: 1rem;
+    text-align: center;
+    line-height: 1rem;
+    i{
+      font-size: 0.45rem;
+      color: #949494;
+    }
+  }
+  .titCenter{
+    padding: 0 8px;
+    line-height: 1rem;
+    .input{
+      display: inline-block;
+      width: 80%;
+      height: 0.5rem;
+      line-height: 1.5;
+      padding: 4px 7px;
+      font-size: 12px;
+      border: 1px solid #dddee1;
+      color: #495060;
+      background-color: #fff;
+      background-image: none;
+      position: relative;
+      cursor: text;
+      transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
+    }
+    .input::-webkit-input-placeholder{
+      color: #818181;
+      font-size: 16px;
+    }
+    .input::-moz-placeholder{
+      color: #dddee1;
+    }
+    input{
+      border-radius: 40px;
+      outline: none!important;
+      text-align: center;
+    }
+  }
+}
+.bodylist{
+  .formlist{
+    position: relative;
+    .iconfont{
+      font-size: 0.6rem;
+      position: absolute;
+      left: -0.23rem;
+      top: 0.18rem;
+    }
+    .md-input-item{
+      margin-left: 0.3rem;
+    }
+  }
+  .carMes{
+    background-color: #fff;
+    border-radius: 0.2rem;
+    .time{
+      height: 1rem;
+      .body-O{
+        text-align: center;
+        padding: 0.15rem;
+        color:#cacaca;
+        .iconfont{
+          color:#cacaca;
+        }
+      }
+    }
+    .carZws{
+      padding-bottom: 1rem;
+      .body-O{
+        margin: 0.3rem;
+        text-align: center;
+          img{
+            width: 100%;
+          }
+      }
+      .carimg{
+      }
+    }
+  }
+  .button{
+    padding: 0.4rem 0rem;
+    button{
+      height: 0.7rem;
+      width: 100%;
+      border: none;
+      color: #fff;
+    }
+  }
+  .body{
+    .md-popup-box{
+      background-color: #00a050;
+      //height: 2.2rem;
+    }
+  }
+}
+//动画
+.trans{
+  background:rgba(0,0,0,0.2);
+  z-index: 200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  .centerMess{
+    width: 68%;
+    height: 100%;
+    background-color: #fff;
+    .tit{
+      height: 1rem;
+      background-color: red;
+    }
+  }
+  .close{
+    background: rgba(255,255,255,0);
+    width: 32%;
+    position: fixed;
+    left: 68%;
+    top: 0;
+    bottom: 0;
+    float: right;
+  }
+}
+.bounce-enter-active {
+  animation: bounce-in .9s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 0;
+  }
+}

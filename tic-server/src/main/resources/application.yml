@@ -1,0 +1,71 @@
+server:
+  port: 9095
+spring:
+  #线程池配置信息
+  thread:
+    pool:
+      corePoolSize: 10
+      maxPoolSize: 100
+      keepAliveSeconds: 120
+      queueCapacity: 200
+      waitForTasksToCompleteOnShutdown: true
+      awaitTerminationSeconds: 30
+  #redis配置信息
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    maxIdle: 200
+    maxActive: 1024
+    maxWait: 1000
+    database: 1
+  http:
+    multipart:
+      maxFileSize: 200Mb
+      maxRequestSize: 200Mb
+      fileSizeThreshold: 5MB
+      location: D://Temp//cache//
+      #enabled: true
+#  boot:
+#   admin:
+#      url: http://127.0.0.1:9078
+#      client:
+#        name: WD-ticServer
+#management.security.enabled: false
+#接口配置，接口可以有多个地址，多个地址中间使用';'
+interface:
+  #设备状态更新接口，点火、熄火、离线
+  status: http://127.0.0.1;http://127.0.0.1;
+  #设备事件更新接口，急加速、急转弯、急刹车、碰撞、超速
+  event: http://47.98.39.45:8080/pub/gps/save;http://47.98.39.45:9888/api/reporting;
+  #设备GPS上报处理接口
+  gps: http://127.0.0.1;
+  #文件上传的数据交互接口
+  fileapi: http://47.98.39.45:8080/pub/spk/save;
+  #终端请求加密key
+  clientsecurity: ldzticclient
+  #服务端请求验证key
+  serversecurity: ldzticserver
+  #文件存储的本地路径
+  filelocalpath: D://Temp//test//
+  logdir: log
+  cacheimgdir: cache
+  videodir: video
+  imgdir: images
+  #上传文件的保存方式 1 默认存储byte存储， 2 transferTo  3 使用getInputStream读取文件流
+  filesaveflag: 1
+
+  #tsconvertmp4cmd: ffmpeg.exe -i "concat:F:\Temp\ffmeg\bin\car_865923030039405F20180322111850.ts" -acodec copy -vcodec copy -absf aac_adtstoasc output.mp4
+  #文件转换基本命令（linux 部署时自己改命令）
+  tsconvertmp4cmd: D:\ffmpeg\bin\ffmpeg.exe -i "concat:@localfile" -acodec copy -vcodec copy -absf aac_adtstoasc @newfile
+  #视屏文件抽取截图
+  mp4cacheimg: D:\ffmpeg\bin\ffmpeg.exe -ss 00:00 -i @videofile -y -f image2 -r 1 -t 00:01 @cachefile
+
+logging:
+  config: classpath:log4j2.xml
+
+mapper:
+  identity: MYSQL
+
+socketServerUrl: http://www.168car.net:10088/
+#socketServerUrl: http://127.0.0.1:10088/
+

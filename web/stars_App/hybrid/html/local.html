@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>监控</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				font-size: 40px;
+			}
+
+			#map {
+				height: 100%;
+			}
+		</style>
+		<!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evDHwrRoILvlkrvaZEFiGp30"></script> -->
+	</head>
+	<body id="mapApp" style="height: 100%;">
+		<button class="btn" type="button" data-action="navigateTo">navigateTo</button>
+		<div id="map" style="background-color: #f00;">
+		</div>
+	</body>
+	<!-- uni 的 SDK，必须引用。 -->
+	<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.0.1.52.js"></script>
+	<script type="text/javascript">
+		document.addEventListener('UniAppJSBridgeReady', function() {
+			console.log(22233333);
+			document.querySelector('.btn').addEventListener('click', function(evt) {
+				var target = evt.target;
+				if (target.tagName === 'BUTTON') {
+					var action = target.getAttribute('data-action');
+					switch (action) {
+						case 'navigateTo':
+							uni.navigateTo({
+								url: '/pages/user/user'
+							});
+							break;
+						case 'navigateBack':
+							uni.navigateBack({
+								delta: 1
+							});
+							break;
+						default:
+							uni[action]({
+								url: '/pages/component/button/button'
+							});
+							break;
+					}
+				}
+			});
+		});
+		function hemlHeight() {
+			var windowHeight = window.innerHeight
+			return windowHeight
+		}
+		document.getElementById("map").style.height = hemlHeight() + 15 + "px"
+
+		function loadJScript() {
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = "http://api.map.baidu.com/api?v=2.0&ak=evDHwrRoILvlkrvaZEFiGp30&callback=init";
+			document.body.appendChild(script);
+		}
+
+		function init() {
+			var map = new BMap.Map("map"); // 创建Map实例
+			var point = new BMap.Point(116.404, 39.915); // 创建点坐标
+			map.centerAndZoom(point, 15);
+			map.enableScrollWheelZoom(); //启用滚轮放大缩小
+			
+			console.log(222222);
+			
+		}
+		window.onload = loadJScript; //异步加载地图
+		
+		
+	</script>
+	<script type="text/javascript">
+		/* console.log('1----------------------------')
+		function f() {
+			console.log('2----------------------------')
+
+			document.querySelector('.btn-list').addEventListener('click', function(evt) {
+// 				var target = evt.target;
+// 				if (target.tagName === 'BUTTON') {
+// 					var action = target.getAttribute('data-action');
+// 					if(action === 'navigateTo') {
+// 						uni.navigateTo({
+// 							url: '/pages/user/user'
+// 						});
+// 					}
+// 				}
+			});
+
+			document.addEventListener('UniAppJSBridgeReady', function() {
+				console.log('3----------------------------')
+
+				uni.postMessage({
+					data: {
+						action: 'postMessage'
+					}
+				});
+
+				uni.getEnv(function(res) {
+					console.log('4----------------------------')
+					console.log('当前环境：' + JSON.stringify(res));
+				});
+			});
+		}
+		f() */
+	</script>
+</html>

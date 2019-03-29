@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>六点整车辆管理</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+
+    <script type="application/javascript">
+        function log(t,s){
+            return;
+            if (s){
+                log(t,s);
+            }else{
+                log(t);
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/dist/main.css?t=">
+    <link rel="stylesheet" name="theme" href="">
+    <link rel="icon" href="./td_icon.ico" type="image/x-icon" />
+    <!--map-->
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evDHwrRoILvlkrvaZEFiGp30"></script>
+    <!--路况-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.js"></script>
+	<!--地图标注点击-->
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <!--路书-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+
+    <script type="text/javascript" src="/dist/vender-base.js"></script>
+    <script type="text/javascript" src="/dist/vender-exten.js"></script>
+    <script type="text/javascript" src="/dist/main.js"></script>
+
+
+</body>
+
+</html>

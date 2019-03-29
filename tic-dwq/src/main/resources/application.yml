@@ -1,0 +1,29 @@
+spring:
+  profiles: 
+    active: test  #合并 application-test.yml 中的配置参数
+  #线程池配置信息
+  thread:
+    pool:
+      corePoolSize: 10
+      maxPoolSize: 20
+      keepAliveSeconds: 120
+      queueCapacity: 50
+#socket配置信息
+netty:
+  port: 10099
+  keepAlive: true
+  bossGroupCount: 4
+  wokerGroupCount: 8
+  backlog: 1024
+  qpsLimiterValue: 300.0
+ 
+  
+logging:
+  config: classpath:log4j2.xml
+  
+mapper:
+  identity: MYSQL
+  
+server:
+  port: 8081
+  

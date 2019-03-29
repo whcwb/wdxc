@@ -1,0 +1,32 @@
+spring:
+  #redis配置信息
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  #数据库连接配置信息
+  datasource:
+    url: jdbc:oracle:thin:@//47.98.39.45:1521/orcl
+    username: 'C##wdxc_admin'
+    password: 'wdxc123456'
+#  boot:
+#   admin:
+#      url: http://127.0.0.1:9078
+#      client: 
+#        name: WD-wechat
+#management.security.enabled: false 
+
+server:
+  port: 9099
+
+spk:
+  url: http://127.0.0.1:8080/
+
+wechat:
+  cp:
+    corpId: wxfcad74c01e52486e
+    secret:  i7kMxAQJIASkXDFdGvYhUgFynhxEvtB2jOCFIrT6tYj3ZY41JNr7yUYDoKBFU6ez
+    token: wdxc18
+    aesKey: tjlq1glUbSsxADd2fsxExFvDUDo1RgdoQveqrSWyhoy
+    agentId: 37
+
+staticPath: /develop/static/8081/

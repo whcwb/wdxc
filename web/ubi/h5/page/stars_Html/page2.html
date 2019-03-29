@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	<title>报价结果</title>
+	<style type="text/css">
+
+		.gray {
+			color: #aaaaaa;
+		}
+
+		.mt6 {
+			margin-top: 6px;
+		}
+
+		.row1 {
+			background-color: #ffffff;
+			padding-top: 4px;
+			padding-bottom: 4px;
+		}
+
+		.row1 .label {
+			float: left;
+			padding-left: 16px;
+			background-color: #ffffff;
+			display: inline-block;
+			width: 50%;
+		}
+
+		.row1 .value {
+			color: #aaaaaa;
+			background-color: #ffffff;
+			display: inline-block;
+			width: 50%;
+		}
+		.info {
+			background: #ffffff;
+		}
+		.result {
+			height: 80px;
+			padding: 16px;
+			margin-top: 16px;
+			background: #ffffff;
+		}
+
+		.value {
+			color: #aaaaaa;
+		}
+		.info li{
+			list-style-type:none
+		}
+		.result li{
+			list-style-type:none
+		}
+		.result_l{
+			width: 20%;
+			float: left;
+		}
+		.result_m{
+			padding: 6px;
+			width: 30%;
+			float: left;
+		}
+		.result_m b{
+			font-size: 12px;
+		}
+		.result_m span{
+			font-size: 12px;
+		}
+		.result_r{
+			width: 45%;
+			float: left;
+		}
+		.result_e{
+			width: 5%;
+			float: left;
+		}
+		.footer{
+			position:absolute;bottom:0;width:100%;height:60px;
+			text-align: center;
+		}
+	</style>
+</head>
+<body style="background-color: #f3f3f3;overflow: auto;">
+<div class="info">
+	<div class="row1">
+		<span class="label">车牌号码</span>
+		<span class="value" id="plate_no"></span>
+	</div>
+	<div class="row1">
+		<span class="label">交强险终保时间</span>
+		<span class="value" id="compulsory_expiry">2018-10-10</span>
+	</div>
+	<div class="row1">
+		<span class="label">商业险终保时间</span>
+		<span class="value" id="commercial_expiry">2018-10-10</span>
+	</div>
+</div>
+
+<div class="result">
+	<div class="result_l">
+		<img src="../images/zgrb.jpg" alt="" style="width: 70px;height: 50px">
+	</div>
+	<div class="result_m">
+		<div><b id="last_year_insurance_company">人保</b></div>
+		<div><span id="underwrite_status_label">未勾选核保</span></div>
+	</div>
+	<div class="result_r">
+		<div style="text-align: right"><a id="price">正在获取报价...</a></div>
+		<div><span class="gray" style="font-size: 12px;">（里程险:<span id="mileage">0</span>公里） <span id="discount">无折扣</span></span></div>
+	</div>
+	<div class="result_e mui-icon mui-icon-arrowright"></div>
+</div>
+<div style="clear: both"></div>
+<div class="footer">
+	<button id="button" type="button" class="mui-btn mui-btn-primary" style="width: 200px;font-size: 20px" onclick="buyNow()">正在报价...</button>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/util.js"></script>
+<script type="text/javascript">
+    let canBuy = false;
+    let getQuoteResultParam = {
+        LicenseNo:'',   // 必须，String，车牌号
+        QuoteGroup:'',  // 必须，Long，意向投保公司（单个的枚举值）
+        Agent:'',       // 必须，Int，调用平台标识
+        CustKey:'',     // 必须，String，客户端标识（用来区分客户）（10-32位字符）
+        SecCode:''
+    }
+    let quoteParamKey = null;
+    function initParams(){
+        quoteParamKey = GetQueryString('quoteParamKey');
+        for (let k in getQuoteResultParam){
+            let v = GetQueryStringWithEncode(k);
+            getQuoteResultParam[k] = v;
+        }
+    }
+
+    function getQuoteResult() {
+        $.ajax({
+            type: 'get',
+            url: 'http://www.168car.net:9193/pub/quote/getResult',
+            contentType: 'application/x-www-form-urlencoded',
+            data:getQuoteResultParam,
+            dataType: 'json',
+            success: function (data) {
+                let info = JSON.parse(data.message);
+                if (info.Item){
+                    let total = info.Item.ForceTotal + info.Item.TaxTotal
+                    $("#price").html(total+"元");
+                    $("#button").html("立即购买");
+                    canBuy = true;
+                    if (info.Item.QuoteStatus !== 0){
+                        mui.toast(info.Item.QuoteResult,{ duration:'long', type:'div' })
+                    }
+                }else{
+                    if (info.BusinessStatus != 0){
+                        mui.toast(info.StatusMessage,{ duration:'long', type:'div' })
+                    }else if(info.Item.QuoteResult){
+                        mui.toast(info.Item.QuoteResult,{ duration:'long', type:'div' })
+                    }
+                }
+            },
+        })
+    }
+    let quoteParam = '';
+    function getQuoteParam() {
+        $.ajax({
+            type: 'get',
+            url: 'http://www.168car.net:9193/pub/quote/getQuoteParam',
+            contentType: 'application/x-www-form-urlencoded',
+            data:{quoteParamKey:quoteParamKey},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200){
+                    quoteParam = data.message;
+                    if (quoteParam.mileage){
+                        $("#mileage").html(quoteParam.mileage)
+						$("#discount").html(getDiscount(quoteParam.mileage))
+					}
+                }
+            },
+        })
+    }
+
+    function getDiscount(s){
+        switch (s) {
+			case '10000':return '4.5折';
+			case '15000':return '5.2折';
+			case '20000':return '6.1折';
+			case '25000':return '6.9折';
+			case '30000':return '7.3折';
+			case '35000':return '8.1折';
+			default:return '无折扣';
+        }
+	}
+
+    let token = '';
+    let car_id = '';
+    let zdbh = '';
+    function getParams(){
+        token = GetQueryString('token');
+        zdbh = GetQueryString('zdbh');
+        car_id = GetQueryString('car_id');
+    }
+    let carInfo = {};
+    function getCarInfo(){
+        $.ajax({
+            type: 'get',
+            url: 'http://api.168car.net/ubi/app/car-detail',
+            contentType: 'application/x-www-form-urlencoded',
+            data:{token:token,id:car_id},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200){
+                    let result = data.result;
+                    carInfo = data.result;
+                    if (result.price){
+                        $("#price").html(result.price+"元");
+                        $("#button").html("立即购买");
+                        canBuy = true;
+                    }
+                    if (result.plate_no){
+                        $("#plate_no").html(result.plate_no);
+                    }
+                    if (result.commercial_expiry){
+                        $("#commercial_expiry").html(result.commercial_expiry);
+                    }
+                    if (result.compulsory_expiry){
+                        $("#compulsory_expiry").html(result.compulsory_expiry);
+                    }
+                    if (result.underwrite_status_label){
+                        $("#underwrite_status_label").html(result.underwrite_status_label);
+                    }
+                    if (result.last_year_insurance_company){
+                        $("#last_year_insurance_company").html(result.last_year_insurance_company);
+                    }
+                }else{
+                    setTimeout(function(){
+                        getQuoteResult();
+                    },1000)
+				}
+            },
+        })
+    }
+    function buyNow(){
+        if (!canBuy) return;
+        let p = JSON.parse(quoteParam)
+        p.car_id = carInfo.car_id;
+        $.ajax({
+            type: 'post',
+            url: 'http://api.168car.net/ubi/app/recharge?token=PQc8LjYt9k19_DCvmzxe8pbPAaUCd1r0',
+            contentType: 'application/x-www-form-urlencoded',
+            data:p,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+            },
+        })
+
+    }
+    (function ($) {
+        $.init();
+        initParams();
+        getParams();
+        getQuoteParam();
+        getCarInfo();
+    })(mui);
+</script>
+</html>

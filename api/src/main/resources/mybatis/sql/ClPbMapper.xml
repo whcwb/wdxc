@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ldz.dao.biz.mapper.PbInfoMapper">
+
+	<select id="selectBydate" parameterType="com.ldz.dao.biz.bean.PbClXlmodel"
+		resultMap="ClPBresultMap">
+		select t3.YXKSSJ,t3.YXJSSJ,t2.CPH,t3.XLMC,t3.ZT from CL_PB t1 INNER JOIN CL_CL t2
+		on t1.CL_ID =t2.CL_ID
+		<if test="clcx != null">
+			and t2.cx=#{clcx}
+		</if>
+		LEFT JOIN CL_XL t3 on t1.XL_ID=t3.id
+		<if test="lulx != null">
+			and t3.lx=#{lulx}
+		</if>
+		 WHERE
+		t1.PBSJ=#{date2}
+	</select>
+
+<select id="findXlCl" parameterType="com.ldz.dao.biz.bean.clpbInfo" resultMap="ClPBresultMap">
+
+SELECT * FROM CL_PB t where t.CL_ID =#{clid} and  t.PBSJ=#{date}
+       <if test="xlid != null">
+			and t.XL_ID=#{xlid}
+		</if>
+
+</select>
+
+
+
+	<select id="selectXbPb" resultMap="XBXLPbresultmap" parameterType="com.ldz.dao.biz.bean.PbClXlmodel" >
+		select t3.id,t3.xlmc,t3.yxkssj,t3.yxjssj,
+		listagg(t3.cl_id, ',') within group( order by cl_id) as clidlist from
+		(select T1.*,t2.cl_id from CL_XL t1 left join CL_PB t2 on T1."ID"=T2.XL_ID
+		and t2.PBSJ=#{date2}
+		) t3
+		<if test="lulx != null">
+			WHERE t3.LX=#{lulx}
+		</if>
+		GROUP BY
+		t3.id,t3.xlmc,t3.yxkssj,t3.yxjssj
+	</select>
+	<!-- select t1.XLMC,t3.* from CL_XL t1 LEFT JOIN CL_PB T2 ON t1.id=t2.XL_ID
+		and to_char(t2.cjsj,'yyyy-mm-dd')='2018-03-26' LEFT JOIN CL_CL t3 on t2.CL_ID=t3.CL_ID -->
+
+	<!-- select t3.BZ,t3.CD,t3.CJR,t3.CJSJ,t3.JGDM,t3.JGMC,t3.LX,t3.PJSJ,t3.XGR,t3.XGSJ,
+		t3.id, listagg(t3.cl_id, ',') within group( order by cl_id) as clidlist from
+		(select T1.*,t2.cl_id from CL_XL t1 left join CL_PB t2 on T1."ID"=T2.XL_ID
+		and to_char(t2.cjsj,'yyyy-mm-dd')='2018-03-26') t3 GROUP BY t3.BZ,t3.CD,t3.CJR,t3.CJSJ,t3.JGDM,t3.JGMC,t3.LX,t3.PJSJ,t3.XGR,t3.XGSJ,
+		t3.id; -->
+<select id="bancheTj"  resultMap="ClPBresultMap"  parameterType="com.ldz.dao.biz.bean.PbClXlmodel">
+SELECT T1.CL_ID,T1.XL_ID,T2.SJXM,t3.xlmc,T3.YXKSSJ,T3.YXJSSJ FROM CL_PB t1   LEFT JOIN CL_CL t2 ON T1.CL_ID=T2.CL_ID  LEFT JOIN CL_XL t3 ON t1.xl_id = t3.id
+    WHERE
+		 T1.PBSJ BETWEEN to_date(#{kssj},'yyyy-mm-dd hh24:mi:ss') and to_date(#{jssj},'yyyy-mm-dd hh24:mi:ss')
+
+			AND T1.JGDM LIKE '${jgdm}%'
+			<if test="sjxm != null and sjxm !=''">
+			 AND T2.SJXM LIKE '%${sjxm}%'
+			</if>
+			<if test="clcx != null and clcx !=''">
+			 AND T2.CX=#{clcx}
+			</if>
+
+</select>
+
+
+	<resultMap type="com.ldz.dao.biz.bean.PbInfo" id="ClPBresultMap">
+		<id column="ID" property="id" />
+		<result column="CPH" property="cph" />
+		<result column="XL_ID" property="xlId" />
+		<result column="PBSJ" property="pbsj" />
+		<result column="SJ" property="sj" />
+		<result column="SJXM" property="sjxm" />
+		<result column="JGDM" property="jgdm" jdbcType="VARCHAR" />
+		<result column="JGMC" property="jgmc" />
+		<result column="CL_ID" property="clId" />
+		<result column="CJSJ" property="cjsj" />
+		<result column="CJR" property="cjr" />
+		<result column="XGJ" property="xgj" />
+		<result column="XGR" property="xgr" />
+		<association property="clcl" javaType="com.ldz.dao.biz.model.ClCl">
+			<id column="CL_ID" property="clId" />
+			<result column="CPH" property="cph" />
+			<result column="JGDM" property="jgdm" />
+			<result column="JGMC" property="jgmc" />
+			<result column="CX" property="cx" />
+			<result column="ZKL" property="zkl" />
+			<result column="DL" property="dl" />
+			<result column="CJSJ" property="cjsj" />
+			<result column="CJR" property="cjr" />
+			<result column="XGSJ" property="xgsj" />
+			<result column="XGR" property="xgr" />
+			<result column="SJ_ID" property="sjId" />
+			<result column="SJXM" property="sjxm" />
+			<result column="ZT" property="zt" />
+			<result column="TP" property="tp" />
+			<result column="SCS" property="scs" />
+			<result column="XH" property="xh" />
+			<result column="ZDBH" property="zdbh" />
+			<result column="CCDJRQ" property="ccdjrq" />
+			<result column="CDBH" property="cdbh" />
+			<result column="BXGSMC" property="bxgsmc" />
+			<result column="BXSJ" property="bxsj" />
+			<result column="NSSJ" property="nssj" />
+		</association>
+		<association property="clXl" javaType="com.ldz.dao.biz.model.ClXl">
+			<id column="XL_ID" property="id" />
+			<result column="XLMC" property="xlmc" />
+			<result column="XLBH" property="xlbh" />
+			<result column="CD" property="cd" />
+			<result column="PJSJ" property="pjsj" />
+			<result column="YXKSSJ" property="yxkssj" />
+			<result column="YXJSSJ" property="yxjssj" />
+			<result column="CJR" property="cjr" />
+			<result column="CJSJ" property="cjsj" />
+			<result column="XGR" property="xgr" />
+			<result column="XGSJ" property="xgsj" />
+			<result column="JGDM" property="jgdm" />
+			<result column="JGMC" property="jgmc" />
+			<result column="ZT" property="zt" />
+			<result column="BZ" property="bz" />
+			<result column="YXFS" property="yxfs" />
+			<result column="LX" property="lx" />
+		</association>
+	</resultMap>
+
+	<resultMap type="com.ldz.dao.biz.bean.XbXlPb" id="XBXLPbresultmap">
+		<id column="ID" property="id" />
+		<result column="XLMC" property="xlmc" />
+		<result column="CLIDLIST" property="clidlist" />
+	</resultMap>
+
+
+
+</mapper>

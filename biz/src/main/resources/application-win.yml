@@ -1,0 +1,19 @@
+spring:
+  #redis配置信息
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  #数据库连接配置信息
+  datasource:
+    url: jdbc:oracle:thin:@//47.98.39.45:1521/orcl
+    username: 'C##wdxc_admin'
+    password: 'wdxc123456'
+
+
+server:
+  port: 8091
+  
+staticPath: E:\statistics\8090
+znzpurl: http://47.98.39.45:9888/api #智能站牌请求地址，用于与智能站牌通信
+apiurl: http://47.98.39.45:9095/api  # tic-server的api请求地址，用于配置终端默认接口地址，通过 tic-server 向终端下发指令
+biz_url: http://47.98.39.45:8080     # biz请求地址前缀，用于与 tic-server 通信

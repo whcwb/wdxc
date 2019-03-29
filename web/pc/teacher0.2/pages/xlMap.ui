@@ -1,0 +1,111 @@
+<!---->
+<template>
+  <ui-page  style="overflow-y: hidden;">
+    <ui-nav-bar slot="nav-bar" custom-style="{{ {'color':'#fff','background-color':'#FC8609'} }}">
+        <ui-row height="46">
+          <ui-col vertical-align="middle" align="center" width="60" bindtap="Goback">
+            <ui-icon type="left" size="16" color="#fff"></ui-icon>
+          </ui-col>
+          <ui-col vertical-align="middle" align="center">
+            <ui-view class="nav_title">地图查看</ui-view>
+          </ui-col>
+          <ui-col vertical-align="middle" align="center" width="60">
+          </ui-col>
+        </ui-row>
+      </ui-nav-bar>
+      <ui-view class="box_col" style="{{ { height: pageHeight(0)+ 'px'} }}">
+<!-- 页面内容 start-->
+          <ui-view class="content">
+            <ui-row height="40" space="10">
+              <ui-col span="2" vertical-align="middle">
+                地址：
+              </ui-col>
+              <ui-col span="10">
+                  <ui-input class="input" type="string" name="input" value="{{hasLocation?locationAddress:'未选择位置'}}"></ui-input>
+              </ui-col>
+            </ui-row>
+            <ui-row height="40" space="10">
+              <ui-col span="2" vertical-align="middle">
+                经纬度：
+              </ui-col>
+              <ui-col span="10">
+                  <ui-input class="input" type="string" name="input" value="{{hasLocation?'E:'+ location.longitude[0]+'°'+location.longitude[1]+'′ N:'+location.latitude[0]+'°'+location.latitude[1]+'′':'未选择位置'}}"></ui-input>
+              </ui-col>
+            </ui-row>
+            <ui-button type="primary" bindtap="chooseLocation">选择位置</ui-button>
+            <ui-button bindtap="clear">清空</ui-button>
+          </ui-view>
+<!-- 页面内容 end-->
+          </ui-view>
+  </ui-page>
+</template>
+
+
+<script>
+import util from "static/utils/util";
+var formatLocation = util.formatLocation
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#26a2ff",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"地图查看",
+    title:'地图查看',
+    backgroundColor:'#f2f2f2',
+    delay:false,//延迟加载
+  },
+  data() {
+    return {
+      hasLocation: false,
+      location: '',
+      locationAddress: ''
+    }
+  },
+  created(){
+  },
+  methods: {
+    Goback(){
+      ui.navigateBack()
+    },
+     chooseLocation: function () {
+      var that = this
+      ui.chooseLocation({
+        backgroundColor:'#3399ff',
+        success: function (res) {
+          console.log('success:', res)
+          that.setData({
+            hasLocation: true,
+            location: formatLocation(res.longitude, res.latitude),
+            locationAddress: res.address
+          })
+        },
+        fail: function (res) {
+          console.log('fail:', res)
+        }
+      })
+    },
+    clear: function () {
+      this.setData({
+        hasLocation: false
+      })
+    }
+  }
+
+}
+</script>
+
+<style lang="less">
+.lineMess{
+  .ui-timeline-wrapper{
+    .ui-timeline-row{
+      overflow: auto;
+      ul{
+        display: flex;
+        flex-direction: row ;
+        flex-wrap:nowrap ;
+        height: 100%;
+      }
+    }
+  }
+}
+</style>

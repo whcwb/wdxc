@@ -1,0 +1,22 @@
+spring:
+  #redis配置信息
+  redis:
+    host: 10.113.4.70
+    port: 6379
+    password: 'whCarRDB**'
+  #数据库连接配置信息
+  datasource:
+    url: jdbc:oracle:thin:@//10.113.1.50:1521/orcl
+    username: 'ucarmanage'
+    password: 'tahQuoaj0Fi2'
+server:
+  port: 80
+
+distance: 100
+biz:
+  scTime: 30000
+
+staticPath: /app/data/nginx/staticpath/
+znzpurl: http://47.98.39.45:9888/api #智能站牌请求地址，用于与智能站牌通信
+apiurl: http://47.98.39.45:9095/api  # tic-server的api请求地址，用于配置终端默认接口地址，通过 tic-server 向终端下发指令
+biz_url: http://10.113.4.70:8080     # biz请求地址前缀，用于与 tic-server 通信

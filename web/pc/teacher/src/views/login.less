@@ -1,0 +1,71 @@
+.login{
+    .titIcon{
+      text-align: center;
+      img{
+        margin: 0.8rem 0 0.4rem 0;
+      }
+    }
+    height: 100%;
+    //background-color: #00FFFF;
+    //background-image: url('https://file.iviewui.com/iview-admin/login_bg.jpg');
+    //background-image: url('/static/loginBack.jpg');
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    .backSty{
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 45px;
+      height:45px;
+      border-radius: 45px;
+      z-index: 100;
+      background: rgba(0,0,0,0.5);
+      i{
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-size: 25px;
+        color:#fff;
+      }
+    }
+    .backCenter{
+      position: absolute;
+      right:10px;
+      top: 10px;
+      width: 105px;
+      height:45px;
+      text-align: center;
+      border-radius: 45px;
+      z-index: 100;
+      background: rgba(0,0,0,0.5);
+      color: #ededed;
+    }
+    .form{
+      width: 75%;
+      margin: auto;
+      //position: absolute;
+      //top: 45%;
+      //left: 50%;
+      //transform: translate(-50%,-50%);
+      .md-field{
+        background: rgba(255,255,255,0.7);
+        .md-input-item{
+          border-bottom:solid #ff6f00 1px;
+        }
+      }
+      .submit{
+        //position: absolute;
+        //width: 100%;
+        //bottom: 0;
+        transform: translateY(50%);
+        padding: 0 0.3rem;
+        .md-button{
+          height: 0.8rem;
+          line-height: 0.8rem;
+          background: linear-gradient(to right, #f8b145 , #ff7f5c)
+          //background-color: #4f568a;
+        }
+      }
+    }
+}

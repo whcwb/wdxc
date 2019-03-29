@@ -1,0 +1,494 @@
+<script>
+import ajaxUrl from '#/static/ajax/url'
+export default {
+  config: {
+    "pages": [
+      "pages/login",
+      "pages/index",
+      "pages/detail",
+      "pages/user",
+      "pages/xlMess",
+      "pages/xlMap",
+      "pages/welcome","pages/common/busline","pages/prop/add","pages/prop/pages","pages/orders","pages/mark","pages/others"],
+    "theme": {
+      "theme-color": "#3399ff"
+    },
+    "window": {
+      "scrollType": "div",
+      "navigationBarBackgroundColor":"#ffffff",
+      "navigationBarTextStyle":"black",
+      "navigationBarBorderColor":"rgba(231, 231, 231, 0.6)"
+    },
+    // "tabBar": {
+    //   "color": "#7a7e83",
+    //   "selectedColor": "#39f",
+    //   "borderColor": "rgba(231, 231, 231, 0.6)",
+    //   "backgroundColor": "#fff",
+    //   "list": [
+    //     {
+    //       "pagePath": "pages/index",
+    //       "iconName": "home",
+    //       "text": "首页"
+    //     },
+    //     {
+    //       "pagePath": "pages/user",
+    //       "iconName": "user",
+    //       "text": "我的"
+    //     }
+    //   ]
+    // },
+    "networkBaseUrl":'http://47.98.39.45:9099',
+    // "networkBaseUrl":'http://10.113.4.71:8080/wechat',
+    "networkTimeout":"3000"
+  },
+  data () {
+    return {
+      //全局变量
+      userinfo:{},
+      // ajax数据请求参数配置
+      apis:ajaxUrl,
+      Ajax:{
+        url:ajaxUrl.url,
+        port:ajaxUrl.port,
+        header:{
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'token':'',
+          'userId':'',
+          'openid':''
+        }
+      },
+      wxUtil:null,//微信 功能方法
+      lineMess:{},//线路信息
+      station:{
+        stationID:'',
+        xlID:''
+      },//站点ID
+
+      peopleMess:{
+         
+      },//他人乘车信息
+      
+      orderMess:{
+
+      },
+      ckMess:{
+        hcdz:'',            // 候车地址
+        mdd:'',             // 目的地
+        ck:'',              // 乘客姓名
+        cklxdh:'',          // 乘客联系电话
+        yysj:'00:00',            // 预约时间
+        originLat:'',       // 起始经度
+        originLng:'',       // 起始纬度
+        destinationLat:'',  // 目的地经度
+        destinationLng:'',  // 目的地纬度
+        zws:'5',             // 座位数
+        cllx:10
+      },
+
+      globalData: {
+      },
+      WIN_WIDTH:ui.WIN_WIDTH,
+      tabIndex: 0,
+      tabBarList: [],
+      navStyle: {},
+      tabBar: {},
+      tabBarHeight: 56,
+      isApp: ui.IS_APP,
+      headerHeight: ui.DEFAULT_HEADER_HEIGHT,
+      paths: [],
+      barHeight: ui.STATUS_BAR_HEIGHT,
+      showSlideMenu:true,
+    }
+  },
+  computed: {
+    // 控制通用导航栏是否显示
+    navigationBarVisible () {
+      return this.winConfig.navigationStyle !== 'custom'
+    },
+    // 控制通用导航栏是否显示返回按钮（首页不显示，其他页显示）
+    showBack () {
+      let homePath = this.paths[0]
+      if (this.tabBar && this.tabBar.paths) {
+        return this.tabBar.paths.indexOf(homePath) < 0
+      } else {
+        return homePath !== this.$route.path
+      }
+    },
+    // 通用导航栏应用app.json和page.json的设置
+    winConfig () {
+      let window = this.$router.options.window
+      let config = { ...window, ...this.pageConfig }
+      let color = config.navigationBarTextStyle || 'white'
+
+      let scrollType = document.body.getAttribute('scroll-type')
+
+      this.navStyle = {
+        backgroundColor: config.navigationBarBackgroundColor,
+        color: color,
+        borderBottom: `1px solid ${config.navigationBarBorderColor}`,
+        backgroundImage: config.navigationBarBackgroundGradient,
+        position: scrollType === 'body' ? 'fixed' : 'absolute'
+      }
+
+      if (this.navStyle.backgroundColor) {
+        this.navStyle.backgroundImage = 'none'
+      }
+
+      if (config.navigationBarBorderColor) {
+        this.navStyle.borderBottom = `1px solid ${config.navigationBarBorderColor}`
+      } else {
+        this.navStyle.borderBottom = '0'
+      }
+      return config
+    },
+    // 控制底部标签栏是否显示
+    isTabBar () {
+      return this.tabBarList && this.tabBarList.length > 0
+    },
+    // 设置底部标签栏样式
+    tabBarStyle () {
+      let style = {}
+      if (this.navigationBarVisible && this.tabBar.position === 'top') {
+        style.top = this.headerHeight + 'px'
+      }
+      let scrollType = document.body.getAttribute('scroll-type')
+      style.position = scrollType === 'body' ? 'fixed' : 'absolute'
+      return style
+    },
+
+    bottom () {
+      return this.isTabBar ? `${this.tabBarHeight}px` : 0
+    },
+    // 底部标签栏应用app.json和page.json的设置
+    pageConfig () {
+      if (this.isTabBar) {
+        return this.tabBarList[this.tabIndex].pageConfig
+      } else {
+        return this.$route.meta.pageConfig || window.__$uiPageConfig
+      }
+    }
+  },
+  watch: {
+    '$route.path' (path) {
+      this.handleIosGesture()
+      this.initTab()
+      this.initBodyStyle()
+    },
+    wxUtil(n,o){//微信方法监听
+      console.log('数据监听*-*-*-*-*-*-*-');
+      if(n==null){
+        this.getWxJs()
+      }
+    }
+  },
+    // 初始化
+  created () {
+    this.getUserList() 
+    //微信js 初始化
+    this.getWxJs()
+    //微信js初始化END
+
+
+
+
+    this.initTab()
+    this.initPaths()
+    this.$nextTick(() => {
+      this.handleIosGesture()
+    })
+  },
+  methods: {
+    getUserList(){
+      this.$http('POST',ui.getApp().apis.USERINFO,{},(res)=>{
+        console.log('************',res);
+        this.userinfo = res.result.userInfo
+        console.log(this.userinfo);
+        this.showSlideMenu = true;
+      })
+    },
+    gologin(){
+      ui.navigateTo({
+        url: '/pages/login'
+      })
+      this.showSlideMenu = !this.showSlideMenu
+    },
+    godingdan(){
+        ui.navigateTo({
+        url: '/pages/orders'
+      })
+        this.showSlideMenu = !this.showSlideMenu
+    },
+
+    handleNavIconTap () {
+      this.showSlideMenu = !this.showSlideMenu
+    },
+    // 初始化底部标签栏
+    initTab () {
+      this.tabBar = this.getTabBar()
+      this.tabBarList = this.tabBar.list
+      if (this.tabBar.paths) {
+        this.tabIndex = this.tabBar.paths.indexOf(this.$route.path)
+      }
+    },
+    // 初始化路由
+    initPaths () {
+      let routes = this.$router.options.routes
+      this.paths = routes.map((item) => {
+        return item.path
+      })
+    },
+    initBodyStyle () {
+      if (this.winConfig && this.winConfig.backgroundColor) {
+        document.body.style.backgroundColor = this.winConfig.backgroundColor
+      }
+    },
+    // iOS是否禁用侧滑退出
+    handleIosGesture () {
+      if (ui.IS_IOS) {
+        ui.setPagePopGesture && ui.setPagePopGesture({
+          openPagePopGesture: !this.pageConfig.disableIosGesture
+        })
+      }
+    },
+    // tabBar示例用到，底部标签栏切换前事件处理
+    handleTabBeforeChange ({
+      id,
+      index,
+      next
+    }) {
+      next()
+    },
+
+    // tabBar示例用到，底部标签栏切换后事件处理
+    handleTabChange ({
+      id,
+      index
+    }) {
+
+    },
+    // 回退处理
+    handleBack () {
+      ui.navigateBack()
+    },
+    getTabBar () {
+      let tabBars = [this.$router.options.tabBar, ...this.$router.options.pageTabBars]
+      for (let i = 0; i < tabBars.length; i++) {
+        if (tabBars[i].paths && tabBars[i].paths.indexOf(this.$route.path) > -1) {
+          return tabBars[i]
+        }
+      }
+      return {}
+    },
+    goProp(){
+      ui.navigateTo({
+        url: '/pages/prop/add'
+      })
+    }
+
+  },
+  mounted () {
+
+  }
+}
+</script>
+
+<template>
+  <ui-view id="ui-app">
+    <ui-slide-menu width="240" threshold="30" touch="{{ pageConfig.touchSlideMenu }}" ui:model="showSlideMenu">
+
+    <ui-view slot="menu" class="menu">
+       <!-- 侧滑菜单 -->
+      <ui-view  style="{{ { height: pageHeight(0)+ 'px'} }}">
+        <ui-view class="box_col_auto">
+          <ui-row style="margin:30px 0 30px 0">
+            <ui-image src="static/img/teacher/logo.png" ></ui-image>
+          </ui-row>
+        </ui-view>
+        <ui-view class="box_col_auto">
+            <ui-row class="oures" border-bottom=true border-top=true space=2>
+              <ui-col align="center" span=4>
+                <ui-icon type="head-g" size="24"></ui-icon>
+              </ui-col>
+              <ui-col>
+                <ui-text>{{userinfo.xm}}</ui-text>
+              </ui-col>
+            </ui-row>
+            <ui-row class="oures" border-bottom=true space=2>
+              <ui-col align="center" span=4>
+                 <ui-icon type="shouji" size="24"></ui-icon>
+              </ui-col>
+              <ui-col>
+                <ui-text>{{userinfo.sjhm}}</ui-text>
+              </ui-col>
+            </ui-row>
+        </ui-view>
+        <ui-view >
+          <ui-row space-top="80">
+            <ui-col space="30">
+              <ui-button style="border-radius: 25px;" bindtap="godingdan()">历史订单</ui-button>
+            </ui-col>
+          </ui-row>
+        </ui-view>
+        <ui-view>
+          <ui-row>
+            <ui-col space="30">
+              <ui-button class="login" bindtap="gologin()">退出登录</ui-button>
+            </ui-col>
+          </ui-row>
+        </ui-view>
+      </ui-view>
+    </ui-view>
+
+    <ui-view slot="panel">
+    <!-- 通用导航栏 -->
+      <ui-nav-bar
+        ui:if="pageConfig"
+        ui:show="navigationBarVisible"
+        style="{{ navStyle }}">
+        <ui-row>
+          <ui-col width="60">
+            <span class="back" bindtap="handleNavIconTap">
+              <ui-icon type="wo" color="#fff" size="16"></ui-icon>
+            </span>
+          </ui-col>
+          <ui-col align="center" content-direction="row" class="nav-bar-center">
+            <ui-view class="nav-bar-center-loading" style="display: none;"></ui-view>
+            <span class="nav-bar-center-text">{{ $t(winConfig.navigationBarTitleText) }}</span>
+          </ui-col>
+          <ui-col width="60" align="center"  bindtap="goProp">
+                <ui-icon type="yijianfankui" size="18" color="#fff"></ui-icon>
+          </ui-col>
+        </ui-row>
+      </ui-nav-bar>
+
+    <!-- 页面路由 -->
+    <keep-alive>
+      <router-view ui:if="{{ !isApp && pageConfig.cache }}" class="router-view"></router-view>
+    </keep-alive>
+    <router-view ui:if="{{ isApp || !pageConfig.cache }}" class="router-view"></router-view>
+
+    <!-- 底部标签栏 -->
+    <ui-tab-bar
+        bindbeforechange="handleTabBeforeChange"
+        bindchange="handleTabChange"
+        ui:if="isTabBar"
+        ui:model="tabIndex"
+        style="{{ tabBarStyle }}"
+        id="{{ tabBar.id }}"
+        group-id="{{ tabBar.groupId }}"
+        icon-size="{{ tabBar.iconSize }}"
+        font-size="{{ tabBar.fontSize }}"
+        position="{{ tabBar.position }}"
+        list="{{ tabBarList }}"
+        paths="{{ tabBar.paths }}"
+        background-color="{{ tabBar.backgroundColor }}"
+        border-color="{{ tabBar.borderColor }}"
+        color="{{ tabBar.color }}"
+        selected-color="{{ tabBar.selectedColor }}">
+    </ui-tab-bar>
+  </ui-view>
+  </ui-slide-menu>
+  </ui-view>
+</template>
+
+
+
+
+
+<style lang="less">
+ @import './static/css/animate.css';
+ @import './static/css/loading.less';
+ @import './static/font/iconfont.css';
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
+    -webkit-touch-callout: none;
+}
+
+html,
+body {
+    font-size: 12px;
+}
+
+#ui-app {
+    width: 100%;
+    height: 100%;
+}
+
+.touchui-hover{
+  background-color: #eee !important;
+}
+.iphonex-bottom{
+  height: env(safe-area-inset-bottom);
+  background-color: #fff;
+  width:100%;
+}
+.ui-nav-bar {
+  top: 0;
+  left: 0;
+  width: 100%;
+  .nav-bar-left, .nav-bar-right {
+    position: relative;
+    width: 66px;
+    text-align: center;
+  }
+  .back {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    i {
+      margin-left: 10px;
+    }
+  }
+  .nav-bar-center-text{
+    .mix-text-overflow();
+  }
+}
+
+.ui-tab-bar {
+  &.div-scroll {
+    position: absolute;
+  }
+  &.body-scroll {
+    position: fixed;
+  }
+}
+
+.router-view {
+  width: 100%;
+}
+#ui-app{
+  .ui-slideout-menu{
+    background-color: #fff!important;
+    .login{
+    background-color: #F64E16;
+    border: 0;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 10px;
+  }
+  }  
+}
+.login{
+    background-color: #F64E16;
+    border: 0;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 30px;
+  }
+.oures{
+  font-size: 20px;
+  height: 45px;
+
+}
+
+</style>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+    <title>用户保单</title>
+    <style type="text/css">
+        li {
+            list-style-type: none
+        }
+
+        .row01 {
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .middle {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .mui-table-view-cell {
+            background-color: #ffffff;
+        }
+
+        .tbfa {
+            padding: 16px;
+            border-top: 1px solid #eeeeee;
+            background-color: #ffffff;
+        }
+
+        .gray {
+            color: #aaaaaa;
+        }
+
+        .mt6 {
+            margin-top: 6px;
+        }
+
+        .row1 {
+            background-color: #ffffff;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .row1 .label {
+            float: left;
+            padding-left: 16px;
+            background-color: #ffffff;
+            display: inline-block;
+            width: 50%;
+        }
+
+        .row1 .value {
+            color: #aaaaaa;
+            background-color: #ffffff;
+            display: inline-block;
+            width: 50%;
+        }
+
+        .footer{
+            margin-top: 16px;
+            width:100%;
+            height:60px;
+            text-align: center;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body style="background-color: #ffffff;overflow: auto;">
+
+<div class="top">
+    <span style="float: left;padding:16px;width: 50%"><img src="../images/zgrb.jpg" alt="" style="width: 80px;height: 50px"></span>
+    <div style="width:50%;height: 100%;float:left;vertical-align: middle;padding-top: 30px"><span>客服热线：<a href="">95518</a></span></div>
+</div>
+<div style="clear: both"></div>
+<div class="middle">
+    <div class="row1">
+        <span class="label">投保人</span>
+        <span class="value" id="HolderName" type="value"></span>
+    </div>
+    <div class="row1">
+        <span class="label">投保车辆</span>
+        <span class="value" id="LicenseNo" type="value"></span>
+    </div>
+    <div class="row1">
+        <span class="label">厂牌型号</span>
+        <span class="value" id="MoldName" type="value"></span>
+    </div>
+    <div class="row1">
+        <span class="label">发动机号码</span>
+        <span class="value" id="EngineNo" type="value"></span>
+    </div>
+    <div class="row1">
+        <span class="label">识别代码（车架号）</span>
+        <span class="value" id="CarVin" type="value"></span>
+    </div>
+</div>
+
+
+<div class="tbfa">
+    <div class="mt6"><a>投保方案</a></div>
+    <div class="mt6"><b>交强险 </b><span class="gray"> —————— 保单号：</span></div>
+    <div class="mt6"><span>到期时间：</span></div>
+    <div class="mt6"><b>商业险 </b><span class="gray"> —————— 保单号：</span></div>
+    <div class="mt6"><span>到期时间：</span></div>
+
+    <div class="gray mt6" id="mileage">里程险（<span class="text" unit="公里">不投保</span>）</div>
+    <div class="gray mt6" id="CheSun">车辆损失险（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="SanZhe">商业第三者责任险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="SiJi">司机座位险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="ChengKe">乘客座位险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="DaoQiang">全车盗抢险（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="HuaHen">划痕险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="BoLi">玻璃单独破碎险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="ZiRan">自燃损失险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="SheShui">涉水行驶损失险（<span class="text" unit="万">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianCheSun">不计免赔险（车辆损失险）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianSanZhe">不计免赔险（商业第三者责任险）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianSiJi">不计免赔险（司机座位险）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianChengKe">不计免赔险（乘客座位险）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianDaoQiang">不计免赔险（全车盗抢险）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianHuaHen">不计免赔险（划痕险）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianZiRan">不计免赔险（自燃险损失）（<span class="text" type="bool">不投保</span>）</div>
+    <div class="gray mt6" id="BuJiMianSheShui">不计免赔险（涉水行使损失险）（<span class="text" type="bool">不投保</span>）</div>
+</div>
+
+<div class="footer">
+    <!--<button type="button" class="mui-btn mui-btn-primary" style="width: 200px;font-size: 20px" onclick="next()">下一步</button>-->
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/util.js"></script>
+<script type="text/javascript">
+    function next(){
+        window.location.href = 'page3.html'
+    }
+
+    let param = {
+        token:'',
+        car_id:'',
+    }
+    function getData(){
+        $.ajax({
+            url:'http://api.168car.net/ubi/app/insurance?token='+param.token+'&car_id='+param.car_id,
+            type:'get',
+            dataType:'json',
+            success:function(data){
+                if (data.code !== 200){
+                    mui.toast(data.message,{ duration:'long', type:'div' })
+                }else{
+                    let insurance = data.result.insurance;
+                    for (let k in insurance){
+                        if (insurance[k] === '0')continue
+                        let item = $("#"+k);
+                        if ($(item).attr("type") === 'value'){
+                            $(item).html(insurance[k])
+                        }else{
+                            $("#"+k).removeAttr("gray");
+                            let text = $("#"+k).find('.text');
+                            if ($(text).attr('type') === 'bool'){
+                                $(text).html('投保');
+                            }else{
+                                $(text).html(insurance[k] + $(text).attr('unit'))
+                            }
+                        }
+                    }
+                }
+            },
+        })
+    }
+    function initParams(){
+        for (let k in param){
+            let v = GetQueryString(k);
+            param[k] = v;
+        }
+        console.log(param);
+    }
+    (function ($) {
+        $.init();
+        initParams();
+        getData();
+    })(mui);
+</script>
+</html>

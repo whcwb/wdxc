@@ -1,0 +1,89 @@
+
+武大电子站牌 协议
+
+tcp，长连接,端口待定
+
+包体协议
+$00029{json}
+每包以$(0x24)开头；
+包长度为5个字节（不足长度左补0）
+包体为json消息体
+
+{
+"command":"login",
+"tid":"1234567890ab",
+}
+
+
+{
+"command": "routeInfo",
+"tid":"1234567890ab",
+
+"routes":[
+	{	"routeId":"001",
+		"routeName":"武1"，
+		"startTime":"06:00",
+		"endTime":"22:00",
+		"routeType":"round",
+		"stations":[
+			{"stationNo":"01","direct":"up","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"0"},
+			{"stationNo":"02","direct":"up","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			{"stationNo":"03","direct":"up","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			{"stationNo":"01","direct":"down","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			{"stationNo":"02","direct":"down","stationName":"校工厂","longitude":"2212.12302222","latitude":"123.12340001","runTime":"180"},
+			...
+		],
+		"runTime":[
+			
+		]
+	},
+	
+	{},
+	{}
+
+]
+
+}
+
+
+{
+"command":"reporting",
+"tid":"1234567890ab",
+"routeName":"环2",
+"routeId":"123",
+"direct":"up",
+"type":"in",
+"stationNo":"7",
+}
+
+
+{
+"command":"tick",
+"tid":"1234567890ab",
+}
+
+
+{
+	"command":"media",
+	"tid":"1234567890ab",
+	"url":
+	[
+		{"path":"http:\\123.jpg","size":"123","md5":"123456"},
+		{"path":"http:\\222.jpg","size":"123","md5":"123456"},
+		{"path":"http:\\666.jpg","size":"123","md5":"123456"}
+	]
+}
+
+
+{
+	"command":"led",
+	"tid":"1234567890ab",
+	"content":"武汉欢迎你！",
+	"speed":"4",
+	"method":"up-down"
+}
+
+
+
+
+

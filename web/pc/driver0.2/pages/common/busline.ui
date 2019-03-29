@@ -1,0 +1,133 @@
+<!---->
+<template>
+<ui-view class="box_row_z">
+    <ui-view style="height: 100%" ui:for="{{lists}}" bindtap="getStationCode(item,index)">
+      <ui-view class="buslineSty">
+          <ui-view class="bus" ui:if="{{item.entryCount!=0}}">
+              <ui-icon type="bus2" size="20" color="{{index<codeNum-1 | color}}"></ui-icon>
+          </ui-view>
+          <ui-view class="bus2" ui:if="{{item.exportCount!=0 && index!=lists.length-1}}">
+              <ui-icon type="bus2" size="20" color="{{index<codeNum-1 | color}}"></ui-icon>
+          </ui-view>
+
+          <ui-view class="code" ui:if="{{index==codeNum-1}}">
+            <ui-icon type="webicon318" size="28"
+              color="#fba05e"></ui-icon>
+          </ui-view>
+          <ui-view class="code2" ui:else>
+            <ui-icon type="yuan-copy-copy-copy-copy" size="14"
+              color="{{index<codeNum | color}}"></ui-icon>
+          </ui-view>
+
+          <ui-view class="line" ui:if="{{index!=lists.length-1}}">
+            <ui-icon type="jianxianxing" size="70"
+              color="{{index<codeNum-1 ? '#ffe7a1' :'#f2f2f2'}}"></ui-icon>
+          </ui-view>
+          <ui-view class="nameList" style="{{ {color:index==codeNum-1 ? '#ff7f50' : index<num-1 ? '#000' : '#8c8c8c'} }}">
+            <ui-view class="nameItem" ui:for="{{item.zdName}}" ui:for-item="itemName">
+                {{itemName}}
+            </ui-view>
+          </ui-view>
+      </ui-view>
+    </ui-view>
+</ui-view>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle:'custom'
+  },
+  filters: {
+    color:(val)=>{
+      switch (val) {
+        case true:
+          return '#FF7F50';
+          break;
+        case false:
+          return '#8c8c8c';
+          break;
+        default:
+          return '#8c8c8c'
+          break;
+      }
+    }
+  },
+  data() {
+    return {
+      name:[],
+      codeNum:0
+    }
+  },
+  props:{
+    lists:{
+      type:Array,
+      default:[]
+    },
+    num:{
+      type:Number,
+      default:0
+    }
+  },
+  created () {
+    this.codeNum = this.num
+    console.log('//////',this.num);
+    
+  },
+  mounted() {
+  },
+  methods: {
+    getStationCode(item,index){
+      this.codeNum = index+1
+      this.$emit('getnextbus',item.zdId)
+    }
+  }
+}
+</script>
+
+<style lang="less">
+.buslineSty{
+  position: relative;
+  // background: #f00;
+  width: 165rpx;
+  height: 100%;
+  .bus{
+    position: absolute;
+    top: 5rpx;
+    left: 0;
+  }
+  .bus2{
+    position: absolute;
+    top: 5rpx;
+    left: 75rpx;
+  }
+  .code{
+    position: absolute;
+    top: 40rpx;
+    left: -10rpx;
+    z-index: 100;
+  }
+  .code2{
+    position: absolute;
+    top: 57rpx;
+    left: 6rpx;
+    z-index: 100;
+  }
+  .line{
+    position: absolute;
+    top: -25rpx;
+    left: 35rpx;
+    z-index: 99;
+  }
+  .nameList{
+    position: absolute;
+    top: 110rpx;
+    left: 5rpx;
+    .nameItem{
+      font-size: 26rpx;
+      line-height: 30rpx;
+    }
+  }
+
+}
+</style>

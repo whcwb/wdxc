@@ -1,0 +1,82 @@
+*{
+  font-family: Arial,"微软雅黑","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+a{
+  text-decoration: none;
+}
+textshowLine{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.grid_box{
+  display:flex;
+  height: 100%;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.backF2{
+  background-color: #f2f2f2;
+}
+//横向布局 垂直对齐方式 用于弹性布局的 容器
+.colTop{
+  align-items:flex-start;
+}
+.colBottom{
+  align-items:flex-end;
+}
+.colCenter{
+  align-items:center ;
+}
+.box_col{//纵向
+  height: 100%;
+  display: flex;
+  flex-direction: column ;
+  .box_col_100{
+    flex:1;
+  }
+  .box_col_auto{
+    flex:1;
+    overflow: auto;
+  }
+}
+.box_row{//横向
+  //height: 100%;
+  display: flex;
+  flex-direction: row ;
+  .box_row_100{
+    flex:1;
+  }
+  .box_row_1auto{
+    flex:1;
+    overflow: auto;
+  }
+  .box_row_2auto{
+    flex:2;
+    overflow: auto;
+  }
+  .box_row_3auto{
+    flex:3;
+    overflow: auto;
+  }
+  .box_row_4auto{
+    flex:4;
+    overflow: auto;
+  }
+  .box_row_5auto{
+    flex:5;
+    overflow: auto;
+  }
+}
+.box_row_z{//横向布局禁止换行 父级overflow: auto;
+  display: flex;
+  flex-direction: row ;
+  flex-wrap:nowrap ;
+  height: 100%;
+}
+.box_row_list{//横向布局自动换行
+  display: flex;
+  flex-direction: row ;
+  flex-wrap:wrap;
+
+}

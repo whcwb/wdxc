@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        body, html, #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evDHwrRoILvlkrvaZEFiGp30"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <title>单个标注点沿直线的轨迹运动</title>
+</head>
+<body>
+<label for="">终端编号：</label><input type="text" value="" id="zdbh" style="width: 300px"><br>
+<label for="">接口地址：</label><input type="text" value="119.23.242.234:8080/pub/gps/save" id="url"
+                                  style="width: 300px"><br>
+<label for="">时间间隔：</label><input type="text" value="5000" id="duration" style="width: 300px">毫秒<br>
+<label for="sendGps">同时发送GPS</label><input type="checkbox" id="sendGps"><br>
+<input type="button" value="设置起点" onclick="startPointFun()">&nbsp;&nbsp;
+<input type="button" value="设置终点" onclick="endPointFun()">&nbsp;&nbsp;
+<input type="button" value="轨迹点提取" onclick="driving()">&nbsp;&nbsp;
+<input type="button" value="重置" onclick="resetFun()"><br/>
+<textarea rows=10 cols=100 id="gpsText"></textarea>
+<textarea rows=10 cols=100 id="sendGpsResult"></textarea>
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+    function locationFormIP(result) {
+        var cityName = result.name;
+        map.setCenter(cityName);
+    }
+
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+    /**
+     *js中更改日期
+     * y年， m月， d日， h小时， n分钟，s秒
+     */
+    Date.prototype.add = function (part, value) {
+        value *= 1;
+        if (isNaN(value)) {
+            value = 0;
+        }
+        switch (part) {
+            case "y":
+                this.setFullYear(this.getFullYear() + value);
+                break;
+            case "m":
+                this.setMonth(this.getMonth() + value);
+                break;
+            case "d":
+                this.setDate(this.getDate() + value);
+                break;
+            case "h":
+                this.setHours(this.getHours() + value);
+                break;
+            case "n":
+                this.setMinutes(this.getMinutes() + value);
+                break;
+            case "s":
+                this.setSeconds(this.getSeconds() + value);
+                break;
+            default:
+
+        }
+    }
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+
+    map.centerAndZoom(new BMap.Point(114.336741, 30.58289), 15);
+    // var myCity = new BMap.LocalCity();
+    // myCity.get(locationFormIP);
+
+    var startPoint, endPoint;
+    var startMarker, endMarker;
+    var mPoint, mMarker;
+    var name = "";
+
+    function markerPoint(e) {
+        if (name == "start") {
+            startPoint = e.point;
+            if (startMarker == null) {
+                startMarker = new BMap.Marker(e.point);
+                map.addOverlay(startMarker);
+            } else {
+                startMarker.setPosition(startPoint);
+            }
+        } else if (name == "end") {
+            endPoint = e.point;
+            if (endMarker == null) {
+                endMarker = new BMap.Marker(e.point);
+                map.addOverlay(endMarker);
+            } else {
+                endMarker.setPosition(endPoint);
+            }
+        }
+    }
+
+    function startPointFun() {
+        map.removeEventListener("click", markerPoint);
+        name = "start";
+        map.addEventListener("click", markerPoint);
+    }
+
+    function endPointFun() {
+        map.removeEventListener("click", markerPoint);
+        name = "end";
+        map.addEventListener("click", markerPoint);
+    }
+
+    function resetFun() {
+        startPoint = null, endPoint = null;
+        startMarker = null , endMarker = null;
+        map.clearOverlays();
+    }
+
+    function sendGPS(data) {
+        let url = $('#url').val();
+        if (url.indexOf("http://") < 0) {
+            url = 'http://' + url;
+        }
+        $.ajax({
+            url: url,
+            type: 'post',
+            contentType: 'application/json',
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                let sendGpsResult = document.getElementById("sendGpsResult");
+                sendGpsResult.value += JSON.stringify(data) + "\n";
+            }
+        })
+    }
+
+
+    var gpsText = document.getElementById("gpsText");
+
+    function driving() {
+        var zdbh = $("#zdbh").val();
+        if (zdbh == "") {
+            alert("输入终端号码");
+            return;
+        }
+
+        var myP1 = startPoint;    //起点
+        var myP2 = endPoint;    //终点
+        var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+            //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+            imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+        });
+        var driving2 = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});    //驾车实例
+        driving2.search(myP1, myP2);    //显示一条公交线路
+
+        window.run = function () {
+            var driving = new BMap.DrivingRoute(map);    //驾车实例
+            driving.search(myP1, myP2);
+            driving.setSearchCompleteCallback(function () {
+                var pts = driving.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
+                var paths = pts.length;    //获得有几个点
+
+                var carMk = new BMap.Marker(pts[0], {icon: myIcon});
+                map.addOverlay(carMk);
+                i = 0;
+
+                function resetMkPoint(i) {
+                    var gpsInfo = pts[i].lat + "," + pts[i].lng;
+                    var yday = new Date();
+                    // yday.add("d", -1);
+                    yday.add("s", -5);
+                    var date = yday.Format("yyyy-MM-dd hh:mm:ss");
+                    var gps = pts[i];
+                    console.log("i ===== ", i);
+                    // let eventType = i === 5 ? '"50"' : i === paths - 1 ? '"60"' : null
+
+                    var data = "{\"id\":\"0\",\"deviceId\":\"" + zdbh + "\",\"channelId\":\"9a40045c8c11b1794d22d8cd12a13016\",\"deviceTag\":\"89860617070009843391\",\"startTime\":\"" + date + "\",\"endTime\":\"" + date + "\",\"longitude\":\"" + gps.lng + "\",\"latitude\":\"" + gps.lat + "\",\"speed\":\"30\",\"eventType\":null,\"filePath\":null,\"fileLocalPath\":null,\"fileRealName\":null,\"fileSize\":null,\"filePostfix\":null,\"taskId\":null,\"sczt\":\"10\",\"cmdType\":null,\"cmd\":null,\"cmdParams\":null,\"gpsjd\":\"10\",\"fxj\":\"30.5\"}";
+                    gpsText.value += data + "\n";
+
+
+                    carMk.setPosition(pts[i]);
+                    let needSendGps = $('#sendGps').prop('checked');
+                    let duration = parseInt($("#duration").val());
+                    if (needSendGps) {
+                        sendGPS(data);
+                        // if (duration/1000 * paths < 5 * 60){
+                        //     alert("行程不能小于5分钟");
+                        // }else{
+                        //     sendGPS(data);
+                        // }
+                    }
+                    if (i < paths) {
+                        setTimeout(function () {
+                            i++;
+                            resetMkPoint(i);
+                        }, duration);
+                    }
+                }
+
+                setTimeout(function () {
+                    resetMkPoint(5);
+                }, 100)
+
+            });
+        }
+
+        setTimeout(function () {
+            run();
+        }, 1500);
+    }
+
+</script>

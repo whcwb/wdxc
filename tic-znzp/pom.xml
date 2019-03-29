@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.ldz</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  <artifactId>tic-znzp</artifactId>
+  <name>tic-znzp</name>
+  <packaging>war</packaging>
+  <description>智能站牌网络服务</description>
+
+  <properties>
+      <netty.version>4.1.16.Final</netty.version>
+  </properties>
+
+  <dependencies>
+    <!--  <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>1.5.7</version>
+        </dependency> -->
+  	<dependency>
+		<groupId>io.netty</groupId>
+		<artifactId>netty-all</artifactId>
+		<version>${netty.version}</version>
+		<scope>compile</scope>
+	</dependency>
+
+	<dependency>
+        <groupId>com.ldz</groupId>
+        <artifactId>util</artifactId>
+        <version>0.0.1</version>
+    </dependency>
+      <dependency>
+          <groupId>com.ldz</groupId>
+          <artifactId>geo</artifactId>
+          <version>0.0.1</version>
+      </dependency>
+  </dependencies>
+
+  <build>
+	<finalName>tic-znzp</finalName>
+	<defaultGoal>compile</defaultGoal>
+
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+	</plugins>
+</build>
+</project>

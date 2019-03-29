@@ -1,0 +1,233 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页,
+		{
+			"path": "pages/main/main",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px",
+						"color": "#0faeff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/reg/reg",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/main/comp/addCar",
+			"style": {
+				"navigationBarTitleText": "终端绑定",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/main/comp/hisLine",
+			"style": {
+				"navigationBarTitleText": "历史轨迹",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/pwd/pwd",
+			"style": {
+				"navigationBarTitleText": "找回密码"
+			}
+		},
+		{
+			"path": "pages/trajectory/index",
+			"style": {
+				"navigationBarTitleText": "轨迹",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px",
+						"color": "#0faeff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/video/index",
+			"style": {
+				"navigationBarTitleText": "视频库"
+			}
+		},
+		{
+			"path": "pages/img/index",
+			"style": {
+				"navigationBarTitleText": "图片库"
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/comp/carList",
+			"style": {
+				"navigationBarTitleText": "车辆列表",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+				  "enablePullDownRefresh": true
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/carItemMess",
+			"style": {
+				"navigationBarTitleText": "我的车辆",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/accList",
+			"style": {
+				"navigationBarTitleText": "事故列表",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/crawl",
+			"style": {
+				"navigationBarTitleText": "电子围栏列表",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/addCrawl",
+			"style": {
+				"navigationBarTitleText": "电子围栏",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/showCrawl",
+			"style": {
+				"navigationBarTitleText": "电子查看",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/messList",
+			"style": {
+				"navigationBarTitleText": "消息",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/info",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/user/comp/ch_password",
+			"style": {
+				"navigationBarTitleText": "密码修改",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		}
+
+	],
+	"tabBar": {
+		"color": "#7a7e83",
+		"selectedColor": "#0faeff",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/main/main",
+				"text": "首页",
+				"iconPath": "static/img/home.png",
+				"selectedIconPath": "static/img/homeHL.png"
+			},
+			{
+				"pagePath": "pages/trajectory/index",
+				"text": "轨迹",
+				"iconPath": "static/img/gj0.png",
+				"selectedIconPath": "static/img/gj1.png"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"text": "我的",
+				"iconPath": "static/img/user.png",
+				"selectedIconPath": "static/img/userHL.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#333",
+		// "backgroundColor": "#fbf9fe",
+		"backgroundColor": "#333"
+
+	}
+}

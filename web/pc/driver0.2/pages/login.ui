@@ -1,0 +1,134 @@
+<template>
+    <ui-page top="0" style="overflow-y: hidden;">
+        <ui-view class="box_col" style="{{ { height: pageHeight(46)+ 'px'} }}">
+            <ui-view class="logo">
+              <ui-image src="static/img/logo.jpg" width="130" height="130"></ui-image>
+            </ui-view>
+
+            <ui-view class="content_form">
+              <ui-form>
+                <ui-view class="input_padding">
+                  <ui-input ui:model="form.xm" maxlength="11" type="tel" placeholder="请输入您的帐号"></ui-input>
+                </ui-view>
+                <ui-view class="input_padding">
+                  <ui-input ui:model="form.sjh" type="password" placeholder="请输入您的手机号"></ui-input>
+                </ui-view>
+                <ui-view class="input_padding">
+                  <ui-row>
+                    <ui-col align="right" vertical-align="middle" bindtap="forgetpassword">
+                      <!-- <ui-navigator url="/pages/componentDemo/navigator/navigator2?state=1"> -->
+                        <ui-text block class="reset_pwd">
+                          忘记密码?
+                        </ui-text>
+                      <!-- </ui-navigator> -->
+                    </ui-col>
+                  </ui-row>
+                </ui-view>
+                <ui-view class="input_padding">
+                  <ui-button class="submit_btn" bindtap="loginYZ">登录</ui-button>
+                </ui-view>
+              </ui-form>
+            </ui-view>
+            <ui-view class="box_col_100 backimg">
+
+            </ui-view>
+        </ui-view>
+    </ui-page>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationStyle: 'custom',
+    navigationBarBackgroundColor:"#26a2ff",
+    navigationBarTextStyle:"white",
+    navigationBarTitleText:"登录",
+    title:'登录',
+    backgroundColor:'#fff',
+    delay:false,//延迟加载
+  },
+  data () {
+    return {
+      form: {
+          xm: '张三',//张三
+          sjh: '123',//123
+      },
+    }
+  },
+  methods: {
+    loginYZ(){
+      var v = this
+      if(v.form.xm == ''){
+        ui.showToast({
+          title: '请输入帐号'
+        })
+        return
+      }else if(v.form.sjh == ''){
+        ui.showToast({
+          title: '请输入手机号'
+        })
+      }else{
+        v.login()
+      }
+
+    },
+    login(){
+      this.$http('POST',ui.getApp().apis.LOGIN.QUERTY,this.form,(res)=>{
+        console.log('登录',res);
+        if(res.code == 200 && res.result){
+          localStorage.setItem("token",res.result.token)
+        }
+        ui.navigateTo({
+        url: '/pages/index'
+      })
+        
+      })
+    },
+    forgetpassword(){
+
+    }
+  }
+}
+
+</script>
+
+<style lang="less">
+.logo{
+  width: 100%;
+  text-align: center;
+  // position: fixed;
+  margin-top: 14%;
+  .ui-image-container{
+    margin: auto;
+  }
+}
+.content_form{
+  margin-top: 50rpx;
+  .input_padding{
+    padding: 20px 30px 0 30px;
+  }
+
+  .reset_pwd{
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
+  }
+
+  .reg{
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .submit_btn{
+    font-size:18px;
+    font-weight: bold;
+    color:#fff;
+    background-color:#5cadff ;
+  }
+}
+.backimg{
+  background-image: url('../static/img/drive/logbotImg.jpg');
+  background-size: 100%;
+}
+</style>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<title>车险报价</title>
+		<style type="text/css">
+			.carTit {
+				text-align: center;
+				font-size: 18px;
+				padding: 12px 0;
+				color: #007AFF;
+				background-color: #f3f3f3;
+			}
+			.titSty{
+				border-left:solid 3px #0062CC;
+				display: block;
+				padding-left: 3px;
+				width: 100%;
+			}
+			.carListBox {
+				background-color: #fff;
+			}
+
+			.carListBox .listItem {
+				padding: 0 12px;
+			}
+
+			.carListBox .listItem .title {
+				width: 25%;
+			}
+
+			.carListBox .listItem .inputBox {}
+
+			html,
+			body,
+			.mui-content {
+				height: 0px;
+				margin: 0px;
+				background-color: #efeff4;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			* {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+			}
+			.row_l{
+				float: left;
+				 width: 30%;
+
+			}
+			.row_m{
+				float: left;
+				width: 36%;
+			}
+			.row_r{
+				float: right;
+				width: 20%;
+				text-align: right;
+			}
+			.row_r span{
+				margin-top: 12px;
+				font-size: 15px;
+			}
+
+			.footer{
+				margin-top: 16px;
+				width:100%;
+				height:60px;
+				text-align: center;
+			}
+			.mui-input-group .mui-input-row{
+				height: 42px;
+			}
+			.mui-input-group label{
+				font-size: 16px;
+			}
+			.m_label{
+				width: 45% !important;
+				font-size: 13px !important;
+			}
+		</style>
+	</head>
+	<body style="background-color: #f3f3f3;overflow: auto;">
+		<div class="carTit">
+			车辆信息
+		</div>
+		<form class="mui-input-group">
+			<div id="carInfo">
+				<div class="mui-input-row">
+					<label>车牌号码</label>
+					<input type="text" class="mui-input-clear" name="LicenseNo" placeholder="请输入车牌号码" value="">
+				</div>
+				<div class="mui-input-row">
+					<label>品牌型号</label>
+					<input type="text" class="mui-input-clear" name="MoldName" placeholder="请输入品牌型号" value="">
+				</div>
+				<div class="mui-input-row">
+					<label>车主证件号</label>
+					<input type="text" class="mui-input-clear" name="IdCard" placeholder="请输入车主证件号" value="">
+				</div>
+				<div class="mui-input-row">
+					<label>车架号</label>
+					<input type="text" class="mui-input-clear" name="CarVin" placeholder="请输入17位车架号" value="">
+				</div>
+				<div class="mui-input-row">
+					<label>发动机号</label>
+					<input type="text" class="mui-input-clear" name="EngineNo" placeholder="请输入发动机号" value="">
+				</div>
+				<div class="mui-input-row">
+					<label>投保地区</label>
+					<input type="text" class="mui-input-clear" name="CityCode" placeholder="请输入投保地区" value="武汉" onclick="showRegionPicker()">
+				</div>
+			</div>
+			<div class="carTit">
+				保险信息
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:45%"><span class="titSty">交强险</span></label>
+				<div id="jqx" class="mui-switch  mui-switch-blue mui-switch-mini" onclick="swichClick('jqx')">
+				  <div class="mui-switch-handle"></div>
+				</div>
+			</div>
+
+			<div class="mui-input-row">
+				<label>起保时间</label>
+				<div style="height:100%;float: right;width: 65%;">
+					<button id='ForceTimeStamp' data-options='{"type":"date"}' class="btn mui-btn mui-btn-block"
+							style="width: 100%;margin: 0;border: none;">
+						选择日期
+					</button>
+				</div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:45%"><span class="titSty">商业险</span></label>
+				<div id="syx" class="mui-switch  mui-switch-blue mui-switch-mini" onclick="swichClick('syx')">
+					<div class="mui-switch-handle"></div>
+				</div>
+			</div>
+
+			<div class="mui-input-row">
+				<label>起保时间</label>
+				<div style="height:100%;float: right;width: 65%;">
+					<button id='BizTimeStamp'  data-options='{"type":"date"}' class="btn mui-btn mui-btn-block"
+							style="width: 100%;margin: 0;border: none;">
+						选择日期
+					</button>
+				</div>
+			</div>
+			<div class="mui-input-row">
+				<label style="width:36%">机动车损失险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianCheSun" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r">
+					<div id="CheSun" class="mui-switch mui-switch-blue mui-switch-mini" onclick="swichClick('CheSun','BuJiMianCheSun')">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">第三者责任险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianSanZhe" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r" onclick="select('SanZhe','BuJiMianSanZhe')">
+					<span id="SanZhe">不投保</span><span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">司机座位险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianSiJi" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r" onclick="select('SiJi','BuJiMianSiJi')">
+					<span id="SiJi">不投保</span><span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">乘客座位险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianChengKe" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r" onclick="select('ChengKe','BuJiMianChengKe')">
+					<span id="ChengKe">不投保</span><span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">全车盗抢险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianDaoQiang" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r">
+					<div id="DaoQiang" class="mui-switch mui-switch-blue mui-switch-mini" onclick="swichClick('DaoQiang','BuJiMianDaoQiang')">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">划痕险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianHuaHen" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r" onclick="select('HuaHen','BuJiMianHuaHen')">
+					<span id="HuaHen">不投保</span><span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">玻璃单独破碎险</label>
+				<div class="row_m">
+				</div>
+				<div class="row_r" onclick="select('BoLi')">
+					<span id="BoLi">不投保</span><span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">自燃损失险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianZiRan" value="" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r">
+					<div id="ZiRan" class="mui-switch mui-switch-blue mui-switch-mini" onclick="swichClick('ZiRan','BuJiMianZiRan')">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">涉水行驶损失险</label>
+				<div class="row_m">
+					<div class="mui-checkbox mui-left">
+						<label>不计免赔</label>
+						<input name="BuJiMianSheShui" value="Item 1" type="checkbox" disabled>
+					</div>
+				</div>
+				<div class="row_r">
+					<div id="SheShui" class="mui-switch mui-switch-blue mui-switch-mini" onclick="swichClick('SheShui','BuJiMianSheShui')">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:50%">车损无法找到第三方险</label>
+				<div class="row_m">
+				</div>
+				<div class="row_r">
+					<div id="cswfzddsfx" class="mui-switch mui-switch-blue mui-switch-mini" onclick="swichClick('cswfzddsfx')">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="mui-input-row">
+				<label style="width:36%">指定修理厂险</label>
+				<div class="row_m">
+				</div>
+				<div class="row_r" onclick="select('zdxlcx')">
+					<span id="zdxlcx">不投保</span><span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+
+		</form>
+
+		<div class="footer">
+			<button type="button" class="mui-btn mui-btn-primary" style="width: 200px;font-size: 20px" onclick="next()">下一步</button>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/md5.js"></script>
+    <script src="../js/util.js"></script>
+	<script type="text/javascript">
+		let insurances = [
+			{name:'jdcssx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'dszzrx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'sjzwx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'ckzwx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'qcqdx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'hhx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'blddpsx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'zrssx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'ssxsssx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'clwfzddsfx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+			{name:'zdxlcx',bjmpDisabled:true,bjmpCheck:false,switch:false,select:''},
+		]
+
+        let secret = "270cfcad37b"
+        let quoteUrl = 'http://iu.91bihu.com/api/CarInsurance/PostNewPrecisePrice';
+        let quoteParam = {
+            LicenseNo: '0',              // 必须，String，车牌号（字母全部大写）
+            CarOwnersName: '张三',          // 必须，String，车主姓名
+            IdCard: '0',                 // 必须，String，车主证件号（字母全部大写）
+            OwnerIdCardType: '1',        // 必须，String，车主证件类型
+            QuoteGroup: '1',             // 必须，Long，需要报价的 保险资源的枚举值之和
+            SubmitGroup: '1',            // 必须，Long，需要核保的 保险资源的枚举值之和（这个范围应该是QuoteGroup的子集，必须报价了，才可以核保）
+            HolderIdCard: '420381199111031218',           // 必须，String，投保人证件号（字母全部大写）
+            HolderName: '张三',             // 必须，String，投保人姓名
+            HolderIdType: '1',           // 必须，String，投保人证件类型（类型同被保人）
+            CityCode: '19',             // 必须，Int，参考文档上部 城市列表
+            EngineNo: '0',               // 必须，String，发动机号 （字母全部大写）
+            CarVin: '0',                 // 必须，String，车架号（字母全部大写，长度不允许大于17位）
+            RegisterDate: '2018-01-01',           // 必须，String，注册日期(如：2014-08-07)（校验：符合日期格式，且小于当前日期）
+            MoldName: '0',               // 必须，String，品牌型号（如果存在空格等特殊字符，需要urlencode转码）
+            ForceTax: '2',               // 必须，Int，0:单商业 ，1：商业+交强车船，2：单交强+车船。如果单交强（即该值为2，则下文的商业险不允许选择投保）
+            // BizTimeStamp: '',           // 非必须，String，商业险起保时间（Unix时间戳格式）单位是秒（如果投保商业险 ，此字段必须有值）
+            // ForceTimeStamp: '',         // 非必须，String，交强险起保时间（Unix时间戳格式）单位是秒（如果投保交强险，此字段必须有值）
+            BoLi: '0',                   // 必须，Double，玻璃单独破碎险，0-不投保，1国产，2进口
+            BuJiMianCheSun: '0',         // 必须，Double，不计免赔险(车损) ，0-不投保，1投保
+            BuJiMianDaoQiang: '0',       // 必须，Double，不计免赔险(盗抢) ，0-不投保，1投保
+            BuJiMianSanZhe: '0',         // 必须，Double，不计免赔险(三者) ，0-不投保，1投保
+            BuJiMianChengKe: '0',        // 必须，Double，不计免乘客0-不投保，1投保
+            BuJiMianSiJi: '0',           // 必须，Double，不计免乘客0-不投保，1投保
+            BuJiMianHuaHen: '0',         // 必须，Double，不计免划痕0-不投保，1投保
+            BuJiMianSheShui: '0',        // 必须，Double，不计免涉水0-不投保，1投保
+            BuJiMianZiRan: '0',          // 必须，Double，不计免自燃0-不投保，1投保
+            BuJiMianJingShenSunShi: '0', // 必须，Double，不计免精神损失0-不投保，1投保
+            SheShui: '0',                // 必须，Double，涉水行驶损失险，0-不投保，1投保
+            HuaHen: '0',                 // 必须，Double，车身划痕损失险，0-不投保，>0投保(具体金额) 2，000；5，000；10，000；20，000
+            SiJi: '0',                   // 必须，Double，车上人员责任险(司机) ，0-不投保，>0投保(具体金额）
+            ChengKe: '0',                // 必须，Double，车上人员责任险(乘客) ，0-不投保，>0投保(具体金额)
+            CheSun: '0',                 // 必须，Double，机动车损失保险，0-不投保，1-投保
+            DaoQiang: '0',               // 必须，Double，全车盗抢保险，0-不投保，1-投保
+            SanZhe: '0',                 // 必须，Double，第三者责任保险，0-不投保，>0投保(具体金额)
+            ZiRan: '0',                  // 必须，Double，自燃损失险，0-不投保，1投保
+
+            QuoteParalelConflict: '0',   // 必须，Int，报价并发冲突检查标识：0（默认） 1：检测。
+            CustKey: '666666666666',                // 必须，String，客户端标识（用来区分客户）（10-32位字符）
+            Agent: '76691',                 // 必须，Int，调用平台标识
+            SecCode: '',                // 必须，String，除了SecCode参数之外的所有参数拼接后再加密钥的字符串后的MD5值（32位小写）（壁虎提供）
+        }
+
+        let getQuoteResultParam = {
+            LicenseNo:'',   // 必须，String，车牌号
+            QuoteGroup:'',  // 必须，Long，意向投保公司（单个的枚举值）
+            Agent:'',       // 必须，Int，调用平台标识
+            CustKey:'',     // 必须，String，客户端标识（用来区分客户）（10-32位字符）
+        }
+		let params = {
+
+		}
+		let options = {
+            SanZhe:[
+                {value:'0',text:'不投保'},
+                {value:'5',text:'5万'},
+                {value:'10',text:'10万'},
+                {value:'15',text:'15万'},
+                {value:'20',text:'20万'},
+                {value:'30',text:'30万'},
+                {value:'50',text:'50万'},
+                {value:'100',text:'100万'},
+                {value:'150',text:'150万'},
+                {value:'200',text:'200万'},
+                {value:'250',text:'250万'},
+                {value:'300',text:'300万'},
+                {value:'350',text:'350万'},
+                {value:'500',text:'500万'},
+            ],
+            SiJi:[
+                {value:'0',text:'不投保'},
+                {value:'1',text:'1万'},
+                {value:'2',text:'2万'},
+                {value:'3',text:'3万'},
+                {value:'4',text:'4万'},
+                {value:'5',text:'5万'},
+                {value:'10',text:'10万'},
+                {value:'20',text:'20万'},
+                {value:'50',text:'50万'},
+                {value:'100',text:'100万'},
+            ],
+            ChengKe:[
+                {value:'0',text:'不投保'},
+                {value:'1',text:'1万'},
+                {value:'2',text:'2万'},
+                {value:'3',text:'3万'},
+                {value:'4',text:'4万'},
+                {value:'5',text:'5万'},
+                {value:'10',text:'10万'},
+                {value:'20',text:'20万'},
+                {value:'50',text:'50万'},
+                {value:'100',text:'100万'},
+            ],
+            HuaHen:[
+                {value:'0',text:'不投保'},
+                {value:'0.2',text:'2千'},
+                {value:'0.5',text:'5千'},
+                {value:'1',text:'1万'},
+                {value:'2',text:'2万'},
+            ],
+            BoLi:[
+                {value:'0',text:'不投保'},
+                {value:'1',text:'国产玻璃'},
+                {value:'2',text:'进口玻璃'},
+            ],
+            zdxlcx:[
+                {value:'0',text:'不投保'},
+                {value:'1',text:'国产'},
+                {value:'2',text:'进口'},
+            ],
+		}
+        let dataPicker = new mui.PopPicker();
+
+        function genSecCode(param) {
+            let s = '';
+            for (let k in param) {
+                s += '&' + k + '=' + param[k]
+            }
+            s = s.substring(1) + secret;
+            return $.md5(s);
+        }
+		function select(id,bjmp){
+            dataPicker.setData(options[id]);
+            dataPicker.show(function(selectItems) {
+            	let value = selectItems[0].value;
+				$("#"+id).html(selectItems[0].text)
+                quoteParam[id] = value;
+				if (bjmp && value != '0'){
+					$("input[name="+bjmp+"]").attr('checked',true)
+					$("input[name="+bjmp+"]").removeAttr('disabled')
+				}else{
+					$("input[name="+bjmp+"]").attr('disabled',true)
+					$("input[name="+bjmp+"]").attr('checked',false)
+				}
+            })
+		}
+		function swichClick(id,bjmp){
+            let isActive = document.getElementById(id).classList.contains("mui-active");
+            quoteParam[id] = isActive ? '1' : '0'
+            if (bjmp){
+                let checkbox = $("input[name="+bjmp+']');
+                if (checkbox.length > 0){
+                    if(isActive){
+                        checkbox.attr('checked',true)
+                        checkbox.removeAttr('disabled')
+                    }else{
+                        checkbox.attr('checked',false)
+                        checkbox.attr('disabled',true)
+                    }
+                }
+            }
+        }
+
+		let token = '';
+		let zdbh = '';
+		let car_id = '';
+		let lc = '';
+		function getCarParams(){
+			token = GetQueryString('token');
+			zdbh = GetQueryString('zdbh');
+			car_id = GetQueryString('car_id');
+            lc = GetQueryString('lc');
+		}
+		/**
+		 * brand: "雪佛兰"
+		 car_owner: "李晶"
+		 commercial_expiry: "2018-12-31"
+		 compulsory_expiry: "2018-12-31"
+		 created_at: "2018-11-26 11:29:32"
+		 displacement: 1.5
+		 engine: null
+		 id: "1"
+		 insure: 1
+		 last_year_insurance_company: "人保车险"
+		 loan: 0
+		 mileage: 2000
+		 mileage_percent: 94
+		 mileages: "1880/2000"
+		 model: "豪华款"
+		 place: 5
+		 plate_no: "鄂A15555"
+		 price: 508888
+		 quote_status: 1
+		 quote_status_label: "已报价"
+		 register_date: "2016-11-01"
+		 remaining_mileage: 1880
+		 remark: null
+		 status: 1
+		 transfer: 0
+		 underwrite_status: 1
+		 underwrite_status_label: "已核保"
+		 updated_at: "2018-11-27 12:58:10"
+		 user_id: "1"
+		 user_name: "15927033864"
+		 vin_no: "12121212121"
+		 zdbh: "865923030010018"
+		 zdlx: 10
+		 */
+		function getCarInfo(){
+			$.ajax({
+				type: 'get',
+				url: 'http://api.168car.net/ubi/app/car-detail',
+				contentType: 'application/x-www-form-urlencoded',
+				data:{token:token,id:car_id},
+				dataType: 'json',
+				success: function (data) {
+					if (data.code == 200){
+						let result = data.result;
+						if (result.price){
+							// $("#price").html(result.price+"元");
+							$("#button").html("立即购买");
+						}
+						if (result.plate_no){
+							quoteParam.LicenseNo = result.plate_no
+							$("input[name=LicenseNo]").val(result.plate_no);
+						}
+						if (result.brand){
+							quoteParam.MoldName = result.brand
+							$("input[name=MoldName]").val(result.brand);
+						}
+						if (result.vin_no){
+							quoteParam.CarVin = result.vin_no
+							$("input[name=CarVin]").val(result.vin_no);
+						}
+						if (result.engine){
+							quoteParam.EngineNo = result.engine
+							$("input[name=EngineNo]").val(result.engine);
+						}
+
+					}
+					console.log(data);
+				},
+			})
+		}
+		function getParams() {
+			$("#carInfo input").each((i,r)=>{
+			    if ($(r).val() != ''){
+                    quoteParam[$(r).prop('name')] = $(r).val()
+                }
+			})
+            quoteParam.CityCode = '19';
+            quoteParam.SecCode = genSecCode(quoteParam);
+            quoteParam.quoteParamKey = quoteParam.CarVin+'_'+now;
+            quoteParam.mileage = lc;
+        }
+        let now = new Date().getTime();
+
+        function quote() {
+            console.log(quoteParam);
+            let jsonParam = JSON.stringify(quoteParam)
+            $.ajax({
+                type: 'POST',
+                url: 'http://www.168car.net:9193/pub/quote/quote',
+                data: quoteParam,
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.StatusMessage){
+                        mui.toast(data.StatusMessage,{ duration:'long', type:'div' })
+					}else{
+                        gotoNext();
+					}
+                },
+            })
+        }
+
+        function buildParams(){
+            let p = '';
+            for (let k in getQuoteResultParam){
+                p += '&' + k + '=' + getQuoteResultParam[k];
+            }
+            p = p.substr(1);
+            return p;
+        }
+
+		function next(){
+            if (!validation())return;
+            getParams();
+            quote();
+		}
+
+		function gotoNext(){
+            getQuoteResultParam.Agent = quoteParam.Agent;
+            getQuoteResultParam.CustKey = quoteParam.CustKey;
+            getQuoteResultParam.LicenseNo = quoteParam.LicenseNo;
+            getQuoteResultParam.QuoteGroup = quoteParam.QuoteGroup;
+            getQuoteResultParam.SecCode = genSecCode(getQuoteResultParam);
+
+            let p = buildParams();
+            window.location.href = 'page2.html?car_id='+car_id+'&token='+token+'&quoteParamKey='+(quoteParam.CarVin+'_'+now)+'&'+encodeURI(p);
+		}
+		function showRegionPicker(){
+			var regionPicker = new mui.PopPicker();
+			regionPicker.setData([{
+				value: '110000',
+				text: '北京市',
+				children: [{
+					value: "110101",
+					text: "东城区"
+				}]
+			}, {
+				value: '120000',
+				text: '天津市',
+				children: [{
+					value: "120101",
+					text: "和平区"
+				}, {
+					value: "120102",
+					text: "河东区"
+				}, {
+					value: "120104",
+					text: "南开区"
+				}
+				]
+			},
+                {
+                    value: '120000',
+                    text: '湖北省',
+                    children: [{
+                        value: "19",
+                        text: "武汉市"
+                    }
+                    ]
+                }])
+			regionPicker.show(function (selectItems) {
+				$('input[name=tbdq]').val(selectItems[0].text)
+			})
+		}
+
+		function validation(){
+            let params = [
+				{key:'LicenseNo',text:'车牌号'},
+				{key:'IdCard',text:'身份证号',validFunc:IdentityCodeValid},
+				{key:'CarVin',text:'车架号'},
+				{key:'EngineNo',text:'发动机号'},
+			]
+			for (let r of params){
+			    let key = r.key;
+                let val = $("input[name="+key+"]").val();
+                if (val === ''){
+                    mui.toast('请输入'+r.text,{ duration:'long', type:'div' })
+                    return false;
+                }
+                if (r.validFunc){
+                    if (!r.validFunc(val)){
+                        return false;
+					}
+				}
+			}
+			return true;
+		}
+        function IdentityCodeValid(code) {
+            var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+            var tip = "";
+            var pass= true;
+
+            if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+                tip = "身份证号格式错误";
+                pass = false;
+            }
+
+            else if(!city[code.substr(0,2)]){
+                tip = "地址编码错误";
+                pass = false;
+            }
+            else{
+                //18位身份证需要验证最后一位校验位
+                if(code.length == 18){
+                    code = code.split('');
+                    //∑(ai×Wi)(mod 11)
+                    //加权因子
+                    var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+                    //校验位
+                    var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+                    var sum = 0;
+                    var ai = 0;
+                    var wi = 0;
+                    for (var i = 0; i < 17; i++)
+                    {
+                        ai = code[i];
+                        wi = factor[i];
+                        sum += ai * wi;
+                    }
+                    var last = parity[sum % 11];
+                    if(parity[sum % 11] != code[17]){
+                        tip = "校验位错误";
+                        pass =false;
+                    }
+                }
+            }
+            if(!pass) {
+                mui.toast(tip,{ duration:'long', type:'div' })
+			}
+            return pass;
+        }
+		(function($) {
+			$.init();
+			params.lc = lc;
+
+			getCarParams();
+			getCarInfo();
+			var btns = $('.btn');
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var _self = this;
+					if(_self.picker) {
+						_self.picker.show(function (rs) {
+							btn.innerText = rs.text;
+							_self.picker.dispose();
+							_self.picker = null;
+						});
+					} else {
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						/*
+						* 首次显示时实例化组件
+						* 示例为了简洁，将 options 放在了按钮的 dom 上
+						* 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+						*/
+						_self.picker = new $.DtPicker(options);
+						_self.picker.show(function(rs) {
+							/*
+							* rs.value 拼合后的 value
+							* rs.text 拼合后的 text
+							* rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+							* rs.m 月，用法同年
+							* rs.d 日，用法同年
+							* rs.h 时，用法同年
+							* rs.i 分（minutes 的第二个字母），用法同年
+							*/
+							btn.innerText = rs.y.text + '-'+rs.m.text + '-' + rs.d.text;
+							_self.picker.dispose();
+							_self.picker = null;
+						});
+					}
+
+				}, false);
+			});
+		})(mui);
+	</script>
+</html>
