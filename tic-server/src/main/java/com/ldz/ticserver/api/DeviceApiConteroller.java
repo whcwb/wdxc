@@ -1,7 +1,10 @@
 package com.ldz.ticserver.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.ldz.util.commonUtil.HttpUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,6 +115,16 @@ public class DeviceApiConteroller {
 		accessLog.debug("接收到客户端的数据postGpsData:"+JsonUtil.toJson(dto));
 		//logger.debug("请求了GPS上传的方法");
 		if(dto!=null && StringUtils.isNotBlank(dto.getDeviceId())){
+			if (StringUtils.equals(dto.getDeviceId(), "865923030055591")) {
+				String url = "http://cheliang.court.gov.cn/ticserver/api/gps";
+				Map<String,String> map = new HashMap<>();
+				map.put("content-type", "application/json");
+				try {
+					HttpUtil.postJson(url, map, JsonUtil.toJson(dto));
+				} catch (Exception e) {
+					accessLog.error("ticserver/api/gps  请求失败");
+				}
+			}
 			if(StringUtils.isNotBlank(dto.getSpeed())){
 				if(Integer.parseInt(dto.getSpeed())>10 && dto.getSczt().equals("20")){//如果速度大于10 并且设备行驶状态是20【熄火】得时候，更改状态为行驶中
 					dto.setSczt("10");
@@ -128,7 +141,8 @@ public class DeviceApiConteroller {
 		ar.setResult(dto.toString());
 		return ar;
 	}
-	
+
+
 	/**
 	 * 批量接收GPS离线坐标
 	 * @param dtos
