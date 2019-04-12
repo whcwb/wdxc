@@ -1,23 +1,65 @@
 .login{
     width: 100%;
     height: 100%;
-//  background-image: url('https://file.iviewui.com/iview-admin/login_bg.jpg');
-    background-image: url('/static/loginBack.jpg');
     background-size: cover;
     background-position: center;
-//  position: relative;
-//  img{
-//      position: absolute;
-//      top: 50%;
-//      left: 50%;
-//      transform: translate(-50%,-50%);
-//  }
+    .loginTit{
+        height: 1rem;
+        //background-image: url('/static/loginBack.jpg');
+        background-image: url("/static/img/loginTlTBack.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .loginForm{
+        height: 6rem;
+        background-image: url("/static/img/loginFormBack.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        //.loginFormBox{
+        //    position: absolute;
+        //    top: 50%;
+        //    right: 19%;
+        //    transform: translate(0,-50%);
+        //    width: 350px;
+        //}
+    }
+    .downApp{
+        height: 6.2rem;
+        background-image: url("/static/img/downAppBack.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        img{
+            width: 2.6rem;
+            top: 30% ;
+            position: absolute;
+        }
+        .iosImg{
+            left: 34%;
+        }
+        .androidImg{
+            left: 54%;
+        }
+    }
+    .bottomIcon{
+        height: 0.9rem;
+        background-image: url("/static/img/loginBotton.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .copyRight {
+        height: 74px;
+        background-image: url("/static/img/copyRight.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
     &-con{
         position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-60%);
-        width: 800px;
+        right: 10%;
+        top: 18%;
+        //transform: translate(-50%,-60%);
+        width: 400px;
         &-header{
             font-size: 16px;
             font-weight: 300;
