@@ -116,13 +116,13 @@ public class DeviceApiConteroller {
 		//logger.debug("请求了GPS上传的方法");
 		if(dto!=null && StringUtils.isNotBlank(dto.getDeviceId())){
 			if (StringUtils.equals(dto.getDeviceId(), "865923030055591")) {
-				String url = "http://cheliang.court.gov.cn/ticserver/api/gps";
+				String url = "http://cheliang.court.gov.cn/ticserver/api/device/gps";
 				Map<String,String> map = new HashMap<>();
 				map.put("content-type", "application/json");
 				try {
 					HttpUtil.postJson(url, map, JsonUtil.toJson(dto));
 				} catch (Exception e) {
-					accessLog.error("ticserver/api/gps  请求失败");
+					accessLog.error("ticserver/api/device/gps  请求失败");
 				}
 			}
 			if(StringUtils.isNotBlank(dto.getSpeed())){
