@@ -111,7 +111,7 @@ public class DeviceApiConteroller {
 	 */
 	@RequestMapping("/gps")
 	public ApiResponse<String> postGpsData(@RequestBody RequestCommonParamsDto dto){
-		ApiResponse<String> ar = new ApiResponse<>();
+
 		accessLog.debug("接收到客户端的数据postGpsData:"+JsonUtil.toJson(dto));
 		//logger.debug("请求了GPS上传的方法");
 		if(dto!=null && StringUtils.isNotBlank(dto.getDeviceId())){
@@ -138,8 +138,7 @@ public class DeviceApiConteroller {
 		//}else{
 			redisDao.boundSetOps(Consts.CAR_ONLINE_KEY).add(dto.getDeviceId()+Consts.CAR_SPLITE+dto.getChannelId());
 		//}
-		ar.setResult(dto.toString());
-		return ar;
+		return ApiResponse.success();
 	}
 
 
