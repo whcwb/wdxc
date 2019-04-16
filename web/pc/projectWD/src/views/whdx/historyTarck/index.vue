@@ -536,18 +536,18 @@
 
                 // 增加起点
                 var pt1 = new BMap.Point(v.stationList[0].longitude, v.stationList[0].latitude);
-                var myIcon1 = new BMap.Icon("http://47.98.39.45:9092/icon/map_line_begin.png", new BMap.Size(37, 62), {anchor: new BMap.Size(19, 62),});
+                var myIcon1 = new BMap.Icon("http://119.23.242.234:9092/icon/map_line_begin.png", new BMap.Size(37, 62), {anchor: new BMap.Size(19, 62),});
                 var marker1 = new BMap.Marker(pt1, {icon: myIcon1});  // 创建标注
                 this.map.addOverlay(marker1);
 
                 //初始化动画marker对象
-                var moveIcon = new BMap.Icon("http://47.98.39.45:9092/icon/ic_car_online.png", new BMap.Size(32, 32), {anchor: new BMap.Size(16, 32),});
+                var moveIcon = new BMap.Icon("http://119.23.242.234:9092/icon/ic_car_online.png", new BMap.Size(32, 32), {anchor: new BMap.Size(16, 32),});
                 this.movingMarker = new BMap.Marker(pt1, {icon: moveIcon});
                 this.map.addOverlay(this.movingMarker);
 
                 // 增加终点
                 var pt2 = new BMap.Point(v.stationList[v.stationList.length - 1].longitude, v.stationList[v.stationList.length - 1].latitude);
-                var myIcon2 = new BMap.Icon("http://47.98.39.45:9092/icon/map_line_end.png", new BMap.Size(37, 62), {anchor: new BMap.Size(19, 62),});
+                var myIcon2 = new BMap.Icon("http://119.23.242.234:9092/icon/map_line_end.png", new BMap.Size(37, 62), {anchor: new BMap.Size(19, 62),});
                 var marker2 = new BMap.Marker(pt2, {icon: myIcon2});  // 创建标注
                 this.map.addOverlay(marker2);
                 //画轨迹线

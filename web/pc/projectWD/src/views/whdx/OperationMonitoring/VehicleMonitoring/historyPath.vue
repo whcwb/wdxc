@@ -27,7 +27,7 @@
 				<Col span="6" v-for="item in tableData">
 					<Card>
 						<Row>
-							<img @click="showMap(item)" :src="'http://api.map.baidu.com/staticimage/v2?ak=evDHwrRoILvlkrvaZEFiGp30&center='+item.ksjd+','+item.kswd+'&width=300&height=200&zoom=12&markers='+item.jsjd+','+item.jswd+'|'+item.ksjd+','+item.kswd+'&markerStyles=-1,http://47.98.39.45:9092/icon/map_line_end.png|-1,http://47.98.39.45:9092/icon/map_line_begin.png'" class="imgItem">
+							<img @click="showMap(item)" :src="'http://api.map.baidu.com/staticimage/v2?ak=evDHwrRoILvlkrvaZEFiGp30&center='+item.ksjd+','+item.kswd+'&width=300&height=200&zoom=12&markers='+item.jsjd+','+item.jswd+'|'+item.ksjd+','+item.kswd+'&markerStyles=-1,http://119.23.242.234:9092/icon/map_line_end.png|-1,http://119.23.242.234:9092/icon/map_line_begin.png'" class="imgItem">
 						</Row>
 						<Row>
 							<Col span="8"><span>开始时间</span></Col><Col span="16"><span class="span_time">{{item.kssj}}</span></Col>

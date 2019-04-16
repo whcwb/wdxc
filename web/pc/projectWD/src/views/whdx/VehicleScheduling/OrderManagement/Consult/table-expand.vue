@@ -125,7 +125,7 @@
                         <h2 v-if="simpleRoute == null">暂无轨迹信息</h2>
                         <div v-else>
                               <!--<img @click="showMap()"-->
-                                   <!--:src="'http://api.map.baidu.com/staticimage/v2?ak=evDHwrRoILvlkrvaZEFiGp30&center='+simpleRoute.ksjd+','+simpleRoute.kswd+'&width=600&height=400&zoom=12&markers='+simpleRoute.jsjd+','+simpleRoute.jswd+'|'+simpleRoute.ksjd+','+simpleRoute.kswd+'&markerStyles=-1,http://47.98.39.45:9092/icon/map_line_end.png|-1,http://47.98.39.45:9092/icon/map_line_begin.png'"-->
+                                   <!--:src="'http://api.map.baidu.com/staticimage/v2?ak=evDHwrRoILvlkrvaZEFiGp30&center='+simpleRoute.ksjd+','+simpleRoute.kswd+'&width=600&height=400&zoom=12&markers='+simpleRoute.jsjd+','+simpleRoute.jswd+'|'+simpleRoute.ksjd+','+simpleRoute.kswd+'&markerStyles=-1,http://119.23.242.234:9092/icon/map_line_end.png|-1,http://119.23.242.234:9092/icon/map_line_begin.png'"-->
                                    <!--class="imgItem">-->
                               <!--<br><span style="color: red">*点击图片可查看详情</span>-->
                               <show-map :index="row._index" :gpsList="NewGps"></show-map>

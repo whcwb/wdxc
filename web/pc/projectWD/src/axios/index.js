@@ -11,8 +11,8 @@ import util from "../libs/util";
 import ajaxUrl from './api'
 // 订单分配权限
 
-// let url = 'http://47.98.39.45:8080'; // 生产环境(测试时不要改动这里)
-// let url = 'http://47.98.39.45:8080'; //
+// let url = 'http://119.23.242.234:8080'; // 生产环境(测试时不要改动这里)
+// let url = 'http://119.23.242.234:8080'; //
 let url = ajaxUrl.url
 
 let httpInstance = axios.create({
