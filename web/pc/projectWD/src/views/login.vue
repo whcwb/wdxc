@@ -31,7 +31,21 @@
 
 <template>
       <div class="login" style="overflow-y: auto" @keydown.enter="handleSubmit">
-            <div class="loginTit"></div>
+            <div class="loginTit">
+                <Row>
+                    <Col  span="6" :lg="8" :md="24">
+                        <div style=" height:70px; width:100%;">
+
+                        </div>
+                    </Col>
+                    <Col span="2">
+                        <div style="padding-left:20%;color: white;padding-top: 40px;height:1rem;cursor: pointer;" @click="changeTo">
+                            <span @click="changeTo" style="font-size: 15px;width: 200px"><i class="iconfont icon-gongsijianjie" ></i>平台简介</span>
+                        </div>
+                    </Col>
+                </Row>
+
+            </div>
             <div class="loginForm">
                   <div class="login-con">
                         <Card :bordered="false" style="width: 100%;height:310px;">
@@ -112,6 +126,9 @@
             menuList.menuTree = [];
         },
         methods: {
+            changeTo(){
+                window.location.href="http://www.168car.net/home";
+            },
             handleSubmit() {
                 var v = this
                 this.$refs.loginForm.validate((valid) => {

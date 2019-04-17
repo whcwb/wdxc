@@ -141,6 +141,7 @@
     }
 
     function sendGPS(data) {
+		console.log(data)
         let url = $('#url').val();
         if (url.indexOf("http://") < 0) {
             url = 'http://' + url;
@@ -153,6 +154,7 @@
             dataType: 'json',
             success: function (data) {
                 let sendGpsResult = document.getElementById("sendGpsResult");
+			
                 sendGpsResult.value += JSON.stringify(data) + "\n";
             }
         })

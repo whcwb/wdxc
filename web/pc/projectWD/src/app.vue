@@ -53,7 +53,7 @@
 
       /*@import "//at.alicdn.com/t/font_683602_e7rww0681ms.css";*/
       @import '//at.alicdn.com/t/font_683602_l7p6btqaoy.css';
-
+      @import "//at.alicdn.com/t/font_723126_nmaw2zldou8.css";
       html, body {
             width: 100%;
             height: 100%;
