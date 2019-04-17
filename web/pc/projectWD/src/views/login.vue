@@ -33,14 +33,14 @@
       <div class="login" style="overflow-y: auto" @keydown.enter="handleSubmit">
             <div class="loginTit">
                 <Row>
-                    <Col  span="6" :lg="8" :md="24">
+                    <Col  span="6" :lg="8" :md="8">
                         <div style=" height:70px; width:100%;">
 
                         </div>
                     </Col>
-                    <Col span="2">
-                        <div style="padding-left:20%;color: white;padding-top: 40px;height:1rem;cursor: pointer;" @click="changeTo">
-                            <span @click="changeTo" style="font-size: 15px;width: 200px"><i class="iconfont icon-gongsijianjie" ></i>平台简介</span>
+                    <Col span="2" :lg="2" :md="2">
+                        <div class="text" style="left: 38%;cursor: pointer" @click="changeTo">
+                            <img src="static/icon/xq.png" style="vertical-align: middle;padding-right: 5px;padding-bottom: 3px" ><span style="padding-top: 3px">平台简介</span>
                         </div>
                     </Col>
                 </Row>
