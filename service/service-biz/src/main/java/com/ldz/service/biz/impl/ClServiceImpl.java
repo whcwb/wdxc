@@ -463,6 +463,8 @@ public class ClServiceImpl extends BaseServiceImpl<ClCl, String> implements ClSe
 		ClZdgl device = zdglService.findById(devcieId);
 		RuntimeCheck.ifNull(device,"未找到终端");
 
+		List<ClCl> clCls = clService.findEq(ClCl.InnerColumn.zdbh, devcieId);
+		RuntimeCheck.ifTrue(CollectionUtils.isNotEmpty(clCls), "此终端已经绑定其他车辆, 请勿重复绑定");
 		car.setZdbh(devcieId);
 		entityMapper.updateByPrimaryKeySelective(car);
 		return ApiResponse.success();

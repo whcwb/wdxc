@@ -74,8 +74,15 @@ public class CarCtrl extends BaseController<ClCl,String> {
         if (StringUtils.isEmpty(entity.getClId())){
             RuntimeCheck.ifBlank(entity.getCph(),"请输入车牌号");
             entity.setClId(String.valueOf(idGenerator.nextId()));
+
             ClZdgl device = zdglMapper.selectByPrimaryKey(entity.getZdbh());
             RuntimeCheck.ifNull(device,"终端不存在");
+
+            SimpleCondition condition = new SimpleCondition(ClCl.class);
+            condition.eq(ClCl.InnerColumn.zdbh, entity.getZdbh());
+            List<ClCl> clZdgls = clclmapper.selectByExample(condition);
+            RuntimeCheck.ifTrue(CollectionUtils.isNotEmpty(clZdgls), "此终端已经绑定其他车辆, 请勿重复绑定");
+
             entity.setJgdm(device.getJgdm());
             clclmapper.insertSelective(entity);
         }else{
