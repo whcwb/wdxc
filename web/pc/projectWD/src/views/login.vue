@@ -53,7 +53,7 @@
                                     <div class="body-O from">
                                           <div class="loginTiT">
                                                 <h1>
-                                                      六点整车辆管理
+                                                      车辆管理
                                                 </h1>
                                           </div>
                                           <Form ref="loginForm" :model="form" :rules="rules">
