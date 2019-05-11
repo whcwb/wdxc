@@ -6,7 +6,7 @@ import store from './store';
 import App from './app.vue';
 import '@/locale';
 import 'iview/dist/styles/iview.css';
-import VueI18n from 'vue-i18n';
+import i18n from '@/locale'
 import http from './axios/index';
 import util from './libs/util';
 import apis from './axios/api';
@@ -17,7 +17,9 @@ import './styles/common.less'
 
 import swal from 'sweetalert2'
 
-Vue.use(VueI18n);
+Vue.use(iView, {
+    i18n: (key, value) => i18n.t(key, value)
+})
 Vue.use(iView);
 
 //替换原始网络框架

@@ -32,18 +32,20 @@
 <template>
       <div class="login" style="overflow-y: auto" @keydown.enter="handleSubmit">
             <div class="loginTit">
-                <Row>
-                    <Col  span="6" :lg="8" :md="8">
-                        <div style=" height:70px; width:100%;">
+                  <Row>
+                        <Col span="6" :lg="8" :md="8">
+                              <div style=" height:70px; width:100%;">
 
-                        </div>
-                    </Col>
-                    <Col span="2" :lg="2" :md="2">
-                        <div class="text" style="left: 38%;cursor: pointer" @click="changeTo">
-                            <img src="static/icon/xq.png" style="vertical-align: middle;padding-right: 5px;padding-bottom: 3px" ><span style="padding-top: 3px">平台简介</span>
-                        </div>
-                    </Col>
-                </Row>
+                              </div>
+                        </Col>
+                        <Col span="2" :lg="2" :md="2">
+                              <div class="text" style="left: 38%;cursor: pointer" @click="changeTo">
+                                    <img src="static/icon/xq.png"
+                                         style="vertical-align: middle;padding-right: 5px;padding-bottom: 3px"><span
+                                      style="padding-top: 3px">平台简介</span>
+                              </div>
+                        </Col>
+                  </Row>
 
             </div>
             <div class="loginForm">
@@ -126,41 +128,49 @@
             menuList.menuTree = [];
         },
         methods: {
-            changeTo(){
-                window.location.href="http://www.168car.net/home";
+            changeTo() {
+                window.location.href = "http://www.168car.net/home";
             },
             handleSubmit() {
                 var v = this
-                this.$refs.loginForm.validate((valid) => {
-                    if (valid) {
+                this.$refs.loginForm.validate((valid) = > {
+                    if(valid) {
                         v.SpinShow = true
-                        v.$http.post(this.apis.LOGIN.QUERY, this.form).then((res) => {
-                            if (res.code === 200) {
-                                Cookies.set('usermess', this.form.username);
-                                Cookies.set('accessToken', res.result.accessToken);
-                                sessionStorage.setItem("userInfo", JSON.stringify(res.result.userInfo));
-                                v.initDict(res.result.dictList);
-                                v.getMenuTree(res.result.menuTree);
-                                v.SpinShow = false
-                            } else if (res.code === 500) {
-                                this.$Message.error(res.message);
-                                this.form.username = '';
-                                this.form.password = '';
-                            } else {
-                                this.$Message.error("用户登陆失败，请重试！");
-                                this.form.username = '';
-                                this.form.password = '';
-                            }
+                        v.$http.post(this.apis.LOGIN.QUERY, this.form).then((res) = > {
+                            if(res.code === 200
+                    )
+                        {
+                            Cookies.set('usermess', this.form.username);
+                            Cookies.set('accessToken', res.result.accessToken);
+                            sessionStorage.setItem("userInfo", JSON.stringify(res.result.userInfo));
+                            v.initDict(res.result.dictList);
+                            v.getMenuTree(res.result.menuTree);
                             v.SpinShow = false
-                        }).catch((error) => {
-                            v.SpinShow = false
-                            log('error', error)
-                        })
-                    }
-                }),
-                    setTimeout(() => {
+                        }
+                    else
+                        if (res.code === 500) {
+                            this.$Message.error(res.message);
+                            this.form.username = '';
+                            this.form.password = '';
+                        } else {
+                            this.$Message.error("用户登陆失败，请重试！");
+                            this.form.username = '';
+                            this.form.password = '';
+                        }
                         v.SpinShow = false
-                    }, 500)
+                    }).
+                        catch((error) = > {
+                            v.SpinShow = false
+                        log('error', error)
+                    })
+                    }
+                }
+            ),
+                setTimeout(() = > {
+                    v.SpinShow = false
+            },
+                500
+            )
             },
             getMenuTree(menuTree) {
                 this.session.setItem('menuList', menuTree)
@@ -177,14 +187,18 @@
                 }
             },
             getMenuList() {
-                this.$http.get(this.apis.USERROOT.GET_MENU_LIST).then((res) => {
-                    if (res.code === 200) {
-                        menuList.menuList = res.result;
-                        this.getMenuTree();
-                    }
-                }).catch((error) => {
+                this.$http.get(this.apis.USERROOT.GET_MENU_LIST).then((res) = > {
+                    if(res.code === 200
+            )
+                {
+                    menuList.menuList = res.result;
+                    this.getMenuTree();
+                }
+            }).
+                catch((error) = > {
                     log(error)
-                })
+                }
+            )
             },
             addToList(list) {
                 for (let r of list) {
@@ -221,7 +235,9 @@
                 }
             },
             buildComponent(node) {
-                return () => import('@/views/whdx/' + node.pid + "/" + node.name);
+                return () =
+            >
+                import('@/views/whdx/' + node.pid + "/" + node.name);
             },
             initDict(dictList) {
                 let dictMap = new Map();
@@ -243,13 +259,17 @@
                 }
 
                 let params = {menus: JSON.stringify(this.menus)}
-                this.$http.post(this.apis.USERROOT.INIT_MENU, params).then((res) => {
-                    if (res.code === 200) {
-                        log(res);
-                    }
-                }).catch((error) => {
+                this.$http.post(this.apis.USERROOT.INIT_MENU, params).then((res) = > {
+                    if(res.code === 200
+            )
+                {
+                    log(res);
+                }
+            }).
+                catch((error) = > {
                     log(error)
-                })
+                }
+            )
             }
         }
     };
