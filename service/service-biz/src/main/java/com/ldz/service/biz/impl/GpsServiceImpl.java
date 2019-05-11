@@ -783,15 +783,15 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                 String json = (String) redis.boundValueOps(key).get();
                 WebsocketInfo websocketInfo = JsonUtil.toBean(json, WebsocketInfo.class);
 
-                if(t != null){
-                    /*SimpleCondition condition1 = new SimpleCondition(ClGpsLs.class);
+                /*if(t != null){
+                    *//*SimpleCondition condition1 = new SimpleCondition(ClGpsLs.class);
                     condition1.eq(ClGpsLs.InnerColumn.zdbh , device.getZdbh());
                     condition1.gte(ClGpsLs.InnerColumn.cjsj , t);
-                    condition1.setOrderByClause(" cjsj asc");*/
+                    condition1.setOrderByClause(" cjsj asc");*//*
                     // 从最近的点火时间 到现在
                     List<Map<String,BigDecimal>> ls = gpsLsService.getJdAndWd(device.getZdbh(),t);
                     websocketInfo.setGpsList(ls);
-                }
+                }*/
                 list.add(websocketInfo);
                 continue;
             }
@@ -802,15 +802,15 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
             ClGps gps = gpsMap.get(device.getZdbh());
 
 
-            if(t != null){
-               /* SimpleCondition condition1 = new SimpleCondition(ClGpsLs.class);
+            /*if(t != null){
+               *//* SimpleCondition condition1 = new SimpleCondition(ClGpsLs.class);
                 condition1.eq(ClGpsLs.InnerColumn.zdbh , device.getZdbh());
                 condition1.gte(ClGpsLs.InnerColumn.cjsj , t);
-                condition1.setOrderByClause(" cjsj asc");*/
+                condition1.setOrderByClause(" cjsj asc");*//*
                 // 从最近的点火时间 到现在
                 List<Map<String,BigDecimal>> ls = gpsLsService.getJdAndWd(device.getZdbh(),t);
                 websocketInfo.setGpsList(ls);
-            }
+            }*/
 
             if (gps != null){
                 websocketInfo.setBdjd(gps.getBdjd().toString());
@@ -908,7 +908,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
             }
             String json = (String) redis.boundValueOps(key).get();
             WebsocketInfo info = JsonUtil.toBean(json, WebsocketInfo.class);
-            ClZdgl clZdgl = collect.get(deviceId);
+            /*ClZdgl clZdgl = collect.get(deviceId);
             List<Map<String,BigDecimal>> list = new ArrayList<>();
             List<ClGpsLs> list1 = new ArrayList<>();
             if(StringUtils.equals(clZdgl.getZxzt(), "00")){
@@ -936,7 +936,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                 }
             }
             errorLog.info("getWebSocketInfo gps 点  为空 " );
-            info.setGpsList(list);
+            info.setGpsList(list);*/
             json = JsonUtil.toJson(info);
             resList.add(json);
         }
