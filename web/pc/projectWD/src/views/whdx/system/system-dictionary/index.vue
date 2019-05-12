@@ -16,10 +16,10 @@
                   <div style="height: 45px;line-height: 45px;">
                         <div class="margin-top-10 box-row">
                               <div class="titmess">
-                                    <span>字典管理</span>
+                                    <span>{{$t("DIC_MANAGEMENT")}}</span>
                               </div>
                               <div class="body-r-1 inputSty">
-                                    <Input v-model="param.lmmcLike" placeholder="请输入字典名称..."
+                                    <Input v-model="param.lmmcLike" :placeholder='$t("DIC_INFORMATION")'
                                            style="width: 200px"
                                            @on-keyup.enter="findMessList()"
                                            @on-change="findMessList"></Input>
@@ -63,7 +63,7 @@
                                           <div>
                                                 <Row class="margin-bottom-10">
                                                       <Input v-model="dictionaryMess[index]" clearable
-                                                             placeholder="请输入字典信息..."
+                                                             :placeholder='$t("DIC_INFORMATION")'
                                                              @on-change="findDicList(item,index,dictionaryMess[index])"></Input>
                                                 </Row>
                                                 <div class="padding-2px-5px box-row-nh"

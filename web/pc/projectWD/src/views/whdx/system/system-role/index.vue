@@ -1,72 +1,73 @@
 <style lang="less">
-      @import '../../../../styles/common.less';
+    @import '../../../../styles/common.less';
 
 </style>
 <!--角色管理-->
 <template>
-      <div class="boxbackborder">
-            <Card>
-                  <Row class="margin-top-10" style='background-color: #fff;position: relative;'>
+    <div class="boxbackborder">
+        <Card>
+            <Row class="margin-top-10" style='background-color: #fff;position: relative;'>
 				<span class="tabPageTit">
     				<Icon type="ios-paper" size='30' color='#fff'></Icon>
     			</span>
-                        <div style="height: 45px;line-height: 45px;">
-                              <div class="margin-top-10 box-row">
-                                    <div class="titmess">
-                                          <span>角色管理</span>
-                                    </div>
-                                    <div class="body-r-1 inputSty">
-                                          <!--<DatePicker v-model="cjsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请输时间" @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>-->
-                                          <Input v-model="param.jsmcLike"
-                                                 placeholder="请输入角色"
-                                                 style="width: 200px"
-                                                 @on-keyup.enter="findMessList()"
-                                                 @on-change="findMessList"></Input>
-                                    </div>
-                                    <div class="butevent">
-                                          <Button type="primary" @click="findMessList()">
-                                                <Icon type="md-search"></Icon>
-                                                <!--查询-->
-                                          </Button>
-                                          <Button type="primary" @click="AddDataList()">
-                                                <Icon type="md-add"></Icon>
-                                          </Button>
-                                    </div>
-                              </div>
+                <div style="height: 45px;line-height: 45px;">
+                    <div class="margin-top-10 box-row">
+                        <div class="titmess">
+                            <span>{{$t("ROLE_MANAGEMENT")}}</span>
                         </div>
-                  </Row>
-                  <Row style="position: relative;">
-                        <Table ref="table"
-                               :row-class-name="rowClassName"
-                               :height="tabHeight"
-                               :columns="tableTiT"
-                               :data="tableData">
+                        <div class="body-r-1 inputSty">
+                            <!--<DatePicker v-model="cjsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请输时间" @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>-->
+                            <Input v-model="param.jsmcLike"
+                                   :placeholder='$t("ROLE")'
+                                   style="width: 200px"
+                                   @on-keyup.enter="findMessList()"
+                                   @on-change="findMessList"></Input>
+                        </div>
+                        <div class="butevent">
+                            <Button type="primary" @click="findMessList()">
+                                <Icon type="md-search"></Icon>
+                                <!--查询-->
+                            </Button>
+                            <Button type="primary" @click="AddDataList()">
+                                <Icon type="md-add"></Icon>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </Row>
+            <Row style="position: relative;">
+                <Table ref="table"
+                       :row-class-name="rowClassName"
+                       :height="tabHeight"
+                       :columns="tableTiT"
+                       :data="tableData">
 
-                        </Table>
-                  </Row>
-                  <Row class="margin-top-10 pageSty">
-                        <Page :total=pageTotal
-                              :current=param.pageNum
-                              :page-size=param.pageSize :page-size-opts=[8,10,20,30,40,50]
-                              @on-page-size-change='(e)=>{param.pageSize=e;pageChange()}'
-                              show-total
-                              show-elevator show-sizer placement='top'
-                              @on-change='pageChange'>
-                        </Page>
-                  </Row>
-            </Card>
-            <component
-                    :is="compName"
-                    :messdata="messdata"
-                    :usermesType="userMesType"
-                    :Dictionary="Dictionary"
-                    @listF='listF'>
-            </component>
-      </div>
+                </Table>
+            </Row>
+            <Row class="margin-top-10 pageSty">
+                <Page :total=pageTotal
+                      :current=param.pageNum
+                      :page-size=param.pageSize :page-size-opts=[8,10,20,30,40,50]
+                      @on-page-size-change='(e)=>{param.pageSize=e;pageChange()}'
+                      show-total
+                      show-elevator show-sizer placement='top'
+                      @on-change='pageChange'>
+                </Page>
+            </Row>
+        </Card>
+        <component
+                :is="compName"
+                :messdata="messdata"
+                :usermesType="userMesType"
+                :Dictionary="Dictionary"
+                @listF='listF'>
+        </component>
+    </div>
 </template>
 
 <script>
     import mixins from '@/mixins'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
 
     import addrole from './comp/addmess.vue'
@@ -74,7 +75,7 @@
 
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             addrole,
             modifyRolePermission
@@ -98,17 +99,20 @@
                 tableTiT: [
                     {
                         title: "序号",
+                        tit:"ORDER",
                         width: 80,
                         align: 'center',
                         type: 'index'
                     },
                     {
                         title: '角色名称',
+                        tit:"ROLE_NAME",
                         align: 'center',
                         key: 'jsmc'
                     },
                     {
                         title: '类型',
+                        tit:"TYPE",
                         align: 'center',
                         key: 'jslx',
                         render: (h, p) => {
@@ -118,6 +122,7 @@
                     },
                     {
                         title: '备注',
+                        tit:"COMMONT",
                         align: 'center',
                         key: 'bz'
                     },
@@ -128,6 +133,7 @@
                     // },
                     {
                         title: '操作',
+                        tit:"OPERATION",
                         key: 'action',
                         width: 150,
                         align: 'center',

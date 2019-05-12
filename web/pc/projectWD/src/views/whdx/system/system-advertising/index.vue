@@ -55,10 +55,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>活动管理</span>
+							<span>{{$t("ACTIVITY_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.hdbtLike" placeholder="请输入活动名称" style="width: 200px" @on-change="findMessList"></Input>
+							<Input v-model="param.hdbtLike" :placeholder='$t("ACTIVITY_NAME")' style="width: 200px" @on-change="findMessList"></Input>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="findMessList()">
@@ -76,7 +76,7 @@
 				<Table ref="table"
 						:height="tabHeight"
 						:row-class-name="rowClassName"
-						:columns="columns10"
+						:columns="tableTiT"
 						:data="data9"></Table>
 			</Row>
 			<Row class="margin-top-10 pageSty">
@@ -99,6 +99,7 @@
 
 
     import expandRow from './table-expand.vue';
+	import i18nTabTit from '@/mixins/i18nTabTit'
     import addmess from './comp/addmess.vue'
 	import mess from './comp/mess.vue'
     export default {
@@ -107,7 +108,7 @@
         	addmess,
 			mess
         },
-        mixins:[mixins],
+        mixins:[mixins,i18nTabTit],
         data () {
             return {
             	Carousel:3,
@@ -129,20 +130,23 @@
             		pageSize:8
             	},
             	showModal:false,
-                columns10: [
+				tableTiT: [
                 	{
                         title: '序号',
+						tit:"ORDER",
                         width: 65,
                         align:'center',
                         type: 'index',
                     },
                     {
                         title: '活动标题',
+						tit:"ACTIVITY_TITLE",
                         align:'center',
                         key: 'hdbt'
                     },
                     {
                         title: '内容/URL',
+						tit:"CONTENT",
                         align:'center',
                         key: 'url',
                         render: (h, params) => {
@@ -155,6 +159,7 @@
                     },
 					 {
 						 title: '活动类型',//微信--自能站牌
+						 tit:"ACTIVITY_STYLE",
 						 align:'center',
 						 key: 'hdlx',
 						 render: (h, params) => {
@@ -173,6 +178,7 @@
 					 },
 					 {
 						 title: '位置',//微信--自能站牌
+						 tit:"POSITION",
 						 align:'center',
 						 key: 'wz',
 						 render: (h, params) => {
@@ -201,6 +207,7 @@
                     // },
                     {
 	                	title:'附件',
+						tit:"ACCESSORY",
 	                    type: 'expand',
 	                    width: 65,
 	                    render: (h, params) => {
@@ -212,6 +219,7 @@
                     }
                     },{
 						title: '操作',
+						tit:"OPERATION",
 						key: 'action',
 						width: 150,
 						align: 'center',

@@ -12,10 +12,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>服务管理</span>
+							<span>{{$t("SERVICE_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.fwmcLike" placeholder="请输服务名称" style="width: 200px" @on-keyup.enter="formList()"></Input>
+							<Input v-model="param.fwmcLike" :placeholder='$t("SERVICE_NAME")' style="width: 200px" @on-keyup.enter="formList()"></Input>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="formList()">
@@ -45,13 +45,14 @@
 
 <script>
 	import mixins from '@/mixins'
+	import i18nTabTit from '@/mixins/i18nTabTit'
 
 
 	import addmess from './comp/addmess.vue'
 	import mess from './comp/mess.vue'
 	export default {
 		name: 'char',
-		mixins: [mixins],
+		mixins: [mixins,i18nTabTit],
 		components: {
 			addmess,
 			mess
@@ -70,23 +71,27 @@
 				chmess:{},
 				tableTiT: [{
 						title: "序号",
+						tit:"ORDER",
 						width: 80,
 						align: 'center',
 						type: 'index'
 					},
 					{
 						title: '服务名称',
+						tit:"SERVICE_CODE",
 						width: 120,
 						align: 'center',
 						key: 'fwmc'
 					},
 					{
 						title: '服务代码',
+						tit:"SERVICE_CODE",
 						align: 'center',
 						key: 'fwdm'
 					},
 					{
 						title: '状态',
+						tit:"STATUS",
 						align: 'center',
 						key: 'zt',
                         render:(h,p)=>{
@@ -103,11 +108,13 @@
 					},
 					{
 						title: 'API前缀',
+						tit:"API_PREFIX",
 						align: 'center',
 						key: 'apiQz'
 					},
 					{
 						title: '图标',
+						tit:"ICON_TAB",
 						align: 'center',
 						key: 'tb',
 						render: (h, params) => {
@@ -134,6 +141,7 @@
 					// },
 					{
 						title: '操作',
+						tit:"OPERATION",
 						key: 'action',
 						width: 150,
 						align: 'center',

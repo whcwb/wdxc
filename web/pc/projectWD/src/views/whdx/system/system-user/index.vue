@@ -12,15 +12,15 @@
                   <div style="height: 45px;line-height: 45px;">
                         <div class="margin-top-10 box-row">
                               <div class="titmess">
-                                    <span>用户管理</span>
+                                    <span>{{$t("USER_MANAGEMENT")}}</span>
                               </div>
                               <div class="body-r-1 inputSty">
                                     <Input v-model="param.xmLike"
-                                           placeholder="请输入用户姓名" style="width: 200px"
+                                           :placeholder='$t("USER_NAME")' style="width: 200px"
                                            @on-keyup.enter="findMessList()"
                                            @on-change="findMessList"></Input>
                                     <Input v-model="param.sjhLike"
-                                           placeholder="请输入手机号码" style="width: 200px"
+                                           :placeholder='$t("PHONE_NUMBER")' style="width: 200px"
                                            @on-keyup.enter="findMessList()"
                                            @on-change="findMessList"></Input>
                               </div>
@@ -62,6 +62,7 @@
     import mixins from '@/mixins'
     import newmess from './comp/newmes.vue'
     import changemes from './comp/changmes.vue'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
     export default {
         name: 'char',
@@ -69,7 +70,7 @@
             newmess,
             changemes
         },
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         data() {
             return {
                 //tab高度
@@ -84,27 +85,33 @@
                 pageTotal: 2,
                 tableTiT: [{
                     title: "序号",
+                      tit:"ORDER",
                     width: 80,
                     align: 'center',
                     type: 'index'
                 },
                     {
                         title: '帐号',
+                        tit:"ID",
                         align: 'center',
                         key: 'zh'
                     },
                     {
                         title: '姓名',
+                          tit:"NAME",
+                          minWidth:100,
                         align: 'center',
                         key: 'xm'
                     },
                     {
                         title: '证件号码',
+                          tit:"ID_NUMBER",
                         align: 'center',
                         key: 'zjhm'
                     },
                     {
                         title: '性别',
+                          tit:"GENDER",
                         align: 'center',
                         key: 'xb',
                         render: (h, params) => {
@@ -113,17 +120,20 @@
                     },
                     {
                         title: '手机号',
+                          tit:"TELPHONE_NUM",
                         width: 120,
                         align: 'center',
                         key: 'sjh'
                     },
                     {
                         title: '职务',
+                          tit:"DUTY",
                         align: 'center',
                         key: 'zw'
                     },
                     {
                         title: '类型',
+                          tit:"TYPE",
                         align: 'center',
                         key: 'lx',
                         render: (h, p) => {
@@ -134,6 +144,7 @@
                     },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         key: 'action',
                         width: 150,
                         align: 'center',

@@ -13,10 +13,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>日志管理</span>
+							<span>{{$t("DAILY_RECORD_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<DatePicker v-model="czsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请输时间" @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>
+							<DatePicker v-model="czsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" :placeholder='$t("TIME_RESERCH")' @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="findMessList()">
@@ -48,11 +48,12 @@
 
 <script>
 	import mixins from '@/mixins'
+	import i18nTabTit from '@/mixins/i18nTabTit'
 
 
 	export default {
     	name:'char',
-    	mixins:[mixins],
+    	mixins:[mixins,i18nTabTit],
         data () {
             return {
             	SpinShow:true,
@@ -69,6 +70,7 @@
                 tableTiT: [
                 	{
 	                	title:"序号",
+						tit:"ORDER",
 	                	width:80,
 	                	align:'center',
 	                	type:'index'
@@ -81,11 +83,13 @@
                     // },
                     {
                         title: '操作时间',
+						tit:"ACTION_TIME",
                         align:'center',
                         key: 'czsj'
                     },
                     {
                         title: '操作人 ',
+						tit:"OPERATOR",
                         align:'center',
                         key: 'czr'
                     },
@@ -101,6 +105,7 @@
                     // },
                     {
                         title: '参数',
+						tit:"PARAMETER",
                         align:'center',
                         key: 'cs',
 						render:(h,p)=>{
@@ -122,6 +127,7 @@
                     },
                     {
                         title: '耗时',
+						tit:"TIME_CONSUMING",
                         align:'center',
                         key: 'zxsj',
 						render:(h,p)=>{
@@ -130,16 +136,19 @@
                     },
                     {
                         title: '备注',
+						tit:"COMMONT",
                         align:'center',
                         key: 'sm'
                     },
                     {
                         title: '方法',
+						tit:"METHOD",
                         align:'center',
                         key: 'ff'
                     },
                     {
                         title: '操作结果',
+						tit:"ACTION_RESULT",
                         key: 'jg',
                         width: 150,
                         align: 'center',

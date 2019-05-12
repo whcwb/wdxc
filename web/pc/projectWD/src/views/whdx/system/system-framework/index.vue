@@ -38,7 +38,7 @@
                   <div style="height: 45px;line-height: 45px;">
                         <div class="margin-top-10 box-row">
                               <div class="titmess">
-                                    <span>厂商管理</span>
+                                    <span>{{$t("MANUFACTURER_MANAGEMENT")}}</span>
                               </div>
                         </div>
                   </div>

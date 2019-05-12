@@ -12,12 +12,12 @@
                 <div style="height: 45px;line-height: 45px;">
                     <div class="margin-top-10 box-row">
                         <div class="titmess">
-                            <span>功能管理</span>
+                            <span>{{$t("FUNCTION_MANAGEMENT")}}</span>
                         </div>
                         <div class="body-r-1 inputSty">
                             <Input v-model="param.gnmcLike"
                                    @on-enter="v.util.getPageData(v)"
-                                   placeholder="请输入功能名称" style="width: 200px"></Input>
+                                   :placeholder='$t("FUNCTION_NAME")' style="width: 200px"></Input>
                         </div>
                         <div class="butevent">
                             <Button type="primary" @click="v.util.getPageData(v)">
@@ -47,10 +47,11 @@
 <script>
     import mixins from '@/mixins'
     import formData from './comp/formData.vue'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             formData
         },
@@ -65,25 +66,26 @@
                 //数据传输
                 chmess: {},
                 tableTiT: [
-                    {title: "序号", width: 60, align: 'center', type: 'index', fixed: 'left'},
-                    {title: '功能名称', align: 'center', width: 120, key: 'gnmc', fixed: 'left'},
-                    {title: '功能代码', align: 'center', width: 140, key: 'gndm'},
-                    {title: '服务代码', align: 'center', width: 120, key: 'fwdm'},
+                    {title: "序号", tit:"ORDER", width: 60, align: 'center', type: 'index', fixed: 'left'},
+                    {title: '功能名称',  tit:"FUNCTION_NAME_TAB", align: 'center', width: 120, key: 'gnmc', fixed: 'left'},
+                    {title: '功能代码',  tit:"FUNCTION_CODE", align: 'center', width: 140, key: 'gndm'},
+                    {title: '服务代码',  tit:"SURVICE_CODE_TAB", align: 'center', width: 120, key: 'fwdm'},
                     {
-                        title: '状态', align: 'center', width: 120, key: 'zt',
+                        title: '状态',  tit:"STATUS", align: 'center', width: 120, key: 'zt',
                         render: (h, p) => {
                             let val = this.dictUtil.getValByCode(this, this.lmdmDictionary, p.row.zt)
                             return h('div', val)
                         }
 
                     },
-                    {title: '排序', align: 'center', width: 120, key: 'px'},
-                    {title: '备注', align: 'center', width: 140, key: 'bz'},
-                    {title: 'URL', align: 'center', width: 140, key: 'url'},
-                    {title: '父节点', align: 'center', width: 140, key: 'fjd'},
+                    {title: '排序', tit:"RANK", align: 'center', width: 120, key: 'px'},
+                    {title: '备注', tit:"COMMONT", align: 'center', width: 140, key: 'bz'},
+                    {title: 'URL', tit:"URL", align: 'center', width: 140, key: 'url'},
+                    {title: '父节点', tit:"PARENT_NODE", align: 'center', width: 140, key: 'fjd'},
                     {title: '跳转地址', align: 'center', width: 140, key: 'tzdz'},
                     {
                         title: '图标',
+                        tit:"",
                         align: 'center',
                         width: 60,
                         key: 'tb',
