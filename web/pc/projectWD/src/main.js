@@ -53,6 +53,7 @@ Date.prototype.format = function (format) {
 }
 new Vue({
     el: '#app',
+    i18n,
     router: router,
     store: store,
     render: h => h(App),

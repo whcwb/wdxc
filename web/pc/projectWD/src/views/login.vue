@@ -14,10 +14,7 @@
                   }
             }
             .from {
-                  /*position: relative;*/
                   .loginTiT {
-                        /*position: absolute;*/
-                        /*top: -50px;*/
                         text-align: center;
 
                   }
@@ -31,22 +28,12 @@
 
 <template>
       <div class="login" style="overflow-y: auto" @keydown.enter="handleSubmit">
-            <div class="loginTit">
-                  <Row>
-                        <Col span="6" :lg="8" :md="8">
-                              <div style=" height:70px; width:100%;">
-
-                              </div>
-                        </Col>
-                        <Col span="2" :lg="2" :md="2">
-                              <div class="text" style="left: 38%;cursor: pointer" @click="changeTo">
-                                    <img src="static/icon/xq.png"
-                                         style="vertical-align: middle;padding-right: 5px;padding-bottom: 3px"><span
-                                      style="padding-top: 3px">平台简介</span>
-                              </div>
-                        </Col>
-                  </Row>
-
+            <div class="loginTit" style="background-color: #495060">
+                  <div class="text" style="left: 38%;cursor: pointer" @click="changeTo">
+                        <img src="static/icon/xq.png"
+                        style="vertical-align: middle;padding-right: 5px;padding-bottom: 3px">
+                        <span style="padding-top: 3px">平台简介</span>
+                  </div>
             </div>
             <div class="loginForm">
                   <div class="login-con">
@@ -55,7 +42,7 @@
                                     <div class="body-O from">
                                           <div class="loginTiT">
                                                 <h1>
-                                                      车辆管理
+                                                      {{$t("CAR_MANAGE")}}
                                                 </h1>
                                           </div>
                                           <Form ref="loginForm" :model="form" :rules="rules">
@@ -133,44 +120,40 @@
             },
             handleSubmit() {
                 var v = this
-                this.$refs.loginForm.validate((valid) = > {
-                    if(valid) {
-                        v.SpinShow = true
-                        v.$http.post(this.apis.LOGIN.QUERY, this.form).then((res) = > {
-                            if(res.code === 200
-                    )
-                        {
-                            Cookies.set('usermess', this.form.username);
-                            Cookies.set('accessToken', res.result.accessToken);
-                            sessionStorage.setItem("userInfo", JSON.stringify(res.result.userInfo));
-                            v.initDict(res.result.dictList);
-                            v.getMenuTree(res.result.menuTree);
-                            v.SpinShow = false
+                this.$refs.loginForm.validate((valid) => {
+                        if (valid) {
+                            v.SpinShow = true
+                            v.$http.post(this.apis.LOGIN.QUERY, this.form).then((res) => {
+                                if (res.code === 200) {
+                                    Cookies.set('usermess', this.form.username);
+                                    Cookies.set('accessToken', res.result.accessToken);
+                                    sessionStorage.setItem("userInfo", JSON.stringify(res.result.userInfo));
+                                    v.initDict(res.result.dictList);
+                                    v.getMenuTree(res.result.menuTree);
+                                    v.SpinShow = false
+                                }
+                                else if (res.code === 500) {
+                                    this.$Message.error(res.message);
+                                    this.form.username = '';
+                                    this.form.password = '';
+                                } else {
+                                    this.$Message.error("用户登陆失败，请重试！");
+                                    this.form.username = '';
+                                    this.form.password = '';
+                                }
+                                v.SpinShow = false
+                            }).catch((error) => {
+                                v.SpinShow = false
+                                log('error', error)
+                            })
                         }
-                    else
-                        if (res.code === 500) {
-                            this.$Message.error(res.message);
-                            this.form.username = '';
-                            this.form.password = '';
-                        } else {
-                            this.$Message.error("用户登陆失败，请重试！");
-                            this.form.username = '';
-                            this.form.password = '';
-                        }
-                        v.SpinShow = false
-                    }).
-                        catch((error) = > {
-                            v.SpinShow = false
-                        log('error', error)
-                    })
                     }
-                }
-            ),
-                setTimeout(() = > {
-                    v.SpinShow = false
-            },
-                500
-            )
+                ),
+                    setTimeout(() => {
+                            v.SpinShow = false
+                        },
+                        500
+                    )
             },
             getMenuTree(menuTree) {
                 this.session.setItem('menuList', menuTree)
@@ -187,18 +170,15 @@
                 }
             },
             getMenuList() {
-                this.$http.get(this.apis.USERROOT.GET_MENU_LIST).then((res) = > {
-                    if(res.code === 200
-            )
-                {
-                    menuList.menuList = res.result;
-                    this.getMenuTree();
-                }
-            }).
-                catch((error) = > {
-                    log(error)
-                }
-            )
+                this.$http.get(this.apis.USERROOT.GET_MENU_LIST).then((res) => {
+                    if (res.code === 200) {
+                        menuList.menuList = res.result;
+                        this.getMenuTree();
+                    }
+                }).catch((error) => {
+                        log(error)
+                    }
+                )
             },
             addToList(list) {
                 for (let r of list) {
@@ -235,9 +215,8 @@
                 }
             },
             buildComponent(node) {
-                return () =
-            >
-                import('@/views/whdx/' + node.pid + "/" + node.name);
+                return () =>
+                    import('@/views/whdx/' + node.pid + "/" + node.name);
             },
             initDict(dictList) {
                 let dictMap = new Map();
@@ -259,17 +238,14 @@
                 }
 
                 let params = {menus: JSON.stringify(this.menus)}
-                this.$http.post(this.apis.USERROOT.INIT_MENU, params).then((res) = > {
-                    if(res.code === 200
-            )
-                {
-                    log(res);
-                }
-            }).
-                catch((error) = > {
-                    log(error)
-                }
-            )
+                this.$http.post(this.apis.USERROOT.INIT_MENU, params).then((res) => {
+                    if (res.code === 200) {
+                        log(res);
+                    }
+                }).catch((error) => {
+                        log(error)
+                    }
+                )
             }
         }
     };

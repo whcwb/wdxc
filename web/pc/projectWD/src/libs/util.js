@@ -8,7 +8,13 @@ import Cookies from 'js-cookie'
 import swal from 'sweetalert2'
 let util = {
 };
+export const localSave = (key, value) => {
+    localStorage.setItem(key, value)
+}
 
+export const localRead = (key) => {
+    return localStorage.getItem(key) || ''
+}
 util.showResMessage = (v,res,successMsg,errorMsg)=>{
     if (!successMsg)successMsg = res.message;
     if (!errorMsg)errorMsg = res.message;
