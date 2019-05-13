@@ -12,10 +12,10 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span>单位管理</span>
+                                          <span>{{$t("ORGANIZATION_MANAGEMENT")}}</span>
                                     </div>
                                     <div class="body-r-1 inputSty">
-                                          <Input v-model="param.dwmcLike" placeholder="请输入单位名称"
+                                          <Input v-model="param.dwmcLike" :placeholder='$t("ORGANIZATION_NAME")'
                                                  style="width: 200px"></Input>
                                     </div>
                                     <div class="butevent">

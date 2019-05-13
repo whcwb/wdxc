@@ -56,7 +56,7 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span>云视频库</span>
+                                          <span>{{$t("CLOUD_VIDEO")}}</span>
                                     </div>
                                     <!--<div class="body-r-1 inputSty">-->
                                           <!--<Select v-model="param.wjmLike" @on-change="findMessList()">-->
@@ -69,15 +69,15 @@
                                                       format="yyyy-MM-dd"
                                                       type="daterange"
                                                       placement="bottom-end"
-                                                      placeholder="请输时间"
+                                                      :placeholder='$t("TIME_RESEARCH")'
                                                       @on-keyup.enter="findMessList()"
                                                       style="width: 220px"></DatePicker>
                                     </div>
                                     <div class="body-r-1 inputSty">
-                                          <Input type="text" v-model="param.cphLike" placeholder="请输入车牌号"></Input>
+                                          <Input type="text" v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")'></Input>
                                     </div>
                                     <div class="body-r-1 inputSty">
-                                          <Input type="text" v-model="param.zdbhLike" placeholder="请输入终端编号"></Input>
+                                          <Input type="text" v-model="param.zdbhLike" :placeholder='$t("TERMINAL_NUM")'></Input>
                                     </div>
                                     <div class="butevent">
                                           <Button type="primary" @click="findMessList()">
@@ -91,8 +91,8 @@
             </div>
             <div>
                   <Tabs type="card" v-model="param.wjmLike" @on-click="findMessList()">
-                        <TabPane label="前摄像头" name="F"></TabPane>
-                        <TabPane label="后摄像头" name="B"></TabPane>
+                        <TabPane :label='$t("FRONT_CAMERA")' name="F"></TabPane>
+                        <TabPane :label='$t("REAR_CAMERA")' name="B"></TabPane>
                   </Tabs>
             </div>
             <div v-show="vadeoShow" class="body" style="border: 1px solid #dddee1">

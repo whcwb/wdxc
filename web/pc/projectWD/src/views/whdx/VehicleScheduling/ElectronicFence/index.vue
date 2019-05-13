@@ -32,11 +32,11 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span class="titmess">电子围栏</span>
+                                          <span class="titmess">{{$t("ELECTRONIC_FENCE")}}</span>
                                     </div>
                                     <div class="body-r-1 inputSty">
                                           <!--<DatePicker v-model="cjsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请输时间" @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>-->
-                                          <Input v-model="param.cphLike" placeholder="请输入车牌号" style="width: 200px"
+                                          <Input v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")' style="width: 200px"
                                                  @on-keyup.enter="findMessList()"></Input>
                                     </div>
                                     <div class="butevent">
@@ -56,7 +56,7 @@
                   <Table ref="table"
                           :height="tabHeight"
                           :row-class-name="rowClassName"
-                          :columns="columns10"
+                          :columns="tableTiT"
                           :data="data9"></Table>
                   <div v-if="SpinShow" style="width:100%;height:100%;position: absolute;top: 0;left:0;z-index: 100;">
                         <Spin fix>
@@ -132,6 +132,7 @@
 
 <script>
     import myMap from '../../map/mapBK.vue'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
     import mixins from '@/mixins'
     import formData from './comp/formData'
@@ -139,7 +140,7 @@
 
     export default {
         name: '',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             myMap, formData, bkShow
         },
@@ -174,31 +175,36 @@
                     // ],
                 },
                 fanceId: '',
-                columns10: [
+                  tableTiT: [
                     {
                         title: '序号',
+                          tit:"ORDER",
                         type: 'index',
                         width: 60,
                         align: 'center'
                     },
                     {
                         title: '车牌号',
+                          tit:"CAR_NUM_TAB",
                         align: 'center',
                         key: 'cph'
                     },
                     {
                         title: '围栏名称',
+                          tit:"FENCE_NAME",
                         align: 'center',
                         key: 'wlmc'
                     },
                     {
                         title: '创建时间',
+                          tit:"CREATE_TIME",
                         width: 180,
                         align: 'center',
                         key: 'cjsj'
                     },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         key: 'action',
                         width: 150,
                         align: 'center',

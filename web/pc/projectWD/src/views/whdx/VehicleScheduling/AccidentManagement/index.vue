@@ -55,10 +55,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>事故管理</span>
+							<span>{{$t("ACCIDENT_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.cphLike" placeholder="请输入车牌号" style="width: 200px" @on-change="findMessList"></Input>
+							<Input v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")' style="width: 200px" @on-change="findMessList"></Input>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="findMessList()">
@@ -76,7 +76,7 @@
 				<Table ref="table"
 						:height="tabHeight"
 						:row-class-name="rowClassName"
-						:columns="columns10"
+						:columns="tableTiT"
 						:data="data9"></Table>
 			</Row>
 			<Row class="margin-top-10 pageSty">
@@ -96,7 +96,7 @@
 </template>
 <script>
 	import mixins from '@/mixins'
-
+	import i18nTabTit from '@/mixins/i18nTabTit'
     import expandRow from './table-expand.vue';
     import addmess from './comp/addmess.vue'
 	import mess from './comp/mess.vue'
@@ -106,7 +106,7 @@
         	addmess,
 			mess
         },
-        mixins:[mixins],
+        mixins:[mixins,i18nTabTit],
         data () {
             return {
             	Carousel:3,
@@ -128,40 +128,47 @@
             		pageSize:8
             	},
             	showModal:false,
-                columns10: [
+				tableTiT: [
                     {
                         title:'序号',
+						tit:"ORDER",
                         type: 'index',
                         align:'center',
                         width: 60,
                     },
                     {
                         title: '车牌号码',
+						tit:"CAR_NUM_TAB",
                         align:'center',
                         key: 'cph'
                     },
                     {
                         title: '司机',
+						tit:"DRIVER",
                         align:'center',
                         key: 'sj'
                     },
                     {
                         title: '联系电话',
+						tit:"TELPHONE_NUM",
                         align:'center',
                         key: 'lxdh'
                     },
                     {
                         title: '发生时间',
+						tit:"OCCURRENCE_TIME",
                         align:'center',
                         key: 'sgsj'
                     },
                     {
                         title: '事故描述',
+						tit:"ACCIDENT_DESCRIBE",
                         align:'center',
                         key: 'sgms'
                     },
                     {
                         title:'附件',
+						tit:"ACCESSORY",
                         type: 'expand',
                         width: 65,
                         render: (h, params) => {
@@ -174,6 +181,7 @@
                     },
                     {
                         title:'操作',
+						tit:"OPERATION",
                         align:'center',
                         type: 'action',
                         render: (h, params) => {

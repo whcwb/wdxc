@@ -16,7 +16,7 @@
 							<span>{{$t("DAILY_RECORD_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<DatePicker v-model="czsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" :placeholder='$t("TIME_RESERCH")' @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>
+							<DatePicker v-model="czsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" :placeholder='$t("TIME_RESEARCH")' @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="findMessList()">

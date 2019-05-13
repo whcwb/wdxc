@@ -14,7 +14,7 @@
                                 :styles="{top: '20px'}">
                               <Row>
                                     <Col span="8">
-                                          <FormItem label='终端编号'>
+                                          <FormItem :label=$t'("TERMINAL_NUMBER")'>
                                                 <Select v-model="formItem.zdbh" filterable clearable>
                                                       <Option v-for="(item,index) in carList"
                                                               :value="item.zdbh" :key="item.zdbh">{{item.zdbh}}
@@ -23,13 +23,13 @@
                                           </FormItem>
                                     </Col>
                                     <Col span="8">
-                                          <FormItem label='开始时间'>
+                                          <FormItem :label=$t'("START_TIME")'>
                                                 <DatePicker v-model="formItem.startTime" type="datetime"
-                                                            placeholder="请输时间" style="width: 220px"></DatePicker>
+                                                            :placeholder='$t("TIME_RESEARCH")' style="width: 220px"></DatePicker>
                                           </FormItem>
                                     </Col>
                                     <Col span="8">
-                                          <FormItem label='提取时长' prop="duration">
+                                          <FormItem :label=$t'("EXTRACTION_TIME")' prop="duration">
                                                 <Input v-model="formItem.duration" :number="true" placeholder="请输时长"
                                                        style="width: 220px"><span slot="append">秒</span></Input>
                                                 <span style="color: red;margin-left: 40px;">*一次最多提取30秒</span>

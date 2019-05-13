@@ -12,11 +12,11 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span>车队管理</span>
+                                          <span>{{$t("MOTORCADE_MANAGEMENT")}}</span>
                                     </div>
                                     <div class="body-r-1 inputSty">
                                           <!--<DatePicker v-model="cjsjInRange" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请输时间" @on-keyup.enter="findMessList()" style="width: 220px"></DatePicker>-->
-                                          <Input v-model="param.cdmcLike" placeholder="请输入车队名称" style="width: 200px"
+                                          <Input v-model="param.cdmcLike" :placeholder='$t("MOTORCADE_NAME")' style="width: 200px"
                                                  @on-keyup.enter="findMessList()"></Input>
                                     </div>
                                     <div class="butevent">
@@ -66,6 +66,7 @@
 </template>
 <script>
     import mixins from '@/mixins'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
 
     import newmes from './comp/newmes.vue'
@@ -75,7 +76,7 @@
         components: {
             newmes
         },
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         data() {
             return {
                 mess: {},
@@ -90,35 +91,41 @@
                     pageNum: 1,
                     pageSize: 8
                 },
-                columns10: [
+                  tableTiT: [
                     {
                         title: '序号',
+                          tit:"ORDER",
                         type: 'index',
                         width: 60,
                         align: 'center'
                     },
                     {
                         title: '车队编号',
+                          tit:"MOTORCADE_NUM",
                         align: 'center',
                         key: 'cdbh'
                     },
                     {
                         title: '车队名称',
+                          tit:"MOTORCADE_NAME_TAB",
                         align: 'center',
                         key: 'cdmc'
                     },
                     {
                         title: '队长姓名',
+                          tit:"CAPTAIN_NAME",
                         align: 'center',
                         key: 'dzxm'
                     },
                     {
                         title: '手机号码',
+                          tit:"TELPHONE_NUM",
                         align: 'center',
                         key: 'sjhm'
                     },
                     {
                         title: '状态',
+                          tit:"STATUS",
                         align: 'center',
                         key: 'zt',
                         render: (h, p) => {
@@ -139,6 +146,7 @@
                     // },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         key: 'action',
                         width: 150,
                         align: 'center',

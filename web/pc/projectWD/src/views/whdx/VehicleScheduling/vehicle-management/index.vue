@@ -15,12 +15,12 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>车辆管理</span>
+							<span>{{$t("CAR_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.cphLike" placeholder="请输入车牌号" style="width: 200px" @on-keyup.enter="findMessList()"></Input>
-							<Input v-model="param.zdbhLike" placeholder="请输入终端编号" style="width: 200px" @on-keyup.enter="findMessList()"></Input>
-							<Input v-model="param.sjxmLike" placeholder="请输入司机姓名" style="width: 200px" @on-keyup.enter="findMessList()"></Input>
+							<Input v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")' style="width: 200px" @on-keyup.enter="findMessList()"></Input>
+							<Input v-model="param.zdbhLike" :placeholder='$t("TERMINAL_NUM")' style="width: 200px" @on-keyup.enter="findMessList()"></Input>
+							<Input v-model="param.sjxmLike" :placeholder='$t("DRIVER_NAME")' style="width: 200px" @on-keyup.enter="findMessList()"></Input>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="findMessList()">

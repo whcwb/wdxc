@@ -13,25 +13,25 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>事件记录</span>
+							<span>{{$t("EVENT_RECORD")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
 							<Select v-model="param.cx"
 								@on-change = 'findMessList'
 								clearable
-								placeholder="请选择车辆类型"
+									:placeholder='$t("CAR_TYPE")'
 								filterable style="width: 160px;">
 				                <Option v-for="(item,index) in carType"
 				                	:value="item.key"
 				                	style="text-align: left;"
 				                	:key="index">{{item.val}}</Option>
 				            </Select>
-							<Input v-model="param.cphLike" placeholder="请输入车牌号...." style="width: 160px;"></Input>
-							<Input v-model="param.zdbhLike" placeholder="请输入终端编号...." style="width: 160px;"></Input>
+							<Input v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")' style="width: 160px;"></Input>
+							<Input v-model="param.zdbhLike" :placeholder='$t("TERMINAL_NUM")' style="width: 160px;"></Input>
 				            <Select v-model="param.sjlx"
 				            	@on-change = 'findMessList'
 				            	clearable
-				            	placeholder="请选择事件类型"
+									:placeholder='$t("EVENT_TYPE")'
 				            	filterable style="width: 160px;">
 				                <Option v-for="(item,index) in thingType"
 				                	:value="item.key"
@@ -41,7 +41,7 @@
 							<DatePicker v-model="cjsjInRange"
 								@on-change = 'findMessList'
 								format="yyyy-MM-dd" type="daterange"
-								placement="bottom-end" placeholder="请输时间"
+								placement="bottom-end" :placeholder='$t("TIME_RESEARCH")'
 								@on-keyup.enter="findMessList()" style="width: 180px"></DatePicker>
 						</div>
 						<div class="butevent">
@@ -74,11 +74,12 @@
 
 <script>
 	import mixins from '@/mixins'
+	import i18nTabTit from '@/mixins/i18nTabTit'
 
 
 	export default {
     	name:'char',
-    	mixins:[mixins],
+    	mixins:[mixins,i18nTabTit],
         data () {
             return {
             	SpinShow:true,
@@ -92,22 +93,26 @@
                 tableTiT: [
                 	{
 	                	title:"序号",
+						tit:"ORDER",
 	                	width:80,
 	                	align:'center',
 	                	type:'index'
 	                },
                     {
                         title: '车牌号',
+						tit:"CAR_NUM_TAB",
                         key: 'cph',
                         align: 'center',
                     },
                     {
                         title: '终端编号',
+						tit:"TERMINAL_NUMBER",
                         key: 'zdbh',
                         align: 'center',
                     },
                     {
                         title: '事件类型',
+						tit:"EVENT_TYPE_TAB",
                         key: 'sjlx',
                         align: 'center',
                         render: (h, p) => {
@@ -117,11 +122,13 @@
                     },
                     {
                         title: '驾驶员',
+						tit:"DRIVER",
                         key: 'sjxm',
                         align: 'center',
                     },
                     {
                         title: '车型',
+						tit:"CAR_TYPE_TAB",
                         key: 'cx',
                         align: 'center',
                         render: (h, p) => {
@@ -131,6 +138,7 @@
                     },
                     {
                         title: '发生时间',
+						tit:"OCCURRENCE_TIME",
                         key: 'cjsj',
                         align: 'center',
                     }

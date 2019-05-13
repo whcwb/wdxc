@@ -17,10 +17,10 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span>超速限定</span>
+                                          <span>{{$t("OVER_SPEED_LIMIT")}}</span>
                                     </div>
                                     <div class="body-r-1 inputSty">
-                                          <Input v-model="param.cphLike" placeholder="请输入车牌号" style="width: 200px"
+                                          <Input v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")' style="width: 200px"
                                                  @on-keyup.enter="getmess()"></Input>
                                     </div>
                                     <div class="butevent">
@@ -61,6 +61,7 @@
 
 <script>
     import mixins from '@/mixins'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
 
     import newmes from './comp/newmes.vue'
@@ -71,7 +72,7 @@
         components: {
             newmes, change
         },
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         data() {
             return {
                 mess: {},
@@ -91,18 +92,21 @@
                 tableTiT: [
                     {
                         title: "序号",
+                          tit:"ORDER",
                         width: 80,
                         align: 'center',
                         type: 'index'
                     },
                     {
                         title: '车牌号码',
+                          tit:"CAR_NUM_TAB",
                         align: 'center',
                         width: 120,
                         key: 'cph'
                     },
                     {
                         title: '车速上限',
+                          tit:"SPEED_UP",
                         align: 'center',
                         key: 'sdsx',
                         render: (h, p) => {
@@ -111,6 +115,7 @@
                     },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         align: 'center',
                         type: 'action',
                         render: (h, params) => {

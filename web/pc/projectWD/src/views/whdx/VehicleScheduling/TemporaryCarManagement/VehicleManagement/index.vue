@@ -12,10 +12,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>临时车管理</span>
+							<span>{{$t("TEMPORARY_CAR_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.gnmcLike" placeholder="请输入功能名称" style="width: 200px"></Input>
+							<Input v-model="param.gnmcLike" :placeholder='$t("CAR_FUNCTION_NAME")' style="width: 200px"></Input>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="v.util.getPageData(v)">

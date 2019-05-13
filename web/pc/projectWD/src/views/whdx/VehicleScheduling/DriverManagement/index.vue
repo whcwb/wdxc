@@ -12,10 +12,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>驾驶员管理</span>
+							<span>{{$t("DRIVER_MANAGEMENT")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.xmLike" placeholder="请输入驾驶姓名" style="width: 200px" @on-keyup.enter="findMessList()"></Input>
+							<Input v-model="param.xmLike" :placeholder='$t("DRIVER_NAME")' style="width: 200px" @on-keyup.enter="findMessList()"></Input>
 						</div>
 						<div class="butevent">
 							<Button type="primary" @click="findMessList()">
@@ -54,14 +54,14 @@
 
 <script>
 	import mixins from '@/mixins'
-
+	import i18nTabTit from '@/mixins/i18nTabTit'
 	import newmes from './comp/newmes.vue'
 	export default {
     	name:'char',
     	components: {
 			newmes
         },
-    	mixins:[mixins],
+    	mixins:[mixins,i18nTabTit],
         data () {
             return {
             	mess:{},
@@ -87,6 +87,7 @@
   	                },
                     {
                         title: '姓名',
+						tit:"",
                         width:110,
                         align:'center',
                         key: 'xm',
@@ -94,6 +95,7 @@
                     },
   	                {
                         title: '性别',
+						tit:"",
                         width:60,
                         align:'center',
                         key: 'xb',
@@ -103,32 +105,38 @@
                     },
                     {
                         title: '年龄',
+						tit:"",
 						width:80,
                         align:'center',
                         key: 'nl'
                     },
                     {
                         title: '身份证号',
+						tit:"",
                         align:'center',
                         key: 'sfzhm'
                     },
                     {
                         title: '血型',
+						tit:"",
                         align:'center',
                         key: 'xx'
                     },
                     {
                         title: '健康状况',
+						tit:"HEALTH_STATUS",
                         align:'center',
                         key: 'jkzk'
                     },
                     {
                         title: '驾照有效期',
+						tit:"DRIVER_LICENSE_VALID",
                         align:'center',
                         key: 'jzyxq'
                     },
                     {
                         title: '状态',
+						tit:"STATUS",
                         width:80,
                         align:'center',
                         key: 'zt',
@@ -167,12 +175,14 @@
                     },
                     {
                         title:'驾驶证类型',
+						tit:"DRIVER_LICENSE_TYPE",
                         width:120,
                         align:'center',
                         key:'zjcx'
                     },
                     {
                         title:'初领日期',
+						tit:"FIRST_ISSUE_DATE",
                         width:150,
                         align:'center',
                         key:'clrq',
@@ -183,6 +193,7 @@
                     },
                     {
                         title:'档案编号',
+						tit:"FILE_NUM",
                         width:180,
                         align:'center',
                         key:'dabh'
@@ -195,6 +206,7 @@
                     // },
                     {
                         title: '操作',
+						tit:"OPERATION",
                         key: 'action',
                         width: 150,
                         fixed: 'right',

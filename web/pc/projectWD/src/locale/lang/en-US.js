@@ -9,7 +9,8 @@ export default {
   OPERATION:"Operation",
   TYPE:"Type",
   STATUS:"Status",
-  COMMONT:"Commont",
+  COMMONT:"Comment",
+  ACCESSORY:"Accessory",
 
   /**
    *系统设置
@@ -65,7 +66,7 @@ export default {
    *日志管理
    */
   DAILY_RECORD_MANAGEMENT:"Daily Record Management",
-  TIME_RESERCH:"Please Enter Time",
+  TIME_RESEARCH:"Please Enter Time",
   ACTION_TIME:"Operation Time",
   TIME_CONSUMING:"Time Consuming",
   OPERATOR:"Operator",
@@ -92,5 +93,130 @@ export default {
   CONTENT:"Content/URL",
   ACTIVITY_STYLE:"Activity Style",
   POSITION:"Position",
-  ACCESSORY:"Accessory",
+
+  /**
+   *车辆调度
+   * 	import i18nTabTit from '@/mixins/i18nTabTit'
+   * tit:"",
+   * {{$t("USER_MANAGEMENT")}}
+   * :placeholder='$t("USER_NAME")'
+   *   车辆管理
+   **/
+  /**
+   * public
+   */
+  CAR_NUM_TAB:"Car Number",
+  DRIVER:"Driver",
+  OCCURRENCE_TIME:"Occurrence Time",
+
+
+
+  CAR_MANAGEMENT:"Car Management",
+  CAR_NUMBER:"Please Enter Car Number",//public
+  TERMINAL_NUM:"Please Enter Terminal Number",
+  DRIVER_NAME:"Please Enter Driver Name",//public
+  /**
+   * 临时车管理
+   * 单位管理
+   */
+  ORGANIZATION_MANAGEMENT:"Organization Management",
+  ORGANIZATION_NAME:"Please Enter Organization Name",
+  /**
+   * 临时车管理
+   * 临时车管理
+   */
+  TEMPORARY_CAR_MANAGEMENT:"Temporary Car Management",
+  CAR_FUNCTION_NAME:"Please Enter Car Function",
+  /**
+   * 驾驶员管理
+   */
+  DRIVER_MANAGEMENT:"Driver Management",
+  DRIVER_LICENSE_TYPE:"Driver License Type",
+  FIRST_ISSUE_DATE:"First Issue Date",
+  FILE_NUM:"File Number",
+  DRIVER_LICENSE_VALID:"Driver's License Valid",
+  HEALTH_STATUS:"Health Status",
+  // BO
+  /**
+   * 车队管理
+   */
+  MOTORCADE_MANAGEMENT:"motorcade Management",
+  MOTORCADE_NAME:"Please Enter Motorcade Name",
+  CAPTAIN_NAME:"Captain Name",
+  MOTORCADE_NAME_TAB:"Motorcade Name",
+  MOTORCADE_NUM:"Motorcade Number",
+
+  /**
+   * 电子围栏
+   */
+  ELECTRONIC_FENCE:"Electronic Fence",
+  //ORDER
+  //CAR_NUM_TAB
+  FENCE_NAME:"Fence Name",
+  CREATE_TIME:"Create Time",
+  //OPERATION
+  /**
+   * 超速限定
+   */
+  OVER_SPEED_LIMIT:"Over Speed Limit",
+  //ORDER
+  //CAR_NUM_TAB
+  SPEED_UP:"Speed Limit",
+  //OPERATION
+  /**
+   * 合并视频
+   */
+  TERMINAL_NUMBER:"Terminal Number",
+  // TIME_RESEARCH
+  START_TIME:"Start Time",
+  EXTRACTION_TIME:"Extraction Time",
+  /**
+   * 云图片库
+   */
+  CLOUD_PHOTO:"Cloud Photo",
+  // TIME_RESEARCH
+  // CAR_NUMBER
+  //TERMINAL_NUM
+  FRONT_CAMERA:"Front Camera",
+  REAR_CAMERA:"Rear Camera",
+  /**
+   * 云视频库
+   */
+  CLOUD_VIDEO:"Cloud Video",
+  // TIME_RESEARCH
+  // CAR_NUMBER
+  //TERMINAL_NUM
+  //FRONT_CAMERA
+  //REAR_CAMERA
+  /**
+   * 事件记录
+   */
+  EVENT_RECORD:"Event Record",
+  CAR_TYPE:"Please Select Car Type",
+  // CAR_NUMBER
+  //TERMINAL_NUM
+  EVENT_TYPE:"Please Select Event Type",
+  // TIME_RESEARCH
+  //ORDER
+ // CAR_NUM_TAB:"Car Number",
+  //TERMINAL_NUMBER
+  EVENT_TYPE_TAB:"Event Type",
+  //DRIVER
+  CAR_TYPE_TAB:"Car Type",
+  //OCCURRENCE_TIME
+  /**
+   * 事故管理
+   */
+  ACCIDENT_MANAGEMENT:"Accident Management",
+  // CAR_NUM_TAB
+  // DRIVER
+  //TELPHONE_NUM
+ // OCCURRENCE_TIME:"Occurrence Time",
+  ACCIDENT_DESCRIBE:"Accident Describe",
+  //ACCESSORY
+  //OPERATION
+
+
+
+
 }
