@@ -53,6 +53,7 @@
                               </marquee>
 
                         </div>
+
                         <div style="line-height: 65px;padding: 0 8px">
                               <Tooltip content="更多异常信息">
                                     <Button type="primary"
@@ -61,6 +62,7 @@
                               </Tooltip>
                         </div>
                         <!--<div class="header-avator-con" style="background-color: #00cc66">-->
+                              <Language></Language>
                         <div class="">
                               <div class="user-dropdown-menu-con" style="height: 100%;line-height:65px">
                                     <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
@@ -111,9 +113,11 @@
     import lockScreen from './main-components/lockscreen/lockscreen.vue';
     import messageTip from './main-components/message-tip.vue';
     import themeSwitch from './main-components/theme-switch/theme-switch.vue';
+
+    import Language from './components/language'
+
     import Cookies from 'js-cookie';
     import util from '@/libs/util.js';
-
 
     Date.prototype.format = function (format) {
         var o = {
@@ -139,6 +143,7 @@
 
     export default {
         components: {
+            Language,
             pass, errmess,
             shrinkableMenu,
             tagsPageOpened,
@@ -230,8 +235,12 @@
             }
         },
         mounted() {
+            alert('1')
             this.init();
             this.checkSubscribe()
+            // 设置初始语言
+            console.log('语言', this.$i18n.locale);
+            this.$store.commit('setLocal', this.$i18n.locale)
         },
         created() {
             // 显示打开的页面的列表
@@ -251,15 +260,15 @@
                 this.compName = 'pass'
             },
             checkSubscribe() {
-                this.websocketUtil.connect(()=>this.subscribe());
+                this.websocketUtil.connect(() => this.subscribe());
             },
-            subscribe(){
-                  let v = this;
+            subscribe() {
+                let v = this;
                 this.websocketUtil.subscribe('/topic/sendhbsp', function (data) { //订阅消息
                     v.$store.commit('addSendhbsp', data.body)
                 });
                 this.websocketUtil.subscribe('/topic/sendzp', function (data) { //订阅
-                      v.$store.commit('addSendZp', data.body)
+                    v.$store.commit('addSendZp', data.body)
                 });
                 this.websocketUtil.subscribe('/topic/sendsp', function (data) { //订阅消息
                     v.$store.commit('addSendsp', data.body)

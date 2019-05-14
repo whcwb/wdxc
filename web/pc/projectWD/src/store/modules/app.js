@@ -1,5 +1,6 @@
 import {otherRouter, appRouter} from '@/router/router';
 import Util from '@/libs/util';
+import {localSave,localRead} from '@/libs/util';
 import Cookies from 'js-cookie';
 import Vue from 'vue';
 import session from '../../libs/session';
@@ -52,9 +53,14 @@ const app = {
         functionList:[],
         dontCache: [], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
         routerMum:[],
-        carCodeList:[]
+        carCodeList:[],
+        local: localRead('local'),//i18n国际化__变量
     },
     mutations: {
+        setLocal (state, lang) {
+            localSave('local', lang)
+            state.local = lang
+        },
         ChcarCodeList(state,data){
             state.carCodeList = data;
         },
