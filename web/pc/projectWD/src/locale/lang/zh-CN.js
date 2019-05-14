@@ -252,6 +252,12 @@ export default {
   /**
    * from data
    */
+  EQUIPMENT_NAME:"设备名称",
+  TERMINAL_NAME:"请填终端名称",
+  EQUIPMENT_STATE:"设备状态",
+  NEW_TERMINAL_EQUIPMENT:"新建终端设备",
+  MODEL:"型号",
+
 
 
 
