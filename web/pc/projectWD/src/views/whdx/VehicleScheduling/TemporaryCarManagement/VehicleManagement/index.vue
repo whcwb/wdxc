@@ -29,7 +29,7 @@
 				</div>
 			</Row>
 			<Row style="position: relative;">
-				<Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTitle" :data="pageData"></Table>
+				<Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTiT" :data="pageData"></Table>
 			</Row>
 			<Row class="margin-top-10 pageSty">
 				<Page :total=param.total :current=param.pageNum :page-size=param.pageSize :page-size-opts=[8,10,20,30,40,50]  @on-page-size-change='(e)=>{param.pageSize=e;pageChange()}' show-total show-elevator show-sizer placement='top'
@@ -43,10 +43,11 @@
 <script>
     import mixins from '@/mixins'
     import formData from './comp/formData.vue'
+	import i18nTabTit from '@/mixins/i18nTabTit'
 
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             formData
         },
@@ -58,20 +59,23 @@
                 tabHeight: 220,
                 componentName: '',
                 choosedItem: null,
-                tableTitle: [
+				tableTiT: [
                     {
                         title:'序号',
+						tit:"ORDER",
                         type: 'index',
                         align:'center',
                         width: 60,
                     },
                     {
                         title: '车牌号',
+						tit:"CAR_NUM_TAB",
                         align:'center',
                         key: 'cph'
                     },
                     {
                         title: '临时单位',
+						tit:"TEMPORARY_ORGANIZATION",
                         align:'center',
                         key: 'lsdwId',
 						render:(h,p)=>{
@@ -81,6 +85,7 @@
                     },
                     {
                         title: '车辆类型',
+						tit:"CAR_TYPE_TAB",
                         align:'center',
                         key: 'cllx',
                         render:(h,p)=>{
@@ -90,11 +95,13 @@
                     },
                     {
                         title: '座位数',
+						tit:"SEAT_NUM",
                         align:'center',
                         key: 'zws'
                     },
                     {
                         title: '状态',
+						tit:"STATUS",
                         align:'center',
                         key: 'zt',
                         render:(h,p)=>{
@@ -103,6 +110,7 @@
                     },
                     {
                         title:'操作',
+						tit:"OPERATION",
                         align:'center',
                         type: 'action',
                         render: (h, params) => {

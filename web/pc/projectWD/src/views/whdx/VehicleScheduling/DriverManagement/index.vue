@@ -79,7 +79,8 @@
             	},
                 tableTiT: [
                   	{
-  	                	title:"#",
+  	                	title:"序号",
+						tit:"ORDER",
   	                	width:40,
   	                	align:'center',
   	                	type:'index',
@@ -87,7 +88,7 @@
   	                },
                     {
                         title: '姓名',
-						tit:"",
+						tit:"Name",
                         width:110,
                         align:'center',
                         key: 'xm',
@@ -95,7 +96,7 @@
                     },
   	                {
                         title: '性别',
-						tit:"",
+						tit:"GENDER",
                         width:60,
                         align:'center',
                         key: 'xb',
@@ -105,20 +106,20 @@
                     },
                     {
                         title: '年龄',
-						tit:"",
+						tit:"AGE",
 						width:80,
                         align:'center',
                         key: 'nl'
                     },
                     {
                         title: '身份证号',
-						tit:"",
+						tit:"ID_NUMBER",
                         align:'center',
                         key: 'sfzhm'
                     },
                     {
                         title: '血型',
-						tit:"",
+						tit:"BLOOD_TYPE",
                         align:'center',
                         key: 'xx'
                     },

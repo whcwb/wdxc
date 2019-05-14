@@ -97,7 +97,7 @@
                         {required: true, message: '请输入终端名称', trigger: 'blur'}
                     ],
                     xh: [
-                        {required: true, message: '请输如设备型号', trigger: 'blur'}
+                        {required: true, message: '请输入设备型号', trigger: 'blur'}
                     ]
                 },
                 ztDictionary: [],
