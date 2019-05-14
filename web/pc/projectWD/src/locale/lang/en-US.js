@@ -231,14 +231,6 @@ export default {
    * {{$t("USER_MANAGEMENT")}}
    * :placeholder='$t("USER_NAME")'
    */
-
-  /**
-   * 后视镜管理
-   */
-  REARVIEW_MIRROR:"Rearview mirror Management",
-  //TERMINAL_NUM
-  VERSION_NUM:"Please EnterVersion Number",
-  ON_LINE_STATE:"Please Select On-Line State",
   BOUND_VEHICLE:"Bound Vehicle",
   SERVICE_YEAR:"SERVICE Year",
   ONE_YEAR:"one year",
@@ -256,6 +248,22 @@ export default {
   INTERFACE_ADDRESS:"Interface Address",
   SERVICE_RENEWAL: "Service Renewal",
   TERMINAL_DEL:"Terminal Deleted",
+  INQUIRE:"inquire",
+  /**
+   * 后视镜管理
+   */
+  REARVIEW_MIRROR:"Rearview mirror Management",
+  //TERMINAL_NUM
+  VERSION_NUM:"Please EnterVersion Number",
+  ON_LINE_STATE:"Please Select On-Line State",
 
+  /**
+   * 定位器管理
+   */
+  GPS_MANAGEMENT:"GPS Management",
+  /**
+   * OBD管理
+   */
+  OBD_MANAGEMENT:"OBD Management",
 
 }

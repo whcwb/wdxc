@@ -45,13 +45,13 @@
                                     <Col span="12">
                                           <FormItem :label='$t("MODEL")'>
                                                 <Input :readonly="dataRead" type="text" v-model="param.xh"
-                                                       placeholder="请输入设备型号..."></Input>
+                                                       :placeholder='$t("EQUIPMENT_MODEL")'></Input>
                                           </FormItem>
                                     </Col>
                                     <Col span="12" v-show="dataRead">
-                                          <FormItem label='接口地址:'>
+                                          <FormItem label='$t("INTERFACE_ADDRESS_TAB")'>
                                                 <Input type="text" v-model="param.cmd"
-                                                       placeholder="设备终端接口地址..."></Input>
+                                                       :placeholder='$t("TERMINAL_INTERFACE_ADDRESS")'></Input>
                                           </FormItem>
                                     </Col>
                               </Row>
@@ -59,12 +59,12 @@
                   </div>
                   </Form>
                   <div v-show="!dataRead" slot='footer'>
-                        <Button type="default" @click="close" style="color: #949494">取消</Button>
-                        <Button type="primary" @click="save('addmess')">确定</Button>
+                        <Button type="default" @click="close" style="color: #949494">{{$t("CANCEL")}}</Button>
+                        <Button type="primary" @click="save('addmess')">{{$t("DETERMINE")}}</Button>
                   </div>
                   <div v-show="dataRead" slot='footer'>
-                        <Button type="default" @click="close">关闭</Button>
-                        <Button type="success" @click="seet('addmess')">设置</Button>
+                        <Button type="default" @click="close">{{$t("CLOSE")}}</Button>
+                        <Button type="success" @click="seet('addmess')">{$t("SET")}}</Button>
                   </div>
             </Modal>
       </div>

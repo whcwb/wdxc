@@ -225,14 +225,9 @@ export default {
    * :placeholder='$t("USER_NAME")'
    */
 //TERMINAL_NUM:"请输入终端编号",
-  /**
-   * 后视镜管理
-   */
-  REARVIEW_MIRROR:"后视镜管理",
-  //TERMINAL_NUM
-  VERSION_NUM:"请输入版本号",
+  //CAR_NUMBER:"请输入车牌号",
   ON_LINE_STATE:"请选择在线状态",
-  BOUND_VEHICLE:"绑定车辆",
+  BOUND_VEHICLE:"绑定车辆",//
   SERVICE_YEAR:"服务年限",
   ONE_YEAR:"一年",
   TWO_YEAR:"二年",
@@ -249,14 +244,38 @@ export default {
   INTERFACE_ADDRESS:"设置接口地址",
   SERVICE_RENEWAL: "服务续期",
   TERMINAL_DEL:"终端删除",
+  INQUIRE:"查询",
+  /**
+   * 后视镜管理
+   */
+  REARVIEW_MIRROR:"后视镜管理",
+  //TERMINAL_NUM
+  VERSION_NUM:"请输入版本号",
   /**
    * from data
    */
   EQUIPMENT_NAME:"设备名称",
-  TERMINAL_NAME:"请填终端名称",
+  TERMINAL_NAME:"请输入终端名称",//
   EQUIPMENT_STATE:"设备状态",
   NEW_TERMINAL_EQUIPMENT:"新建终端设备",
   MODEL:"型号",
+  EQUIPMENT_MODEL:"请输入设备型号",//
+  INTERFACE_ADDRESS_TAB:"接口地址",
+  TERMINAL_INTERFACE_ADDRESS:"设备终端接口地址",
+
+  CANCEL:"取消",
+  DETERMINE:"确定",
+  CLOSE:"关闭",
+  SET:"设置",
+  /**
+   * 定位器管理
+   */
+  GPS_MANAGEMENT:"定位器管理",
+  /**
+   * OBD管理
+   */
+  OBD_MANAGEMENT:"OBD管理",
+
 
 
 
