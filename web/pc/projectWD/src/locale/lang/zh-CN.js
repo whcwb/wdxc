@@ -104,6 +104,8 @@ export default {
   OCCURRENCE_TIME:"发生时间",
   DRIVER:"司机",
   CAR_NUM_TAB:"车牌号",
+  CREATE_TIME:"创建时间",
+  CAR_TYPE_TAB:"车辆类型",
   //
   CAR_MANAGEMENT:"车辆管理",
   CAR_NUMBER:"请输入车牌号",//PUBLIC
@@ -115,16 +117,33 @@ export default {
    */
   ORGANIZATION_MANAGEMENT:"单位管理",
   ORGANIZATION_NAME:"请输入单位名称",
+  ORGANIZATION_ID:"单位编号",
+  ORGANIZATION_NAME_TAB:"单位名称",
+  SUPERVISOR:"负责人",
+  REGISTER_NUM:"登记次数",
+  CREATOR:"创建人",
+
   /**
    * 临时车管理
    * 临时车管理
    */
   TEMPORARY_CAR_MANAGEMENT:"临时车管理",
   CAR_FUNCTION_NAME:"请输入功能名称",
+  SEAT_NUM:"座位数",
+  TEMPORARY_ORGANIZATION:"临时单位",
+
   /**
    * 驾驶员管理
    */
   DRIVER_MANAGEMENT:"驾驶员管理",
+  DRIVER_LICENSE_TYPE:"驾照类型",
+  FIRST_ISSUE_DATE:"初次申领时间",
+  FILE_NUM:"证件编号",
+  DRIVER_LICENSE_VALID:"驾照有效期",
+  HEALTH_STATUS:"健康状态",
+  AGE:"年龄",
+  BLOOD_TYPE:"血型",
+
   /**
    * 车队管理
    */
@@ -139,7 +158,7 @@ export default {
    */
   ELECTRONIC_FENCE:"电子围栏",
   FENCE_NAME:"围栏名称",
-  CREATE_TIME:"创建时间",
+
   /**
    * 超速限定
    */
@@ -184,7 +203,7 @@ export default {
   //TERMINAL_NUMBER
   EVENT_TYPE_TAB:"事件类型",
   //DRIVER
-  CAR_TYPE_TAB:"车型",
+
   //OCCURRENCE_TIME
   /**
    * 事故管理
@@ -197,6 +216,47 @@ export default {
   //ACCESSORY
   //OPERATION
   //OCCURRENCE_TIME
+
+  /**
+   * 终端管理
+   *    * 	import i18nTabTit from '@/mixins/i18nTabTit'
+   * tit:"",
+   * {{$t("USER_MANAGEMENT")}}
+   * :placeholder='$t("USER_NAME")'
+   */
+//TERMINAL_NUM:"请输入终端编号",
+  /**
+   * 后视镜管理
+   */
+  REARVIEW_MIRROR:"后视镜管理",
+  //TERMINAL_NUM
+  VERSION_NUM:"请输入版本号",
+  ON_LINE_STATE:"请选择在线状态",
+  BOUND_VEHICLE:"绑定车辆",
+  SERVICE_YEAR:"服务年限",
+  ONE_YEAR:"一年",
+  TWO_YEAR:"二年",
+  THREE_YEAR:"三年",
+  FIVE_YEAR:"五年",
+  ON_LINE_STATE_TAB:"在线状态",
+  ACTIVATED_STATE:"激活状态",
+  REGISTRATION_DATE:"注册时间",
+  ACTIVATED_DATE:"激活时间",
+  VERSION_NUM_TAB:"版本号",
+  EXPIRATION_DATE:"到期时间",
+  MANUFACTURER:"制造商",
+  EQUIPMENT_UPGRADE:"设备升级",
+  INTERFACE_ADDRESS:"设置接口地址",
+  SERVICE_RENEWAL: "服务续期",
+  TERMINAL_DEL:"终端删除",
+  /**
+   * from data
+   */
+  EQUIPMENT_NAME:"设备名称",
+  TERMINAL_NAME:"请填终端名称",
+  EQUIPMENT_STATE:"设备状态",
+  NEW_TERMINAL_EQUIPMENT:"新建终端设备",
+  MODEL:"型号",
 
 
 

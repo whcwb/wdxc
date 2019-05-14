@@ -5,7 +5,7 @@
       <div>
             <Modal v-model="showModal" width='900'
                    :closable='false' :mask-closable="mesF"
-                   title="新建终端设备">
+                   :title='$t("NEW_TERMINAL_EQUIPMENT")'>
                   <div style="overflow: auto;height: 300px;">
                         <Form
                                 :model="param"
@@ -15,23 +15,23 @@
                                 :styles="{top: '20px'}">
                               <Row>
                                     <Col span="12">
-                                          <FormItem prop="zdbh" label='终端编号'>
+                                          <FormItem prop="zdbh" :label='$t("TERMINAL_NUMBER")'>
                                                 <Input :readonly="dataRead" type="text" v-model="param.zdbh"
-                                                       placeholder="请填写终端编号...">
+                                                       :placeholder='$t("TERMINAL_NUM")'>
                                                 </Input>
                                           </FormItem>
                                     </Col>
                                     <Col span="12">
-                                          <FormItem prop="mc" label='设备名称:'>
+                                          <FormItem prop="mc" :label='$t("EQUIPMENT_NAME")'>
                                                 <Input :readonly="dataRead" type="text" v-model="param.mc"
-                                                       placeholder="请填终端名称...">
+                                                       :placeholder='$t("TERMINAL_NAME")'>
                                                 </Input>
                                           </FormItem>
                                     </Col>
                               </Row>
                               <Row>
                                     <Col span="12">
-                                          <FormItem label='设备状态:'>
+                                          <FormItem :label='$t("EQUIPMENT_STATE")'>
                                                 <Select filterable :readonly="dataRead" filterable clearable
                                                         v-model="param.zt">
                                                       <Option v-for="item in ztDictionary" :value="item.key">
@@ -43,7 +43,7 @@
                               </Row>
                               <Row>
                                     <Col span="12">
-                                          <FormItem label='型号:'>
+                                          <FormItem :label='$t("MODEL")'>
                                                 <Input :readonly="dataRead" type="text" v-model="param.xh"
                                                        placeholder="请输入设备型号..."></Input>
                                           </FormItem>
@@ -97,7 +97,7 @@
                         {required: true, message: '请输入终端名称', trigger: 'blur'}
                     ],
                     xh: [
-                        {required: true, message: '请输如设备型号', trigger: 'blur'}
+                        {required: true, message: '请输入设备型号', trigger: 'blur'}
                     ]
                 },
                 ztDictionary: [],

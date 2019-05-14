@@ -11,6 +11,7 @@ export default {
   STATUS:"Status",
   COMMONT:"Comment",
   ACCESSORY:"Accessory",
+  GENDER:"Gender",
 
   /**
    *系统设置
@@ -24,8 +25,7 @@ export default {
   USER_NAME:"Please Enter User Name",
   PHONE_NUMBER:"Please Enter Phone Number",
   ID:"ID",
-  ID_NUMBER:"ID_Number",
-  GENDER:"Gender",
+  ID_NUMBER:"ID Number",//
   DUTY:"Post",
   /**
    * 角色管理
@@ -96,10 +96,6 @@ export default {
 
   /**
    *车辆调度
-   * 	import i18nTabTit from '@/mixins/i18nTabTit'
-   * tit:"",
-   * {{$t("USER_MANAGEMENT")}}
-   * :placeholder='$t("USER_NAME")'
    *   车辆管理
    **/
   /**
@@ -108,25 +104,35 @@ export default {
   CAR_NUM_TAB:"Car Number",
   DRIVER:"Driver",
   OCCURRENCE_TIME:"Occurrence Time",
-
+  CREATE_TIME:"Create Time",
+  CAR_TYPE_TAB:"Car Type",
 
 
   CAR_MANAGEMENT:"Car Management",
-  CAR_NUMBER:"Please Enter Car Number",//public
-  TERMINAL_NUM:"Please Enter Terminal Number",
-  DRIVER_NAME:"Please Enter Driver Name",//public
+  CAR_NUMBER:"Please Enter Car Number",
+  TERMINAL_NUM:"Please Enter Terminal Number",//pub
+  DRIVER_NAME:"Please Enter Driver Name",
   /**
    * 临时车管理
    * 单位管理
    */
   ORGANIZATION_MANAGEMENT:"Organization Management",
   ORGANIZATION_NAME:"Please Enter Organization Name",
+  ORGANIZATION_ID:"Organization ID",
+  ORGANIZATION_NAME_TAB:"Organization Name",
+  SUPERVISOR:"Supervisor",
+  REGISTER_NUM:"register Number",
+  CREATOR:"Creator",
   /**
    * 临时车管理
    * 临时车管理
    */
   TEMPORARY_CAR_MANAGEMENT:"Temporary Car Management",
   CAR_FUNCTION_NAME:"Please Enter Car Function",
+  SEAT_NUM:"Seat Num",
+  TEMPORARY_ORGANIZATION:"Temporary Organization",
+
+
   /**
    * 驾驶员管理
    */
@@ -136,7 +142,9 @@ export default {
   FILE_NUM:"File Number",
   DRIVER_LICENSE_VALID:"Driver's License Valid",
   HEALTH_STATUS:"Health Status",
-  // BO
+  AGE:"Age",
+  BLOOD_TYPE:"Blood Type",
+
   /**
    * 车队管理
    */
@@ -153,7 +161,7 @@ export default {
   //ORDER
   //CAR_NUM_TAB
   FENCE_NAME:"Fence Name",
-  CREATE_TIME:"Create Time",
+
   //OPERATION
   /**
    * 超速限定
@@ -202,7 +210,7 @@ export default {
   //TERMINAL_NUMBER
   EVENT_TYPE_TAB:"Event Type",
   //DRIVER
-  CAR_TYPE_TAB:"Car Type",
+
   //OCCURRENCE_TIME
   /**
    * 事故管理
@@ -216,7 +224,38 @@ export default {
   //ACCESSORY
   //OPERATION
 
+  /**
+   * 终端管理
+   *    * 	import i18nTabTit from '@/mixins/i18nTabTit'
+   * tit:"",
+   * {{$t("USER_MANAGEMENT")}}
+   * :placeholder='$t("USER_NAME")'
+   */
 
+  /**
+   * 后视镜管理
+   */
+  REARVIEW_MIRROR:"Rearview mirror Management",
+  //TERMINAL_NUM
+  VERSION_NUM:"Please EnterVersion Number",
+  ON_LINE_STATE:"Please Select On-Line State",
+  BOUND_VEHICLE:"Bound Vehicle",
+  SERVICE_YEAR:"SERVICE Year",
+  ONE_YEAR:"one year",
+  TWO_YEAR:"two years",
+  THREE_YEAR:"three years",
+  FIVE_YEAR:"Five years",
+  ON_LINE_STATE_TAB:"ON-Line State",
+  ACTIVATED_STATE:"activated state",
+  REGISTRATION_DATE:"registration date",
+  ACTIVATED_DATE:"Activated Date",
+  VERSION_NUM_TAB:"Version Number",
+  EXPIRATION_DATE:"Expiration Time",
+  MANUFACTURER:"Manufacturer",
+  EQUIPMENT_UPGRADE:"Equipment Upgrade",
+  INTERFACE_ADDRESS:"Interface Address",
+  SERVICE_RENEWAL: "Service Renewal",
+  TERMINAL_DEL:"Terminal Deleted",
 
 
 }

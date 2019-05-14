@@ -30,7 +30,7 @@
                         </div>
                   </Row>
                   <Row style="position: relative;">
-                        <Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTitle"
+                        <Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTiT"
                                :data="pageData"></Table>
                   </Row>
                   <Row class="margin-top-10 pageSty">
@@ -48,10 +48,11 @@
 <script>
     import mixins from '@/mixins'
     import formData from './comp/formData.vue'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             formData
         },
@@ -63,35 +64,41 @@
                 tabHeight: 220,
                 componentName: '',
                 choosedItem: null,
-                tableTitle: [
+                  tableTiT: [
                     {
                         title: '序号',
+                          tit:"ORDER",
                         type: 'index',
                         align: 'center',
                         width: 60
                     },
                     {
                         title: '单位编号',
+                          tit:"ORGANIZATION_ID",
                         align: 'center',
                         key: 'dwbh'
                     },
                     {
                         title: '单位名称',
+                          tit:"ORGANIZATION_NAME_TAB",
                         align: 'center',
                         key: 'dwmc'
                     },
                     {
                         title: '负责人',
+                          tit:"SUPERVISOR",
                         align: 'center',
                         key: 'lxr'
                     },
                     {
                         title: '联系电话',
+                          tit:"TELPHONE_NUM",
                         align: 'center',
                         key: 'lxdh'
                     },
                     {
                         title: '状态',
+                          tit:"STATUS",
                         align: 'center',
                         key: 'zt',
                         render: (h, p) => {
@@ -100,22 +107,26 @@
                     },
                     {
                         title: '登记次数',
+                          tit:"REGISTER_NUM",
                         align: 'center',
                         key: 'djcs'
                     },
                     {
                         title: '创建人',
+                          tit:"CREATOR",
                         align: 'center',
                         key: 'cjr'
                     },
                     {
                         title: '创建时间',
+                          tit:"CREATE_TIME",
                         width: 100,
                         align: 'center',
                         key: 'cjsj'
                     },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         align: 'center',
                         type: 'action',
                         render: (h, params) => {
