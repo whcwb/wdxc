@@ -250,12 +250,33 @@ export default {
   TERMINAL_DEL:"Terminal Deleted",
   INQUIRE:"inquire",
   /**
+   * from data
+   */
+  EQUIPMENT_NAME:"Equipment Name",
+  TERMINAL_NAME:"Please Enter Terminal Name",//
+  EQUIPMENT_STATE:"Equipment State",
+  NEW_TERMINAL_EQUIPMENT:"New Terminal Equipment",
+  MODEL:"Model",
+  EQUIPMENT_MODEL:"Please Equipment Model",//
+  INTERFACE_ADDRESS_TAB:"Interface Address",
+  TERMINAL_INTERFACE_ADDRESS:"Terminal Interface Address",
+
+  CANCEL:"cancel",
+  DETERMINE:"confirm",
+  CLOSE:"close",
+  SET:"set",
+  /**
    * 后视镜管理
    */
   REARVIEW_MIRROR:"Rearview mirror Management",
   //TERMINAL_NUM
   VERSION_NUM:"Please EnterVersion Number",
   ON_LINE_STATE:"Please Select On-Line State",
+  //接口地址设置
+  SET_INTERFACE_ADDRESS:"Please Enter Interface Address",
+  //升级
+  ON_LINE_UPGRADE:"Online Update",
+  CURRENT_VERSION:"Current Version",
 
   /**
    * 定位器管理

@@ -246,12 +246,6 @@ export default {
   TERMINAL_DEL:"终端删除",
   INQUIRE:"查询",
   /**
-   * 后视镜管理
-   */
-  REARVIEW_MIRROR:"后视镜管理",
-  //TERMINAL_NUM
-  VERSION_NUM:"请输入版本号",
-  /**
    * from data
    */
   EQUIPMENT_NAME:"设备名称",
@@ -267,6 +261,20 @@ export default {
   DETERMINE:"确定",
   CLOSE:"关闭",
   SET:"设置",
+  /**
+   * 后视镜管理
+   */
+  REARVIEW_MIRROR:"后视镜管理",
+  //TERMINAL_NUM
+  VERSION_NUM:"请输入版本号",
+  //接口地址设置
+  SET_INTERFACE_ADDRESS:"请输入接口地址",
+  //升级
+  ON_LINE_UPGRADE:"在线升级",
+  CURRENT_VERSION:"当前版本",
+
+
+
   /**
    * 定位器管理
    */
