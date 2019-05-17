@@ -73,11 +73,13 @@
                 this.$emit('on-change', active);
             },
             itemTitle(item) {
-                if(typeof item.title === 'object') {
-                    return this.$t(item.title.i18n);
-                } else {
-                    return item.title;
-                }
+                // if(typeof item.title === 'object') {
+                //     return this.$t(item.title.i18n);
+                // } else {
+                    console.log(item);
+                    return this.$t(item.name)
+                    // return item.title;
+                // }
             },
         },
         updated() {

@@ -1,4 +1,20 @@
 export default {
+    /**
+     *菜单
+     **/
+    system: "System Manage",
+    "system-user": "用户管理",
+    "system-role": "角色管理",
+    "system-framework":"厂商管理",
+    "system-dictionary":"字典管理",
+    "system-ITSM":"服务管理",
+    "system-function":"功能管理",
+    "system-daily":"日志管理",
+    "system-suggestions":"意见反馈",
+    "system-advertising":"活动管理",
+
+    "VehicleScheduling":"车辆管理",
+
   CAR_MANAGE:'MANAGE CAR',
   /**
    *public
