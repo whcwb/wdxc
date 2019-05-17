@@ -235,7 +235,6 @@
             }
         },
         mounted() {
-            alert('1')
             this.init();
             this.checkSubscribe()
             // 设置初始语言

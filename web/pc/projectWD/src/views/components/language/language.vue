@@ -36,13 +36,14 @@
             }
         },
         computed:{
-            lang () {
+            lang:function () {
                 return this.$store.state.app.local
             }
         },
         watch: {
-            lang(lang) {
-                this.$i18n.locale = lang
+            lang:function(n,o) {
+                console.log('111=====',n);
+                this.$i18n.locale = n
             }
         },
         computed: {
@@ -52,6 +53,8 @@
         },
         methods: {
             selectLang(name) {
+                console.log('selectLang',name);
+                this.$i18n.locale = name
                 this.$store.commit('setLocal', name)
             }
         }
