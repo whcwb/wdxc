@@ -13,21 +13,21 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span>OBD管理</span>
+                                          <span>{{$t("OBD_MANAGEMENT")}}</span>
                                     </div>
                                     <div class="body-r-1 inputSty">
                                           <!--<Input v-model="param.mcLike" placeholder="请输入终端名称" style="width: 200px"-->
                                                  <!--@on-keyup.enter="getPageData()"></Input>-->
-                                          <Input v-model="param.zdbhLike" placeholder="请输入终端编号" style="width: 200px"
+                                          <Input v-model="param.zdbhLike" :placeholder='$t("TERMINAL_NUM")' style="width: 200px"
                                                  @on-keyup.enter="getPageData()"></Input>
-                                          <Input v-model="param.cphLike" placeholder="请输入车牌号" style="width: 200px"
+                                          <Input v-model="param.cphLike" :placeholder='$t("CAR_NUMBER")' style="width: 200px"
                                                  @on-keyup.enter="getPageData()"></Input>
                                           <!--<Input v-model="param.versionLike" placeholder="请输入版本号" style="width: 200px"-->
                                                  <!--@on-keyup.enter="getPageData()"></Input>-->
                                           <Select v-model="param.zxzt"
                                                   @on-change='getPageData'
                                                   clearable
-                                                  placeholder="请选择在线状态"
+                                                  :placeholder='$t("ON_LINE_STATE")'
                                                   filterable style="width: 160px;">
                                                 <Option v-for="(item,index) in Dictionary"
                                                         :value="item.key"
@@ -37,7 +37,7 @@
                                           </Select>
                                     </div>
                                     <div class="butevent">
-                                          <Tooltip content="查询" placement="top">
+                                          <Tooltip :content='$t("INQUIRE")' placement="top">
                                                 <Button type="primary" @click="getPageData()">
                                                       <Icon type="md-search"></Icon>
                                                 </Button>
@@ -57,7 +57,7 @@
                         </div>
                   </Row>
                   <Row>
-                        <Table ref="table" :height="tabHeight" :row-class-name="rowClassName" :columns="columns"
+                        <Table ref="table" :height="tabHeight" :row-class-name="rowClassName" :columns="tableTiT"
                                :data="tableData"></Table>
                         <div v-if="SpinShow"
                              style="width:100%;height:100%;position: absolute;top: 0;left:0;z-index: 100;">
@@ -88,11 +88,12 @@
     import update from './update'
     import setting from './setting'
     import plmess from './plMess'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
     import zdxq from '../../components/zd_xq'
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             zdxq,
             formData, change, jkdz, setting, update, plmess
@@ -111,8 +112,8 @@
                 choosedRow: {},
                 //弹层
                 showModal: false,
-                columns: [
-                    {
+                  tableTiT: [
+                    {   tit:"ORDER",
                         type: 'index2', align: 'center', minWidth: 80, fixed: 'left',
                         render: (h, params) => {
                             return h('span', params.index + (this.param.pageNum - 1) * this.param.pageSize + 1);
@@ -120,12 +121,14 @@
                     },
                     {
                         title: '终端编号',
+                          tit:"TERMINAL_NUMBER",
                         align: 'center',
                         key: 'zdbh',
                         minWidth: 180
                     },
                     {
                         title: '绑定车辆',
+                          tit:"BOUND_VEHICLE",
                         align: 'center',
                         key: 'cph',
                         minWidth: 100,
@@ -136,27 +139,32 @@
                     },
                     {
                         title: '服务年限',
+                          tit:"SERVICE_YEAR",
                         align: 'center',
                         minWidth: 100,
                         key: 'fwnx',
                         filterMultiple: false,
                         filters: [
-                            {
-                                label: '1年',
-                                value: 1
-                            },
-                            {
-                                label: '2年',
-                                value: 2
-                            },
-                            {
-                                label: '3年',
-                                value: 3
-                            },
-                            {
-                                label: '5年',
-                                value: 5
-                            },
+                              {
+                                    label: '1年',
+                                    tit:"ONE_YEAR",
+                                    value: 1
+                              },
+                              {
+                                    label: '2年',
+                                    tit:"TWO_YEAR",
+                                    value: 2
+                              },
+                              {
+                                    label: '3年',
+                                    tit:"THREE_YEAR",
+                                    value: 3
+                              },
+                              {
+                                    label: '5年',
+                                    tit:"FIVE_YEAR",
+                                    value: 5
+                              },
                         ],
                         filterRemote:(val,k, row)=> {
                             this.param[k]=val[0]
@@ -177,6 +185,7 @@
                     },
                     {
                         title: '在线状态',
+                          tit:"ON_LINE_STATE_TAB",
                         align: 'center',
                         key: 'zxzt',
                         minWidth: 100,
@@ -191,6 +200,7 @@
                     },
                     {
                         title: '激活状态',
+                          tit:"ACTIVATED_STATE",
                         align: 'center',
                         key: 'jgzt',
                         minWidth: 100,
@@ -205,6 +215,7 @@
                     },
                     {
                         title: '注册时间',
+                          tit:"REGISTRATION_DATE",
                         align: 'center',
                         key: 'cjsj',
                         minWidth: 100,
@@ -214,6 +225,7 @@
                     },
                     {
                         title: '激活时间',
+                          tit:"ACTIVATED_DATE",
                         align: 'center',
                         key: 'zdKssj',
                         minWidth: 120,
@@ -227,6 +239,7 @@
                     },
                     {
                         title: '到期时间',
+                          tit:"EXPIRATION_DATE",
                         align: 'center',
                         key: 'zdJssj',
                         minWidth: 120,
@@ -242,6 +255,7 @@
                     },
                     {
                         title: '制造商',
+                          tit:"MANUFACTURER",
                         align: 'center',
                         key: 'zzsmc',
                         minWidth: 120,
@@ -255,6 +269,7 @@
                     },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         align: 'center',
                         type: 'action',
                         width: 120,
@@ -262,7 +277,7 @@
                         render: (h, params) => {
                             return h('div', [
                                 h('Tooltip',{
-                                    props:{content:'服务续期',placement:'left',transfer:true},
+                                    props:{content:this.$t("SERVICE_RENEWAL"),placement:'left',transfer:true},
                                     style:{marginRight:'8px'}
                                 },[
                                     h('Button',{
@@ -280,7 +295,7 @@
                                         props: {
                                             transfer:true,
                                             placement: 'top',
-                                            content: '终端删除',
+                                            content: this.$t("TERMINAL_DEL"),
                                         },
                                     },
                                     [

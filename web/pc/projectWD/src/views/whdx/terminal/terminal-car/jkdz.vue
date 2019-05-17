@@ -5,7 +5,7 @@
 	<div>
 		<Modal v-model="showModal" width='900'
 			:closable='false' :mask-closable="mesF"
-			title="接口地址设置">
+			   :title='$t("INTERFACE_ADDRESS")'>
 			<div style="overflow: auto;">
 				<Form
 					:model="param"
@@ -15,14 +15,14 @@
 					:styles="{top: '20px'}">
 					<Row>
 						<Col span="12">
-							<FormItem label='终端编号'>
-								<Input :readonly="dataRead" type="text" v-model="param.zdbh" placeholder="请填写终端编号...">
+							<FormItem :label='$t("TERMINAL_NUMBER")'>
+								<Input :readonly="dataRead" type="text" v-model="param.zdbh" :placeholder='$t("TERMINAL_NUM")'>
 								</Input>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem  label='设备名称:'>
-								<Input :readonly="dataRead" type="text" v-model="param.mc" placeholder="请填终端名称...">
+							<FormItem  :label='$t("EQUIPMENT_NAME")'>
+								<Input :readonly="dataRead" type="text" v-model="param.mc" :placeholder='$t("TERMINAL_NAME")'>
 								</Input>
 							</FormItem>
 						</Col>
@@ -49,8 +49,8 @@
 							</FormItem>-->
 						<!--</Col>-->
 						<Col span="24" v-show="dataRead">
-							<FormItem label='接口地址:'>
-								<Input type="text" v-model="param.cmd" placeholder="设备终端接口地址..."></Input>
+							<FormItem :label='$t("INTERFACE_ADDRESS_TAB")'>
+								<Input type="text" v-model="param.cmd" :placeholder='$t("SET_INTERFACE_ADDRESS")'></Input>
 							</FormItem>
 						</Col>
 					</Row>
@@ -58,8 +58,8 @@
 			</div>
 			</Form>
 			<div slot='footer'>
-				<Button type="default" @click="close">关闭</Button>
-				<Button type="success" @click="seet('addmess')">设置</Button>
+				<Button type="default" @click="close">{{$t("CLOSE")}}</Button>
+				<Button type="success" @click="seet('addmess')">{{$t("SET")}}</Button>
 			</div>
 		</Modal>
 	</div>
