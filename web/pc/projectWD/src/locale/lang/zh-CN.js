@@ -368,9 +368,43 @@ export default {
 
     /**
      * map
+     * '$t("USER_NAME")'
+     * {{$t("USER_MANAGEMENT")}}
      */
     TERMINAL_MANAGE_MAP:"Terminal Manage",
-    FIND_V:"Find a vehicle Find device Find driver",
+    FIND_V:"查设备、找车辆、找司机",
+    NONE_BOUND:"暂无绑定",
+    OBD_INF:"OBD信息",
+    NONE_DATA:"暂无数据",
+    UPDATE_DATE:"更新日期",
+    ENGINE:"engine revolution",
+    ENGINE_REVOLUTION:"发动机转速",
+    SPEED:"车速",
+    RESIDUAL_OIL:"剩余油量",
+    OIL:"oil consumption",
+    OIL_CONSUMPTION:"耗油量",
+    ERROR_REPORT:"故障报告",
+    OFFLINE:"离线",
+    FLAMEOUT:"熄火",
+    IGNITE:"点火",
+    ALL:"全部",
+    //拍照
+    FRONT_CAMERA_:"前摄像头拍照",
+    REAR_CAMERA_:"后摄像头拍照",
+    ALL_CAMERA:"前后摄像拍照",
+    FRONT_VIDEO:"前摄像头视频",
+    REAR_VIDEO:"后摄像头视频",
+    ALL_VIDEO:"前后摄像视频",
+    HISTORICAL_ROUTE:"历史轨迹",
+    HIS:"historical route",
+    PHOTO_DATABASE:"图片库",
+    VIDEO_DATABASE:"视频库",
+
+
+
+
+
+
 
 
 }

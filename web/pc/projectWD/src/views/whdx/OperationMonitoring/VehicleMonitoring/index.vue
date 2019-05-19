@@ -10,7 +10,7 @@
     <div class="box-row">
         <div style="position:absolute;width:430px;top:45px;left:30px;z-index:8888">
             <Col span="24">
-                <Input :placeholder="查设备、找车辆、找司机" size="large" v-model="searchKey">
+                <Input :placeholder='$t("FIND_V")' size="large" v-model="searchKey">
                     <Button slot="append" type="primary" icon="md-search" @click="filter"></Button>
                 </Input>
                 <Tabs v-show="showTabs" ref="tabRef" style="background-color:white;" size="small"
@@ -36,10 +36,10 @@
                                         </Col>
                                         <Col span="8">
                                             <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                            {{item.sjxm ? item.sjxm : $t("NONE_BOUND")}}
                                         </Col>
                                         <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                            <Poptip v-if="item.obdId != ''" :title='$t("OBD_INF")'
                                                     placement="left" width="300"
                                                     style="float: right">
                                                 <Button size="small" @click="getObdInfo(item)"
@@ -47,35 +47,35 @@
                                                     OBD
                                                 </Button>
                                                 <div slot="content">
-                                                    <h3 v-if="gpsObdMessage == null">暂无数据</h3>
+                                                    <h3 v-if="gpsObdMessage == null">{{$t("NONE_DATE")}}</h3>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">更新日期</Col>
+                                                        <Col span="8">{{$t("UPDATE_DATE")}}</Col>
                                                         <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">发动机转速</Col>
+                                                        <Col span="8">{{$t("ENGINE_REVOLUTION")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">车速</Col>
+                                                        <Col span="8">{{$t("SPEED")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">剩余油量</Col>
+                                                        <Col span="8">{{$t("RESIDUAL_OIL")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">耗油量</Col>
+                                                        <Col span="8">{{$t("OIL_CONSUMPTION")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="obdFaultCode && obdFaultCode.length != 0">
                                                         <Col style="border-bottom: 1px solid #cccccc"></Col>
-                                                        <Col span="8">故障报告</Col>
+                                                        <Col span="8">{{$t("ERROR_REPORT")}}</Col>
                                                         <Col span="16">
                                                             <div v-for="item in obdFaultCode"
                                                                  style="border-bottom: 1px solid #cccccc">
@@ -114,10 +114,10 @@
                                         </Col>
                                         <Col span="8">
                                             <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                            {{item.sjxm ? item.sjxm : $t("NONE_BOUND")}}
                                         </Col>
                                         <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                            <Poptip v-if="item.obdId != ''" :title='$t("OBD_INF")'
                                                     placement="left" width="300"
                                                     style="float: right">
                                                 <Button size="small" @click="getObdInfo(item)"
@@ -125,35 +125,35 @@
                                                     OBD
                                                 </Button>
                                                 <div slot="content">
-                                                    <h3 v-if="gpsObdMessage == null">暂无数据</h3>
+                                                    <h3 v-if="gpsObdMessage == null">{{$t("NONE_DATE")}}</h3>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">更新日期</Col>
+                                                        <Col span="8">{{$t("UPDATE_DATE")}}</Col>
                                                         <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">发动机转速</Col>
+                                                        <Col span="8">{{$t("ENGINE_REVOLUTION")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">车速</Col>
+                                                        <Col span="8">{{$t("SPEED")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">剩余油量</Col>
+                                                        <Col span="8">{{$t("RESIDUAL_OIL")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">耗油量</Col>
+                                                        <Col span="8">{{$t("OIL_CONSUMPTION")}}</Col>
                                                         <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
                                                         </Col>
                                                     </Row>
                                                     <Row v-if="obdFaultCode && obdFaultCode.length != 0">
                                                         <Col style="border-bottom: 1px solid #cccccc"></Col>
-                                                        <Col span="8">故障报告</Col>
+                                                        <Col span="8">{{$t("ERROR_REPORT")}}</Col>
                                                         <Col span="16">
                                                             <div v-for="item in obdFaultCode"
                                                                  style="border-bottom: 1px solid #cccccc">
@@ -192,10 +192,10 @@
                                         </Col>
                                         <Col span="8">
                                             <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                            {{item.sjxm ? item.sjxm : $t("NONE_BOUND")}}
                                         </Col>
                                         <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                            <Poptip v-if="item.obdId != ''" :title='$t("OBD_INF")'
                                                     placement="left" width="300"
                                                     style="float: right">
                                                 <Button size="small" @click="getObdInfo(item)"
@@ -345,8 +345,8 @@
 
 <script>
 
-    // import myMap from '../../map/carJK.vue';
-    import myMap from '../../map_G/carJK.vue';
+    import myMap from '../../map/carJK.vue';
+    // import myMap from '../../map_G/carJK.vue';
 
     import carInfo from './carInfo';
 
@@ -378,7 +378,7 @@
                 changeBtnIcon: 'ios-arrow-down',
                 qblabel: (h) => {
                     return h('div', [
-                        h('span', '全部 '),
+                        h('span', this.$t("ALL")),
                         h('Button', {
                             props: {
                                 shape: 'circle',
@@ -391,7 +391,7 @@
                 },
                 dhlabel: (h) => {
                     return h('div', [
-                        h('span', '点火 '),
+                        h('span', this.$t("IGNITE")),
                         h('Button', {
                             props: {
                                 shape: 'circle',
@@ -404,7 +404,7 @@
                 },
                 xhlabel: (h) => {
                     return h('div', [
-                        h('span', '熄火 '),
+                        h('span', this.$t("FLAMEOUT")),
                         h('Button', {
                             props: {
                                 shape: 'circle',
@@ -417,7 +417,7 @@
                 },
                 lxlabel: (h) => {
                     return h('div', [
-                        h('span', '离线 '),
+                        h('span', this.$t("OFFLINE")),
                         h('Button', {
                             props: {
                                 shape: 'circle',

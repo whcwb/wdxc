@@ -373,5 +373,33 @@ export default {
    * 财务结算
    */
   RECEIVABLE:"Receivable",
-
+  /**
+   * map
+   * '$t("USER_NAME")'
+   * {{$t("USER_MANAGEMENT")}}
+   */
+  TERMINAL_MANAGE_MAP:"Terminal Manage",
+  FIND_V:"Find Car Find Device Find Driver",
+  NONE_BOUND:"No Bound",
+  OBD_INF:"OBD information",
+  NONE_DATA:"NO data",
+  UPDATE_DATE:"update date",
+  ENGINE_REVOLUTION:"Engine Revolution",
+  SPEED:"Speed",
+  RESIDUAL_OIL:"Residual Oil",
+  OIL_CONSUMPTION:"Oil Consumption",
+  ERROR_REPORT:"Error Report",
+  OFFLINE:"OffLine",
+  FLAMEOUT:"Flameout",
+  IGNITE:"Ignite",
+  ALL:"All",
+  FRONT_CAMERA_:"Front Photo",
+  REAR_CAMERA_:"Rear Photo",
+  ALL_CAMERA:"All Photo",
+  FRONT_VIDEO:"Front Video",
+  REAR_VIDEO:"Rear Video",
+  ALL_VIDEO:"All Video",
+  HISTORICAL_ROUTE:"Historical Route",
+  PHOTO_DATABASE:"Photo Database",
+  VIDEO_DATABASE:"Video Database",
 }

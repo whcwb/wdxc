@@ -23,43 +23,43 @@
                 <Row style="z-index: 1000000;" class="buttons" v-if="car != null">
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="setControl('12','1-10')" icon="md-camera"></Button><br>
-                        <span class="label">前摄像头拍照</span>
+                        <span class="label">{{$t("FRONT_CAMERA_")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="setControl('12','2-10')" icon="ios-camera"></Button><br>
-                        <span class="label">后摄像头拍照</span>
+                        <span class="label">{{$t("REAR_CAMERA_")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="setControl('12','0-10')" icon="logo-instagram"></Button><br>
-                        <span class="label">前后摄像拍照</span>
+                        <span class="label">{{$t("ALL_CAMERA")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="setControl('11','1-10')" icon="ios-videocam"></Button><br>
-                        <span class="label">前摄像头视频</span>
+                        <span class="label">{{$t("FRONT_VIDEO")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="setControl('11','2-10')" icon="ios-videocam-outline"></Button><br>
-                        <span class="label">后摄像头视频</span>
+                        <span class="label">{{$t("REAR_VIDEO")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="setControl('11','0-10')" icon="ios-videocam-outline"></Button><br>
-                        <span class="label">前后摄像视频</span>
+                        <span class="label">{{$t("ALL_VIDEO")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="showFance" icon="md-qr-scanner"></Button><br>
-                        <span class="label">电子围栏</span>
+                        <span class="label">{{$t("ELECTRONIC_FENCE")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="showPathHistory" icon="md-git-pull-request"></Button><br>
-                        <span class="label">历史轨迹</span>
+                        <span class="label">{{$t("HISTORICAL_ROUTE")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="gotoPhotoList" icon="md-camera"></Button><br>
-                        <span class="label">图片库</span>
+                        <span class="label">{{$t("PHOTO_DATABASE")}}</span>
                     </Col>
                     <Col span="12" style="text-align: center">
                         <Button shape="circle"  type="success" @click="gotoVideoList" icon="ios-videocam"></Button><br>
-                        <span class="label">视频库</span>
+                        <span class="label">{{$t("VIDEO_DATABASE")}}</span>
                     </Col>
                 </Row>
                 <Row  v-if="photo.showModal">
