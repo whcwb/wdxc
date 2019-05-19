@@ -76,9 +76,7 @@
                 // if(typeof item.title === 'object') {
                 //     return this.$t(item.title.i18n);
                 // } else {
-                    console.log(item);
                     return this.$t(item.name)
-                    // return item.title;
                 // }
             },
         },

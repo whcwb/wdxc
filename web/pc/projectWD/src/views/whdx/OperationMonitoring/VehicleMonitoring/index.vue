@@ -345,7 +345,9 @@
 
 <script>
 
-    import myMap from '../../map/carJK.vue';
+    // import myMap from '../../map/carJK.vue';
+    import myMap from '../../map_G/carJK.vue';
+
     import carInfo from './carInfo';
 
     export default {
