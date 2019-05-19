@@ -366,6 +366,11 @@ export default {
      */
     NOTE_RECEIVABLE:"应收单据",
 
+    /**
+     * map
+     */
+    TERMINAL_MANAGE_MAP:"Terminal Manage",
+    FIND_V:"Find a vehicle Find device Find driver",
 
 
 }
