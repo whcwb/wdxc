@@ -14,6 +14,70 @@ export default {
     "system-advertising":"活动管理",
 
     "VehicleScheduling":"车辆管理",
+    /**
+     * 车辆管理
+     */
+
+    "vehicle-management":"车辆管理",
+    "TemporaryCarManagement":"临时车管理",
+    "UnitManagement":"单位管理",
+    "VehicleManagement":"车辆管理",
+    "DriverManagement":"司机管理",
+    "FleetManagement":"车队管理",
+    "ElectronicFence":"电子围栏",
+    "OverspeedLimit":"超速设定",
+    "OrderManagement":"订单管理",
+    "Establish":"创建订单",
+    "ToExamine":"订单审核",
+    "Assignment":"小车派单",
+    "Assignment_max":"大车派单",
+    "Confirm":"司机确认",
+    "dz_Confirm":"队长确认",
+    "Consult":"订单查询",
+    //
+    "ShuttleBus":"班车管理",
+    "LineMaintenance":"线路维护",
+    "Scheduling":"车辆排班",
+    "SiteMaintenance":"站点维护",
+    "ScManage":"校巴管理",
+    "Sc_SiteMaintenance":"站点维护",
+    "Sc_LineMaintenance":"线路维护",
+    "Sc_Scheduling":"校巴排班",
+    //
+    "mergeVideo":"合并视频",
+    "CloudPhoto":" 云图片库",
+    "CloudVideo":"云视频库",
+    "abnormal":"事件记录",
+    "AccidentManagement":"事故管理",
+    //
+    "FinancialSettlement":"财务结算",
+    "ReceivablesManagement":"收款管理",
+    "PaymentManagement":"付款管理",
+    "AccountingFormula":"核算公式",
+    "Reimbursement":"报销记账",
+    //
+    "terminal":"终端管理",
+    "terminal-car":"后视镜管理",
+    "terminal_GPS":"定位器管理",
+    "terminal_OBD":"OBD管理",
+    //
+    "Echarts":"数据报表",
+    "SafeDriving":"安全驾驶",
+    "OrderStatistics":"订单统计",
+    "BusStatistics":"班车统计",
+    "TrafficStatistics":"出车统计",
+    "TerminalAnomaly":"终端异常",
+    "OverspeedStatistics":"超速统计",
+    "CollectionStatistics":"收款统计",
+    "PaymentStatistics":"付款统计",
+    "ReimbursementStatistics":"报销统计",
+    //
+    "OperationMonitoring":"终端监控",
+    "VehicleMonitoring":"后视镜监控",
+    "OBD_Monitor":"OBD监控",
+    "GPS_Monitor":"定位器监控",
+    "allcode":"聚合监控",
+    "BusMonitor":"校巴监控",
 
     /**
      * 公共
@@ -297,6 +361,11 @@ export default {
      * OBD管理
      */
     OBD_MANAGEMENT: "OBD管理",
+    /**
+     * 财务结算
+     */
+    NOTE_RECEIVABLE:"应收单据",
+
 
 
 }

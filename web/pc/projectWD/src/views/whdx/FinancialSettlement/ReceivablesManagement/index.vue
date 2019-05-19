@@ -11,7 +11,7 @@
                         <Menu mode="horizontal" theme="light" active-name="1" @on-select="MenuClick">
                               <MenuItem name="1">
                                     <Icon type="ios-paper"></Icon>
-                                    应收单据
+                                    {{$t("NOTE_RECEIVABLE")}}
                               </MenuItem>
                               <MenuItem name="2">
                                     <Icon type="android-checkbox-outline"></Icon>

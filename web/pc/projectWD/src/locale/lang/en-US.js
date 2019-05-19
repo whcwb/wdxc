@@ -2,18 +2,85 @@ export default {
     /**
      *菜单
      **/
-    system: "System Manage",
-    "system-user": "用户管理",
-    "system-role": "角色管理",
-    "system-framework":"厂商管理",
-    "system-dictionary":"字典管理",
-    "system-ITSM":"服务管理",
-    "system-function":"功能管理",
-    "system-daily":"日志管理",
-    "system-suggestions":"意见反馈",
-    "system-advertising":"活动管理",
+    system: "System",
+    "system-user": "User",
+    "system-role": "Role",
+    "system-framework":"Manufacturer",
+    "system-dictionary":"Dictionary",
+    "system-ITSM":"Service",
+    "system-function":"Function",
+    "system-daily":"Daily Record",
+    "system-suggestions":"Suggestion",
+    "system-advertising":"Activity",
+  /**
+   * 车辆管理
+   */
+    "VehicleScheduling":"Car Manage",
+    "vehicle-management":"Vehicle",
+    "TemporaryCarManagement":"Temporary Car",
+    "UnitManagement":"Unit",
+    "VehicleManagement":"Vehicle",
+    "DriverManagement":"Driver",
+    "FleetManagement":"Fleet",
+    "ElectronicFence":"Fence",
+    "OverspeedLimit":"Speed Set",
+    "OrderManagement":"Order",
+    "Establish":"Establish",
+    "ToExamine":"Examine",
+    "Assignment":"Small Car",
+    "Assignment_max":"Large Car",
+    "Confirm":"Driver Affirm",
+    "dz_Confirm":"Captain Affirm",
+    "Consult":"Search",
+  //
+    "ShuttleBus":"Shuttle Bus",
+    "LineMaintenance":"Route",
+    "Scheduling":"Schedule",
+    "SiteMaintenance":"Station",
+    "ScManage":"Bus Manage",
+    "Sc_SiteMaintenance":"Station",
+    "Sc_LineMaintenance":"Route",
+    "Sc_Scheduling":"Schedule",
+    //
+    "mergeVideo":"Merge Video",
+    "CloudPhoto":" Cloud Photo",
+    "CloudVideo":"CloudVideo",
+    "abnormal":"Event Record",
+    "AccidentManagement":"Accident",
+  //
+    "FinancialSettlement":" Finance",
+    "ReceivablesManagement":"Receipt",
+    "PaymentManagement":"Payment",
+    "AccountingFormula":"Accounts",
+    "Reimbursement":"Reimbursement",
+    //
+    "terminal":"Terminal",
+    "terminal-car":"Rearview Mirror",
+    "terminal_GPS":"GPS",
+    "terminal_OBD":"OBD",
+    //
+    "Echarts":"Charts",
+    "SafeDriving":"Safe Drive",
+    "OrderStatistics":"Order",
+    "BusStatistics":"Bus",
+    "TrafficStatistics":"Dispatch",
+    "TerminalAnomaly":"Abnormal",
+    "OverspeedStatistics":"OverSpeed",
+    "CollectionStatistics":"Receipt",
+    "PaymentStatistics":"Payment",
+    "ReimbursementStatistics":"Reimbursement",
+    //
+    "OperationMonitoring":"Terminals Monitor",
+    "VehicleMonitoring":"Rearview Mirror",
+    "OBD_Monitor":"OBD",
+    "GPS_Monitor":"GPS",
+    "allcode":"Aggregate",
+    "BusMonitor":"Bus",
 
-    "VehicleScheduling":"车辆管理",
+
+
+
+
 
   CAR_MANAGE:'MANAGE CAR',
   /**
@@ -302,5 +369,9 @@ export default {
    * OBD管理
    */
   OBD_MANAGEMENT:"OBD Management",
+  /**
+   * 财务结算
+   */
+  RECEIVABLE:"Receivable",
 
 }
