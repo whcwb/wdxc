@@ -10,7 +10,7 @@
     <div class="box-row">
         <div style="position:absolute;width:430px;top:45px;left:30px;z-index:8888">
             <Col span="24">
-                <Input placeholder="查设备、找车辆、找司机" size="large" v-model="searchKey">
+                <Input :placeholder="查设备、找车辆、找司机" size="large" v-model="searchKey">
                     <Button slot="append" type="primary" icon="md-search" @click="filter"></Button>
                 </Input>
                 <Tabs v-show="showTabs" ref="tabRef" style="background-color:white;" size="small"
@@ -345,7 +345,9 @@
 
 <script>
 
-    import myMap from '../../map/carJK.vue';
+    // import myMap from '../../map/carJK.vue';
+    import myMap from '../../map_G/carJK.vue';
+
     import carInfo from './carInfo';
 
     export default {
