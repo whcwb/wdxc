@@ -11,31 +11,31 @@
 				<Menu mode="horizontal" theme="light" active-name="1" @on-select="MenuClick">
 			        <MenuItem name="1">
 			            <Icon type="ios-paper"></Icon>
-			            应付单据
+						{{$t("PAYABLE")}}
 			        </MenuItem>
 			        <MenuItem name="2">
 			            <Icon type="android-checkbox-outline"></Icon>
-			            已付单据
+						{{$t("PAID")}}
 			        </MenuItem>
 			    </Menu>
 		    </Col>
 		    <Col span="6">
 		    	<div style="height: 60px;line-height: 60px;background-color: #fff;border-bottom: 1px solid #dddee1;padding: 0 15px;">
-		    		<Input  v-model="param.sjxm" placeholder="请输入司机姓名搜索" style="width: 100%;" @input="getData"></Input>
+		    		<Input  v-model="param.sjxm" :placeholder='$t("SEARCH_DRIVER")' style="width: 100%;" @input="getData"></Input>
 		    	</div>
 		    </Col>
 		    <Col span="9">
 		    	<div style="height: 60px;line-height: 60px;background-color: #fff;border-bottom: 1px solid #dddee1;padding: 0 15px;">
-		    		单笔费用结算公式：里程 * 单价 + 过路费 + 过桥费 + 等时费 = 合计总价
+					{{$t("PAY_FORMULA")}}
 		    	</div>
 		    </Col>
 		    <Col span="3">
 		    	<div style="height: 60px;line-height: 60px;background-color: #fff;border-bottom: 1px solid #dddee1;padding: 0 15px;">
 		    		<div v-show="param.fkzt === '00'">
-						应付单据：{{list.length}}单
+						{{$t("PAYABLE")}}：{{list.length}}
 		    		</div>
 		    		<div v-show="param.fkzt === '10'">
-						已付单据：{{list.length}}单
+						{{$t("PAID")}}：{{list.length}}
 		    		</div>
 		    	</div>
 		    </Col>
@@ -49,17 +49,18 @@
 			        </div>
 			        <span slot="extra">
 			        	<span>
-			        		收款金额：{{item.amount}}元
-			        		<Button type="success" size="small" @click="print(item,index)">打印</Button>
-			        		<Button v-if="param.fkzt === '00'" type="primary" size="small" @click="confirm(index)">确认</Button>
+			        		{{$t("AMOUNT_COLLECT")}}：{{item.amount}}
+			        		<Button type="success" size="small" @click="print(item,index)">{{$t("PRINT")}}</Button>
+			        		<Button v-if="param.fkzt === '00'" type="primary" size="small" @click="confirm(index)">{{$t("DETERMINE")}}</Button>
 			        	</span>
 			        </span>
 			        <!--信息-->
 			        <div>
 			        	<Table ref="table"
 			        		border
-			        		:columns="param.fkzt === '00' ? columns3 : columns4"
-			        		height="220"
+							   :columns="param.fkzt === '00' ? columns3 : columns4"
+
+							   height="220"
 			        		:data="item.orderList"
 							@on-selection-change="(e)=>{tableSelectionChange(e,index)}"
 						></Table>
@@ -84,16 +85,31 @@
     import edit from './edit'
     import print from './print'
     import swal from 'sweetalert2'
+	import i18nTabTit from '@/mixins/i18nTabTit'
+	import mixins from '@/mixins'
+
 	export default{
 		name:'client',
+		mixins: [mixins,i18nTabTit],
 		components:{
 		  edit,print
+		},
+		watch:{
+			"param.fkzt":function (n,o) {
+				if(n == '00'){
+					this.tabTiT = this.columns3
+				}else {
+					this.tabTiT = this.columns4
+
+				}
+			}
 		},
 		data(){
 			return {
 			    v:this,
                 componentName:'',
                 choosedItem:null,
+				tabTiT:this.columns3,
 				columns3: [
                     {
                         type: 'selection',
@@ -102,36 +118,46 @@
                     },
                     {
                         title: '用车人员',
+						tit:"USERS",
                         key: 'ck'
                     },
                     {
                         title: '候车地点',
+						tit:"WAITING_PLACE",
                         key: 'hcdz'
                     },
                     {
                         title: '目的地',
+						tit:"DESTINATION",
                         key: 'mdd'
                     },{
                         title: '司机',
+						tit:"DRIVER",
                         key: 'sjxm'
                     },{
                         title: '车型',
+						tit:"CAR_TYPE_TAB",
                         key: 'zws'
                     },{
                         title: '出车时间',
+						tit:"TIME_DEPARTURE",
                         key: 'yysj'
                     },{
                         title: '里程(公里)',
+						tit:"MILEAGE",
                         key: 'lc'
                     },{
                         title: '车费合计',
+						tit:"TOTAL_FARE",
                         key: 'zj'
                     },{
                         title: '事由',
+						tit:"CONTENT_TAB",
                         key: 'sy'
                     },
                     {
                         title: '操作',
+						tit:"OPERATION",
                         key: 'action',
                         align: 'center',
                         render: (h, params) => {
@@ -150,7 +176,7 @@
                                             this.componentName = 'edit';
                                         }
                                     }
-                                }, '编辑')
+                                }, this.$t("EDIT"))
                             ]);
                         }
                     }
@@ -161,34 +187,47 @@
                         width: 60,
                         align: 'center'
                     },
-                    {
-                        title: '用车人员',
-                        key: 'ck'
-                    },
-                    {
-                        title: '候车地点',
-                        key: 'hcdz'
-                    },
-                    {
-                        title: '目的地',
-                        key: 'mdd'
-                    },{
-                        title: '司机',
-                        key: 'sjxm'
-                    },{
-                        title: '车型',
-                        key: 'zws'
-                    },{
-                        title: '出车时间',
-                        key: 'yysj'
-                    },{
-                        title: '里程(公里)',
-                        key: 'lc'
-                    },{
-                        title: '事由',
-                        key: 'sy'
-                    },{
+					{
+						title: '用车人员',
+						tit:"USERS",
+						key: 'ck'
+					},
+					{
+						title: '候车地点',
+						tit:"WAITING_PLACE",
+						key: 'hcdz'
+					},
+					{
+						title: '目的地',
+						tit:"DESTINATION",
+						key: 'mdd'
+					},{
+						title: '司机',
+						tit:"DRIVER",
+						key: 'sjxm'
+					},{
+						title: '车型',
+						tit:"CAR_TYPE_TAB",
+						key: 'zws'
+					},{
+						title: '出车时间',
+						tit:"TIME_DEPARTURE",
+						key: 'yysj'
+					},{
+						title: '里程(公里)',
+						tit:"MILEAGE",
+						key: 'lc'
+					},{
+						title: '车费合计',
+						tit:"TOTAL_FARE",
+						key: 'zj'
+					},{
+						title: '事由',
+						tit:"CONTENT_TAB",
+						key: 'sy'
+					},{
                         title: '车费合计',
+						tit:"TOTAL_FARE",
                         key: 'zj'
                     },
                 ],
@@ -240,15 +279,15 @@
 			},
 			confirm(index){
                 if (this.selectedData[index].length === 0){
-                    this.$Message.error("请选择订单");
+                    this.$Message.error(this.$t("ORDER_TAB"));
                     return;
                 }
                 swal({
-                    title: "确认已付款?",
+                    title: this.$t("PAID_CONFIRM"),
                     type: "warning",
                     showCancelButton: true,
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                    confirmButtonText: this.$t("DETERMINE"),
+                    cancelButtonText: this.$t("CANCEL"),
                 }).then((confirm) => {
                     if (confirm.value) {
                         let ids = '';
@@ -279,7 +318,7 @@
 			},
             print(item,index){
                 if (this.selectedData[index].length === 0){
-                    this.$Message.error("请选择订单");
+                    this.$Message.error(this.$t("ORDER_TAB"));
                     return;
                 }
                 item.choosedOrderList = this.selectedData[index];

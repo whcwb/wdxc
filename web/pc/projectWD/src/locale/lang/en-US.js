@@ -95,7 +95,14 @@ export default {
   COMMONT:"Comment",
   ACCESSORY:"Accessory",
   GENDER:"Gender",
-
+  PASSWORD:"Password",
+  MALE:"Male",
+  FEMALE:"Female",
+  CANCEL:"cancel",
+  DETERMINE:"confirm",
+  CLOSE:"close",
+  SET:"set",
+  ERROR_ALERM:"ERROR!",
   /**
    *系统设置
    * 	import i18nTabTit from '@/mixins/i18nTabTit'
@@ -104,18 +111,59 @@ export default {
    * :placeholder='$t("USER_NAME")'
    *   用户管理
    **/
+  //
+  DATA_LOADING:"Data loading",
+  //
   USER_MANAGEMENT:'User Management',
   USER_NAME:"Please Enter User Name",
   PHONE_NUMBER:"Please Enter Phone Number",
   ID:"ID",
   ID_NUMBER:"ID Number",//
-  DUTY:"Post",
+  DUTY:"Duty",
+  //add
+  ORGANIZATION:"Organization",
+  USER_NAME_TAB:"User Name",
+  NAME_TAB:"Please Enter Name",
+  DUTY_TAB:"Please Enter Duty",
+  ID_NUMBER_TAB:"Please Enter ID Num",
+  PASSWORD_TAB:"Please Set Password",
+  USER_ACCOUNT:"Please Set User Account",
+  SELECT_ORGANIZATION:"Please Select Organization",
+  INFORMATION:"Information",
+  ADD_USER_SUCCESS:"User successfully registered",
+  MODIFY_USER_SUCCESS:"User successfully modified",
+  WRITE_INFOR:"Please fill in the user information carefully!",
+  ADD:"Add",
+  USER:"User",
+  //edit
+  ROLE_ASSIGN:"Role Assignments",
+
+  DATA_TRANS:"Data Transmission",
+  OPERATION_SUCCESS:"Operation Success",
+
+
   /**
    * 角色管理
    */
   ROLE_MANAGEMENT:"Role Management",
   ROLE:"Please Enter Role",
   ROLE_NAME:"Role Name",
+  //add
+  ROLE_ADD:"Role",
+  CREATE:"Create",
+  ROLE_NAME_TAB:"Please Enter Role Name",
+  ROLE_CODE:"Role Code",
+  ROLE_CODE_TAB:"Please Enter Role Code",
+  ROLE_TYPE_TAB:"Please Select Role Type",
+  COMMENT:"Please Enter Comment",
+  PERMISSION:"Permission",
+  //
+  CREATE_ROLE:"Create Role",
+  ADD_ROLE_SUCCESS:"Role successfully registered",
+  MODIFY_ROLE_SUCCESS:"Role successfully modified",
+
+
+
   /**
    * 厂商管理
    */
@@ -134,6 +182,18 @@ export default {
   SERVICE_CODE:"Service Code",
   API_PREFIX:"API Prefix",
   ICON_TAB:"Icon",
+  //
+  CREATE_SERVICE:"Create Service",
+  ADDRESS_TAB:"Please Enter Address",
+  API_PREFIX_TAB:"Please Enter API Prefix",
+  STATUS_TAB:"Please Enter Status",
+  FUNCTION_NAME_ENTER:"Please Enter Function",
+  SERVICE_CODE_TAB:"Please Enter Service Code",
+  CREATE_SUCCESS:"Create Success",
+  CREATE_FAIL:"Create Fail",
+  FUNCTION_DATA:"Function Data",
+  EDIT_SERVICE:"Edit Service",
+
   /**
    * 功能管理
    */
@@ -144,7 +204,13 @@ export default {
   SURVICE_CODE_TAB:"Service Code",
   RANK:"Rank",
   URL:"URL",
-  PARENT_NODE:"Parent_Node",
+  PARENT_NODE:"Parent Node",
+  //
+  FUNCTION_:"Function",
+  ORDER_ENTER:"Please Enter Order",
+  PLEASE_ENTER:"Please Enter",
+  LIVE_LINK:"Live Link",
+  API_SUFFIX:"API Suffix",
   /**
    *日志管理
    */
@@ -176,6 +242,8 @@ export default {
   CONTENT:"Content/URL",
   ACTIVITY_STYLE:"Activity Style",
   POSITION:"Position",
+  //
+  CREATE_ACTIVITY:"Create Activiry",
 
   /**
    *车辆调度
@@ -344,10 +412,6 @@ export default {
   INTERFACE_ADDRESS_TAB:"Interface Address",
   TERMINAL_INTERFACE_ADDRESS:"Terminal Interface Address",
 
-  CANCEL:"cancel",
-  DETERMINE:"confirm",
-  CLOSE:"close",
-  SET:"set",
   /**
    * 后视镜管理
    */
@@ -372,7 +436,48 @@ export default {
   /**
    * 财务结算
    */
+  PRINT:"print",
+  AMOUNT_COLLECT:"Amount Collection",
+  EDIT:"edit",
+
   RECEIVABLE:"Receivable",
+  RECEIVED:"Received",
+  FORMULA:"Single fee settlement formula: mileage * unit price + toll fee + bridge fee + isochronous fee = total price",
+  ENTER_START_TIME:"Please Enter Start Time",
+  ENTER_STOP_TIME:"lease Enter Stop Time",
+  USE_UNIT:"Please Select the Organization",
+  TODAY:"Today",
+  THREE_DAY_AGO:"3 days ago",
+  WEEK_AGO:"A week ago",
+  //付款管理
+  PAYABLE:"Payable",
+  PAID:"Paid",
+  SEARCH_DRIVER:"Please Enter Driver Name",
+  PAY_FORMULA:"Single fee settlement formula: mileage * unit price + toll fee + bridge fee + isochronous fee = total price",
+  USERS:"User",
+  WAITING_PLACE:"Waiting Place",
+  DESTINATION:"Destination",
+  TIME_DEPARTURE:"Time of Departure",
+  MILEAGE:"Mileage(km)",
+  TOTAL_FARE:"Total Fare",
+  CONTENT_TAB:"Content",
+  ORDER_TAB:"Please Select Order",
+  PAID_CONFIRM:"confirm payment?",
+  //Accounting formula
+  ACCOUNT_FORMULA:"Accounting formula",
+  CONTENT_:"Content",
+  AMOUNT:"Amount",
+  MILEAGE_TAB:"Mileage",
+  OVERTIME:"Work Overtime",
+  HOLIDAY:"Holiday",
+  //
+  REIMBURSES:"Reimburses",
+  EWIMBUR_PERSON:"Person",
+  MATTER:"Matter",
+  TIME:"Time",
+  REIM_AMOUNT:"Amount",
+  NUM_INVOICE:"Number of invoices",
+
   /**
    * map
    * '$t("USER_NAME")'

@@ -12,10 +12,10 @@
 				<div style="height: 45px;line-height: 45px;">
 					<div class="margin-top-10 box-row">
 						<div class="titmess">
-							<span>核算公式</span>
+							<span>{{$t("ACCOUNT_FORMULA")}}</span>
 						</div>
 						<div class="body-r-1 inputSty">
-							<Input v-model="param.gnmcLike" placeholder="请输入功能名称" style="width: 200px"
+							<Input v-model="param.gnmcLike" :placeholder='$t("CAR_FUNCTION_NAME")' style="width: 200px"
 								   @on-change="getPageData()"></Input>
 						</div>
 						<div class="butevent">
@@ -30,7 +30,7 @@
 				</div>
 			</Row>
 			<Row style="position: relative;">
-				<Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTitle" :data="pageData"></Table>
+				<Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTiT" :data="pageData"></Table>
 			</Row>
 			<Row class="margin-top-10 pageSty">
 				<Page :total=param.total :current=param.pageNum :page-size=param.pageSize :page-size-opts=[8,10,20,30,40,50]  @on-page-size-change='(e)=>{param.pageSize=e;pageChange()}' show-total show-elevator show-sizer placement='top'
@@ -44,10 +44,11 @@
 <script>
     import mixins from '@/mixins'
     import formData from './comp/formData.vue'
+	import i18nTabTit from '@/mixins/i18nTabTit'
 
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             formData
         },
@@ -59,32 +60,32 @@
                 tabHeight: 220,
                 componentName: '',
                 choosedItem: null,
-                tableTitle: [
-                    {title: "序号", width: 80, align: 'center', type: 'index'},
-                    {title: '类型', align: 'center', key: 'lx',
+				tableTiT: [
+                    {title:'序号',tit:"ORDER", width: 80, align: 'center', type: 'index'},
+                    {title:'类型', tit:"TYPE", align: 'center', key: 'lx',
 						render:(h,p)=>{
                         	let s = '';
                         	switch(p.row.lx){
-								case '00': s = '里程';
+								case '00': s = this.$t("MILEAGE_TAB");
 								break;
-								case '10': s = '加班';
+								case '10': s = this.$t("OVERTIME");
 								break;
-								case '20': s = '节假日';
+								case '20': s = this.$t("HOLIDAY");
 								break;
 							}
 							return h('div',s);
 						}
 					},
-                    {title: '车型', align: 'center', key: 'cx',
+                    {title:'车型', tit:"CAR_TYPE_TAB", align: 'center', key: 'cx',
                         render:(h,p)=>{
                             let val = this.dictUtil.getValByCode(this,this.cxDictCode,p.row.cx)
                             return h('div',val)
                         }
 					},
-                    {title: '内容', align: 'center', key: 'nr'},
-                    {title: '金额', align: 'center', key: 'je'},
+                    {title:'内容', tit:"CONTENT_", align: 'center', key: 'nr'},
+                    {title:'金额', tit:"AMOUNT", align: 'center', key: 'je'},
                     {
-                        title: '操作',
+                        title:'操作', tit:"OPERATION",
                         width: 150,
                         align: 'center',
                         render: (h, params) => {

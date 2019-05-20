@@ -90,9 +90,21 @@ export default {
     STATUS: "状态",
     COMMONT: "备注",
     CAR_MANAGE: '车辆管理',
-
+    PASSWORD:"密码",
+    MALE:"男",
+    FEMALE:"女",
+    CANCEL: "取消",
+    DETERMINE: "确定",
+    CLOSE: "关闭",
+    SET: "设置",
+    ERROR_ALERM:"出错了！！!",
+    CREATE:"新建",
     /**
      *系统设置
+     * *    import i18nTabTit from '@/mixins/i18nTabTit'
+     * tit:"",
+     * {{$t("USER_MANAGEMENT")}}
+     * :placeholder='$t("USER_NAME")'
      *   用户管理
      **/
     USER_MANAGEMENT: '用户管理',
@@ -101,12 +113,50 @@ export default {
     ID: "账号",
     ID_NUMBER: "证件号码",
     DUTY: "职务",
+    ADD:"新增",
+    USER:"用户",
+    //
+    ORGANIZATION:"组织机构",
+    USER_NAME_TAB:"用户名",
+    NAME_TAB:"请输入姓名",
+    DUTY_TAB:"请输入职务",
+    ID_NUMBER_TAB:"请输入证件号码",
+    PASSWORD_TAB:"请设置用户密码",
+    USER_ACCOUNT:"请设置用户帐号",
+    SELECT_ORGANIZATION:"请选择组织机构",
+    INFORMATION:"信息",
+    ADD_USER_SUCCESS:"用户注册成功",
+    MODIFY_USER_SUCCESS:"用户修改成功",
+    WRITE_INFOR:"请认真填写用户信息",
+//
+    ROLE_ASSIGN:"角色分配",
+    DATA_LOADING:"数据加载中请稍后",
+    DATA_TRANS:"数据传输",
+    OPERATION_SUCCESS:"操作成功",
+
+
+
     /**
      * 角色管理
      */
+
+
+
     ROLE_MANAGEMENT: "角色管理",
     ROLE: "请输入角色",
     ROLE_NAME: "角色名称",
+    //add
+    ROLE_ADD:"角色",
+
+    ROLE_NAME_TAB:"请填写角色名称",
+    ROLE_CODE:"角色代码",
+    ROLE_CODE_TAB:"请填写角色代码",
+    ROLE_TYPE_TAB:"请选择角色类型",
+    COMMENT:"请填写备注信息",
+    PERMISSION:"权限选择",
+    CREATE_ROLE:"新建角色",
+    ADD_ROLE_SUCCESS:"角色注册成功",
+    MODIFY_ROLE_SUCCESS:"角色修改成功",
 
     /**
      * 厂商管理
@@ -126,6 +176,18 @@ export default {
     SERVICE_CODE: "服务代码",
     API_PREFIX: "API前缀",
     ICON_TAB: "图标",
+    //
+    CREATE_SERVICE:"新建服务",
+    ADDRESS_TAB:"请填写地址",
+    API_PREFIX_TAB:"请填写API前缀",
+    STATUS_TAB:"请填选择状态",
+    FUNCTION_NAME_ENTER:"请填写功能名称",
+    CREATE_SUCCESS:"创建成功",
+    CREATE_FAIL:"创建失败",
+    FUNCTION_DATA:"功能数据",
+    SERVICE_CODE_TAB:"请输入服务代码",
+    EDIT_SERVICE:"编辑服务",
+
     /**
      * 功能管理
      */
@@ -137,6 +199,12 @@ export default {
     RANK: "排序",
     URL: "URL",
     PARENT_NODE: "父节点",
+    //
+    FUNCTION_:"功能",
+    ORDER_ENTER:"请填写排序",
+    PLEASE_ENTER:"请填写",
+    LIVE_LINK:"跳转地址",
+    API_SUFFIX:"API 后缀",
     /**
      *日志管理
      */
@@ -148,6 +216,8 @@ export default {
     PARAMETER: "参数",
     METHOD: "方法",
     ACTION_RESULT: "操作结果",
+
+
     /**
      * 意见反馈
      */
@@ -169,6 +239,9 @@ export default {
     ACTIVITY_STYLE: "活动类型",
     POSITION: "位置",
     ACCESSORY: "附件",
+    //
+    CREATE_ACTIVITY:"新建活动",
+
     /**
      *车辆调度
      *    import i18nTabTit from '@/mixins/i18nTabTit'
@@ -298,10 +371,7 @@ export default {
 
     /**
      * 终端管理
-     *    *    import i18nTabTit from '@/mixins/i18nTabTit'
-     * tit:"",
-     * {{$t("USER_MANAGEMENT")}}
-     * :placeholder='$t("USER_NAME")'
+     *
      */
 //TERMINAL_NUM:"请输入终端编号",
     //CAR_NUMBER:"请输入车牌号",
@@ -336,10 +406,7 @@ export default {
     INTERFACE_ADDRESS_TAB: "接口地址",
     TERMINAL_INTERFACE_ADDRESS: "设备终端接口地址",
 
-    CANCEL: "取消",
-    DETERMINE: "确定",
-    CLOSE: "关闭",
-    SET: "设置",
+
     /**
      * 后视镜管理
      */
@@ -363,8 +430,63 @@ export default {
     OBD_MANAGEMENT: "OBD管理",
     /**
      * 财务结算
+     *
      */
-    NOTE_RECEIVABLE:"应收单据",
+    PRINT:"打印",
+    EDIT:"编辑",
+    AMOUNT_COLLECT:"收款金额",//public
+
+    RECEIVABLE:"应收单据",
+    RECEIVED:"已收单据",
+    FORMULA:"单笔费用结算公式：里程 * 单价 + 过路费 + 过桥费 + 等时费 = 合计总价",
+     ENTER_START_TIME:"请输入开始时间",
+    ENTER_STOP_TIME:"请输入结束时间",
+    USE_UNIT:"请选择用车单位",
+
+    TODAY:"今天",
+    THREE_DAY_AGO:"三天前",
+    WEEK_AGO:"一周前",
+    //付款管理
+    PAYABLE:"应付单据",
+    PAID:"已付单据",
+    SEARCH_DRIVER:"请输入司机姓名搜索",
+    PAY_FORMULA:"单笔费用结算公式：里程 * 单价 + 过路费 + 过桥费 + 等时费 = 合计总价",
+
+    USERS:"用车人员",
+    WAITING_PLACE:"候车地点",
+    DESTINATION:"目的地",
+    TIME_DEPARTURE:"出车时间",
+    MILEAGE:"里程(公里)",
+    TOTAL_FARE:"车费合计",
+    CONTENT_TAB:"事由",
+    ORDER_TAB:"请选择订单",
+    PAID_CONFIRM:"确认已付款?",
+    //核算公式
+    ACCOUNT_FORMULA:"核算公式",
+    //CAR_FUNCTION_NAME
+    CONTENT_:"内容",
+    AMOUNT:"金额",
+    MILEAGE_TAB:"里程",
+    OVERTIME:"加班",
+    HOLIDAY:"节假日",
+    //
+    REIMBURSES:"报销记账",
+    EWIMBUR_PERSON:"报销人",
+    MATTER:"报销事项",
+    TIME:"报销时间",
+    REIM_AMOUNT:"报销金额",
+    NUM_INVOICE:"发票数量",
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * map
