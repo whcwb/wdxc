@@ -54,7 +54,7 @@ const app = {
         dontCache: [], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
         routerMum:[],
         carCodeList:[],
-        local: localRead('local'),//i18n国际化__变量
+        local: localRead('local')==''?navigator.language:localRead('local'),//i18n国际化__变量
     },
     mutations: {
         setLocal (state, lang) {

@@ -237,6 +237,7 @@
 
     import echarts from 'echarts'
     import mixins from '@/mixins'
+    import {mapState, mapMutations} from 'vuex'
 
     Date.prototype.format = function (format) {
         var o = {
@@ -282,6 +283,21 @@
                     this.formItem.endTime = this.getTodayDate() + " 23:59:59";
                 }
             },
+        },
+        computed: {
+            local() {
+                return this.$store.state.app.local;
+            }
+        },
+        watch: {
+            local: function (n, o) {
+                this.formItem.startTime = this.getTodayDate() + " 00:00:00";
+                this.formItem.endTime = this.getTodayDate() + " 23:59:59";
+                this.formItem.zdbh = this.$route.params.zdbh;
+                this.timeRange = [this.formItem.startTime, this.formItem.endTime];
+                this.choosedIndex = 0;
+                this.getCarList();
+            }
         },
         data() {
             return {
@@ -371,7 +387,12 @@
                 return s;
             },
             getCarList() {
-                this.$http.get(this.apis.CLGL.QUERY, {params: {pageSize: 1000}}).then((res) => {
+                this.$http.get(this.apis.CLGL.QUERY, {
+                    params: {
+                        pageSize: 1000,
+                        positionType: this.local == 'en-US' ? 'gcj02' : ''
+                    }
+                }).then((res) => {
                     if (res.code === 200 && res.page.list) {
                         this.carList = res.page.list;
                         if (this.carList.length != 0) {
@@ -419,7 +440,7 @@
                             r.jsdz = '目的地';
                             this.totalTime += r.sc;
 
-                            console.log(r);
+                            // console.log(r);
                             //解析开始地址
                             geoc.getLocation(new BMap.Point(r.ksjd, r.kswd), (rs) => {
                                 var addComp = rs.addressComponents;
@@ -457,7 +478,11 @@
                             this.speedList.push([r.loc_time, speed]);
                             this.speeds[date.getTime()] = speed;
                         }
-                        v.Buildmap()
+                        if (this.local == 'en-US') {
+                            v.Build_G_Map()
+                        } else {
+                            v.Buildmap()
+                        }
                     }
                 })
             },
@@ -482,7 +507,11 @@
                             r.longitude = r.bdjd;
                             r.latitude = r.bdwd;
                         }
-                        v.Buildmap()
+                        if (this.local == 'en-US') {
+                            v.Build_G_Map()
+                        } else {
+                            v.Buildmap()
+                        }
                     }
                 })
             },
@@ -514,6 +543,21 @@
 
                 setTimeout(() => {
                     v.line();
+                }, 100)
+            },
+            Build_G_Map() {
+                const v = this
+                this.map = new google.maps.Map(document.getElementById('allmap'), {
+                    center: {lat: v.stationList[0].latitude, lng: v.stationList[0].longitude},
+                    zoom: v.zoom,
+                    zoomControl: false,
+                    streetViewControl: false,//街景小人
+                    fullscreenControl: false,//全屏控件
+                    mapTypeControl: false,//地图类型控件
+                });
+
+                setTimeout(() => {
+                    v.GMapLine();
                 }, 100)
             },
             line() {
@@ -550,6 +594,82 @@
                 var myIcon2 = new BMap.Icon("http://119.23.242.234:9092/icon/map_line_end.png", new BMap.Size(37, 62), {anchor: new BMap.Size(19, 62),});
                 var marker2 = new BMap.Marker(pt2, {icon: myIcon2});  // 创建标注
                 this.map.addOverlay(marker2);
+                //画轨迹线
+                setTimeout(() => {
+                    v.drawLineChart();
+                }, 100)
+            },
+            GMapLine() {
+                this.showMap = true;
+                let v = this;
+                var pois = [];
+                const LatLngBounds = new google.maps.LatLngBounds()
+                v.stationList.forEach((r, index) => {
+                    pois.push({lat: r.latitude, lng: r.longitude});
+                    // LatLngBounds.contains(
+                    //     new google.maps.LatLng({lat:r.latitude, lng:r.longitude})
+                    // )
+                    if (index == v.stationList.length - 1) {
+                        // this.map.panToBounds(LatLngBounds,10)
+                    }
+                })
+
+                var flightPath = new google.maps.Polyline({
+                    path: pois,
+                    geodesic: true,
+                    strokeColor: '#18a45b',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 6
+                });
+
+                flightPath.setMap(this.map);
+
+
+                // 增加起点
+                var pt1 = {lng: v.stationList[0].longitude, lat: v.stationList[0].latitude};
+                var myIcon1 = {
+                    url: "http://119.23.242.234:9092/icon/map_line_begin.png",
+                    size: new google.maps.Size(37, 62),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(19, 62)
+                }
+                var marker1 = new google.maps.Marker({
+                    position: pt1,
+                    map: this.map,
+                    icon: myIcon1
+                });  // 创建标注
+                //初始化动画marker对象
+
+                var moveIcon = {
+                    url: "http://119.23.242.234:9092/icon/ic_car_online.png",
+                    size: new google.maps.Size(32, 32),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(16, 32)
+                }
+                this.movingMarker = new google.maps.Marker({
+                    position: pt1,
+                    map: this.map,
+                    icon: moveIcon
+                });
+
+                // 增加终点
+                var pt2 = {
+                    lng: v.stationList[v.stationList.length - 1].longitude,
+                    lat: v.stationList[v.stationList.length - 1].latitude
+                };
+                var myIcon2 = {
+                    url: "http://119.23.242.234:9092/icon/map_line_end.png",
+                    size: new google.maps.Size(37, 62),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(19, 62)
+                }
+                var marker2 = new google.maps.Marker({
+                    position: pt2,
+                    map: this.map,
+                    icon: myIcon2
+                });  // 创建标注
+
+
                 //画轨迹线
                 setTimeout(() => {
                     v.drawLineChart();

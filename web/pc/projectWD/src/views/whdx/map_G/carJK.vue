@@ -118,7 +118,7 @@
                 this.showCarPosition();
             },
             Buildmap() {
-                // 百度地图API功能
+                // Google地图API功能
                 const v = this
                 this.map = new google.maps.Map(document.getElementById('allmap'), {
                     // center: {lat: -34.397, lng: 150.644},
@@ -132,11 +132,8 @@
             },
             //撒点
             showCarPosition() {
-                console.log('****MarkerList',this.MarkerList.length);
                 this.clear()
                 var v = this
-                console.log('#$%^&*()', this.carList.length);
-
                 for (let r of this.carList) {
                     var point = {lat: r.lat, lng: r.lng};
                     this.addMarker(r, point);
@@ -202,20 +199,23 @@
                 var marker = new google.maps.Marker({
                     position: {lat: parseFloat(point.lat), lng: parseFloat(point.lng)},
                     map: this.map,
+                    label:{
+                        text:"[" + item.cph + "]"
+                    },
                     icon: image
                 });
 
                 this.MarkerList.push(marker)
 
-                console.log('MarkerList',this.MarkerList.length);
+                // console.log('MarkerList',this.MarkerList.length);
 
 
-                // marker.addEventListener("click",(code)=>{
-                //     v.$emit('codeEvent',item)
-                //     v.addLabel(item, point);
-                // });
+                marker.addListener("click",(code)=>{
+                    v.$emit('codeEvent',item)
+                    // v.addLabel(item, point);
+                });
                 // this.map.addOverlay(marker);
-                // this.addClickHandler(item, marker);
+                this.addClickHandler(item, marker);
             },
             getIcon(car) {
                 switch (car.status) {
@@ -229,7 +229,7 @@
             },
             addClickHandler(item, marker) {
                 var v = this
-                marker.addEventListener("click", function (e) {
+                marker.addListener("click", function (e) {
                     v.choosedItem = item;
                 })
             },

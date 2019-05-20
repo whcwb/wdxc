@@ -1,361 +1,380 @@
 <style lang="less">
-    @import "../../../../styles/common.less";
+      @import "../../../../styles/common.less";
 </style>
 <style>
-    .choosed {
-        background-color: #eee;
-    }
+      .choosed {
+            background-color: #eee;
+      }
 </style>
 <template>
-    <div class="box-row">
-        <div style="position:absolute;width:430px;top:45px;left:30px;z-index:8888">
-            <Col span="24">
-                <Input placeholder="查设备、找车辆、找司机" size="large" v-model="searchKey">
-                    <Button slot="append" type="primary" icon="md-search" @click="filter"></Button>
-                </Input>
-                <Tabs v-show="showTabs" ref="tabRef" style="background-color:white;" size="small"
-                      @on-click="changeTabMarkPoint">
-                    <TabPane :label="qblabel" name="name0" style="height:300px;overflow:auto;"
-                             v-show="tabShowFlag">
-                        <Row v-for="(item,index) in carArray[0]" v-if="item.show"
-                             @click.native="rowClick(item)">
-                            <Col span="24">
-                                <Card style="margin:0 15px 5px 15px;"
-                                      :class="{'choosed':choosedCar == item}">
-                                    <p slot="title">
-                                        <Icon type="soup-can-outline"></Icon>
-                                        {{item.zdbh}}
-                                    </p>
-                                    <p slot="extra" style="color:#19be6b">
-                                        {{formateLongDate(item.time)}}
-                                    </p>
-                                    <Row type="flex" justify="start">
-                                        <Col span="8">
-                                            <Icon type="model-s"></Icon>
-                                            {{item.cph}}
-                                        </Col>
-                                        <Col span="8">
-                                            <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
-                                        </Col>
-                                        <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
-                                                    placement="left" width="300"
-                                                    style="float: right">
-                                                <Button size="small" @click="getObdInfo(item)"
-                                                        style="font-weight: 700;color: black">
-                                                    OBD
-                                                </Button>
-                                                <div slot="content">
-                                                    <h3 v-if="gpsObdMessage == null">暂无数据</h3>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">更新日期</Col>
-                                                        <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">发动机转速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">车速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">剩余油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">耗油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="obdFaultCode && obdFaultCode.length != 0">
-                                                        <Col style="border-bottom: 1px solid #cccccc"></Col>
-                                                        <Col span="8">故障报告</Col>
-                                                        <Col span="16">
-                                                            <div v-for="item in obdFaultCode"
-                                                                 style="border-bottom: 1px solid #cccccc">
-                                                                <span>{{item.faultCode}}</span>
-                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
-                                                                <br>
-                                                                <span>{{item.creationTime}}</span>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Poptip>
-                                        </Col>
+      <div class="box-row">
+            <div style="position:absolute;width:430px;top:45px;left:30px;z-index:8888">
+                  <Col span="24">
+                        <Input placeholder="查设备、找车辆、找司机" size="large" v-model="searchKey">
+                        <Button slot="append" type="primary" icon="md-search" @click="filter"></Button>
+                        </Input>
+                        <Tabs v-show="showTabs" ref="tabRef" style="background-color:white;" size="small"
+                              @on-click="changeTabMarkPoint">
+                              <TabPane :label="qblabel" name="name0" style="height:300px;overflow:auto;"
+                                       v-show="tabShowFlag">
+                                    <Row v-for="(item,index) in carArray[0]" v-if="item.show"
+                                         @click.native="rowClick(item)">
+                                          <Col span="24">
+                                                <Card style="margin:0 15px 5px 15px;"
+                                                      :class="{'choosed':choosedCar == item}">
+                                                      <p slot="title">
+                                                            <Icon type="soup-can-outline"></Icon>
+                                                            {{item.zdbh}}
+                                                      </p>
+                                                      <p slot="extra" style="color:#19be6b">
+                                                            {{formateLongDate(item.time)}}
+                                                      </p>
+                                                      <Row type="flex" justify="start">
+                                                            <Col span="8">
+                                                                  <Icon type="model-s"></Icon>
+                                                                  {{item.cph}}
+                                                            </Col>
+                                                            <Col span="8">
+                                                                  <Icon type="md-person"></Icon>
+                                                                  {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                                            </Col>
+                                                            <Col span="2" offset="6">
+                                                                  <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                                                          placement="left" width="300"
+                                                                          style="float: right">
+                                                                        <Button size="small" @click="getObdInfo(item)"
+                                                                                style="font-weight: 700;color: black">
+                                                                              OBD
+                                                                        </Button>
+                                                                        <div slot="content">
+                                                                              <h3 v-if="gpsObdMessage == null">暂无数据</h3>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">更新日期</Col>
+                                                                                    <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">发动机转速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">车速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">剩余油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">耗油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="obdFaultCode && obdFaultCode.length != 0">
+                                                                                    <Col style="border-bottom: 1px solid #cccccc"></Col>
+                                                                                    <Col span="8">故障报告</Col>
+                                                                                    <Col span="16">
+                                                                                          <div v-for="item in obdFaultCode"
+                                                                                               style="border-bottom: 1px solid #cccccc">
+                                                                                                <span>{{item.faultCode}}</span>
+                                                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
+                                                                                                <br>
+                                                                                                <span>{{item.creationTime}}</span>
+                                                                                          </div>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                        </div>
+                                                                  </Poptip>
+                                                            </Col>
+                                                      </Row>
+                                                </Card>
+                                          </Col>
                                     </Row>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane :label="dhlabel" name="name1" style="height:300px;overflow:auto;"
-                             v-show="tabShowFlag">
-                        <Row v-for="(item,index) in carArray[1]" @click.native="rowClick(item)">
-                            <Col span="24">
-                                <Card style="margin:0 15px 5px 15px;"
-                                      :class="{'choosed':choosedCar == item}">
-                                    <p slot="title">
-                                        <Icon type="soup-can-outline"></Icon>
-                                        {{item.zdbh}}
-                                    </p>
-                                    <p slot="extra" style="color:#19be6b">
-                                        {{formateLongDate(item.time)}}
-                                    </p>
-                                    <Row type="flex" justify="start">
-                                        <Col span="8">
-                                            <Icon type="model-s"></Icon>
-                                            {{item.cph}}
-                                        </Col>
-                                        <Col span="8">
-                                            <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
-                                        </Col>
-                                        <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
-                                                    placement="left" width="300"
-                                                    style="float: right">
-                                                <Button size="small" @click="getObdInfo(item)"
-                                                        style="font-weight: 700;color: black">
-                                                    OBD
-                                                </Button>
-                                                <div slot="content">
-                                                    <h3 v-if="gpsObdMessage == null">暂无数据</h3>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">更新日期</Col>
-                                                        <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">发动机转速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">车速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">剩余油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">耗油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="obdFaultCode && obdFaultCode.length != 0">
-                                                        <Col style="border-bottom: 1px solid #cccccc"></Col>
-                                                        <Col span="8">故障报告</Col>
-                                                        <Col span="16">
-                                                            <div v-for="item in obdFaultCode"
-                                                                 style="border-bottom: 1px solid #cccccc">
-                                                                <span>{{item.faultCode}}</span>
-                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
-                                                                <br>
-                                                                <span>{{item.creationTime}}</span>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Poptip>
-                                        </Col>
+                              </TabPane>
+                              <TabPane :label="dhlabel" name="name1" style="height:300px;overflow:auto;"
+                                       v-show="tabShowFlag">
+                                    <Row v-for="(item,index) in carArray[1]" @click.native="rowClick(item)">
+                                          <Col span="24">
+                                                <Card style="margin:0 15px 5px 15px;"
+                                                      :class="{'choosed':choosedCar == item}">
+                                                      <p slot="title">
+                                                            <Icon type="soup-can-outline"></Icon>
+                                                            {{item.zdbh}}
+                                                      </p>
+                                                      <p slot="extra" style="color:#19be6b">
+                                                            {{formateLongDate(item.time)}}
+                                                      </p>
+                                                      <Row type="flex" justify="start">
+                                                            <Col span="8">
+                                                                  <Icon type="model-s"></Icon>
+                                                                  {{item.cph}}
+                                                            </Col>
+                                                            <Col span="8">
+                                                                  <Icon type="md-person"></Icon>
+                                                                  {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                                            </Col>
+                                                            <Col span="2" offset="6">
+                                                                  <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                                                          placement="left" width="300"
+                                                                          style="float: right">
+                                                                        <Button size="small" @click="getObdInfo(item)"
+                                                                                style="font-weight: 700;color: black">
+                                                                              OBD
+                                                                        </Button>
+                                                                        <div slot="content">
+                                                                              <h3 v-if="gpsObdMessage == null">暂无数据</h3>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">更新日期</Col>
+                                                                                    <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">发动机转速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">车速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">剩余油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">耗油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="obdFaultCode && obdFaultCode.length != 0">
+                                                                                    <Col style="border-bottom: 1px solid #cccccc"></Col>
+                                                                                    <Col span="8">故障报告</Col>
+                                                                                    <Col span="16">
+                                                                                          <div v-for="item in obdFaultCode"
+                                                                                               style="border-bottom: 1px solid #cccccc">
+                                                                                                <span>{{item.faultCode}}</span>
+                                                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
+                                                                                                <br>
+                                                                                                <span>{{item.creationTime}}</span>
+                                                                                          </div>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                        </div>
+                                                                  </Poptip>
+                                                            </Col>
+                                                      </Row>
+                                                </Card>
+                                          </Col>
                                     </Row>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane :label="xhlabel" name="name2" style="height:300px;overflow:auto;"
-                             v-show="tabShowFlag">
-                        <Row v-for="(item,index) in carArray[2]" @click.native="rowClick(item)">
-                            <Col span="24">
-                                <Card style="margin:0 15px 5px 15px;"
-                                      :class="{'choosed':choosedCar == item}">
-                                    <p slot="title">
-                                        <Icon type="soup-can-outline"></Icon>
-                                        {{item.zdbh}}
-                                    </p>
-                                    <p slot="extra" style="color:#ed3f14">
-                                        {{formateLongDate(item.time)}}
-                                    </p>
-                                    <Row type="flex" justify="start">
-                                        <Col span="8">
-                                            <Icon type="model-s"></Icon>
-                                            {{item.cph}}
-                                        </Col>
-                                        <Col span="8">
-                                            <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
-                                        </Col>
-                                        <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
-                                                    placement="left" width="300"
-                                                    style="float: right">
-                                                <Button size="small" @click="getObdInfo(item)"
-                                                        style="font-weight: 700;color: black">
-                                                    OBD
-                                                </Button>
-                                                <div slot="content">
-                                                    <h3 v-if="gpsObdMessage == null">暂无数据</h3>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">更新日期</Col>
-                                                        <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">发动机转速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">车速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">剩余油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">耗油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="obdFaultCode && obdFaultCode.length != 0">
-                                                        <Col style="border-bottom: 1px solid #cccccc"></Col>
-                                                        <Col span="8">故障报告</Col>
-                                                        <Col span="16">
-                                                            <div v-for="item in obdFaultCode"
-                                                                 style="border-bottom: 1px solid #cccccc">
-                                                                <span>{{item.faultCode}}</span>
-                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
-                                                                <br>
-                                                                <span>{{item.creationTime}}</span>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Poptip>
-                                        </Col>
+                              </TabPane>
+                              <TabPane :label="xhlabel" name="name2" style="height:300px;overflow:auto;"
+                                       v-show="tabShowFlag">
+                                    <Row v-for="(item,index) in carArray[2]" @click.native="rowClick(item)">
+                                          <Col span="24">
+                                                <Card style="margin:0 15px 5px 15px;"
+                                                      :class="{'choosed':choosedCar == item}">
+                                                      <p slot="title">
+                                                            <Icon type="soup-can-outline"></Icon>
+                                                            {{item.zdbh}}
+                                                      </p>
+                                                      <p slot="extra" style="color:#ed3f14">
+                                                            {{formateLongDate(item.time)}}
+                                                      </p>
+                                                      <Row type="flex" justify="start">
+                                                            <Col span="8">
+                                                                  <Icon type="model-s"></Icon>
+                                                                  {{item.cph}}
+                                                            </Col>
+                                                            <Col span="8">
+                                                                  <Icon type="md-person"></Icon>
+                                                                  {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                                            </Col>
+                                                            <Col span="2" offset="6">
+                                                                  <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                                                          placement="left" width="300"
+                                                                          style="float: right">
+                                                                        <Button size="small" @click="getObdInfo(item)"
+                                                                                style="font-weight: 700;color: black">
+                                                                              OBD
+                                                                        </Button>
+                                                                        <div slot="content">
+                                                                              <h3 v-if="gpsObdMessage == null">暂无数据</h3>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">更新日期</Col>
+                                                                                    <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">发动机转速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">车速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">剩余油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">耗油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="obdFaultCode && obdFaultCode.length != 0">
+                                                                                    <Col style="border-bottom: 1px solid #cccccc"></Col>
+                                                                                    <Col span="8">故障报告</Col>
+                                                                                    <Col span="16">
+                                                                                          <div v-for="item in obdFaultCode"
+                                                                                               style="border-bottom: 1px solid #cccccc">
+                                                                                                <span>{{item.faultCode}}</span>
+                                                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
+                                                                                                <br>
+                                                                                                <span>{{item.creationTime}}</span>
+                                                                                          </div>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                        </div>
+                                                                  </Poptip>
+                                                            </Col>
+                                                      </Row>
+                                                </Card>
+                                          </Col>
                                     </Row>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane :label="lxlabel" name="name3" style="height:300px;overflow:auto;"
-                             v-show="tabShowFlag">
-                        <Row v-for="(item,index) in carArray[3]" @click.native="rowClick(item)">
-                            <Col span="24">
-                                <Card style="margin:0 15px 5px 15px;"
-                                      :class="{'choosed':choosedCar == item}">
-                                    <p slot="title">
-                                        <Icon type="soup-can-outline"></Icon>
-                                        {{item.zdbh}}
-                                    </p>
-                                    <p slot="extra">
-                                        {{formateLongDate(item.time)}}
-                                    </p>
-                                    <Row type="flex" justify="start">
-                                        <Col span="8">
-                                            <Icon type="model-s"></Icon>
-                                            {{item.cph}}
-                                        </Col>
-                                        <Col span="8">
-                                            <Icon type="md-person"></Icon>
-                                            {{item.sjxm ? item.sjxm : '暂无绑定'}}
-                                        </Col>
-                                        <Col span="2" offset="6">
-                                            <Poptip v-if="item.obdId != ''" title="OBD信息"
-                                                    placement="left" width="300"
-                                                    style="float: right">
-                                                <Button size="small" @click="getObdInfo(item)"
-                                                        style="font-weight: 700;color: black">
-                                                    OBD
-                                                </Button>
-                                                <div slot="content">
-                                                    <h3 v-if="gpsObdMessage == null">暂无数据</h3>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">更新日期</Col>
-                                                        <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">发动机转速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">车速</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">剩余油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="gpsObdMessage != null">
-                                                        <Col span="8">耗油量</Col>
-                                                        <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row v-if="obdFaultCode && obdFaultCode.length != 0">
-                                                        <Col style="border-bottom: 1px solid #cccccc"></Col>
-                                                        <Col span="8">故障报告</Col>
-                                                        <Col span="16">
-                                                            <div v-for="item in obdFaultCode"
-                                                                 style="border-bottom: 1px solid #cccccc">
-                                                                <span>{{item.faultCode}}</span>
-                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
-                                                                <br>
-                                                                <span>{{item.creationTime}}</span>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Poptip>
-                                        </Col>
+                              </TabPane>
+                              <TabPane :label="lxlabel" name="name3" style="height:300px;overflow:auto;"
+                                       v-show="tabShowFlag">
+                                    <Row v-for="(item,index) in carArray[3]" @click.native="rowClick(item)">
+                                          <Col span="24">
+                                                <Card style="margin:0 15px 5px 15px;"
+                                                      :class="{'choosed':choosedCar == item}">
+                                                      <p slot="title">
+                                                            <Icon type="soup-can-outline"></Icon>
+                                                            {{item.zdbh}}
+                                                      </p>
+                                                      <p slot="extra">
+                                                            {{formateLongDate(item.time)}}
+                                                      </p>
+                                                      <Row type="flex" justify="start">
+                                                            <Col span="8">
+                                                                  <Icon type="model-s"></Icon>
+                                                                  {{item.cph}}
+                                                            </Col>
+                                                            <Col span="8">
+                                                                  <Icon type="md-person"></Icon>
+                                                                  {{item.sjxm ? item.sjxm : '暂无绑定'}}
+                                                            </Col>
+                                                            <Col span="2" offset="6">
+                                                                  <Poptip v-if="item.obdId != ''" title="OBD信息"
+                                                                          placement="left" width="300"
+                                                                          style="float: right">
+                                                                        <Button size="small" @click="getObdInfo(item)"
+                                                                                style="font-weight: 700;color: black">
+                                                                              OBD
+                                                                        </Button>
+                                                                        <div slot="content">
+                                                                              <h3 v-if="gpsObdMessage == null">暂无数据</h3>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">更新日期</Col>
+                                                                                    <Col span="16"><span>{{formatDate(gpsObdMessage.creatorDate)}} {{formatTime(gpsObdMessage.creatortime)}}</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">发动机转速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.engineSpeed}} r/min</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">车速</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.obdSpeed}} KM/h</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">剩余油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.syyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="gpsObdMessage != null">
+                                                                                    <Col span="8">耗油量</Col>
+                                                                                    <Col span="16"><span>{{gpsObdMessage.hyl}} L</span>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                              <Row v-if="obdFaultCode && obdFaultCode.length != 0">
+                                                                                    <Col style="border-bottom: 1px solid #cccccc"></Col>
+                                                                                    <Col span="8">故障报告</Col>
+                                                                                    <Col span="16">
+                                                                                          <div v-for="item in obdFaultCode"
+                                                                                               style="border-bottom: 1px solid #cccccc">
+                                                                                                <span>{{item.faultCode}}</span>
+                                                                                                <!--<span :class="{obdFaultStatus:item.faultType != null,obdFaultHandled:item.faultType == '10',obdFaultNotHandle:item.faultType != '10'}">{{item.faultType == '10' ? '已解决' : '未解决'}}</span>-->
+                                                                                                <br>
+                                                                                                <span>{{item.creationTime}}</span>
+                                                                                          </div>
+                                                                                    </Col>
+                                                                              </Row>
+                                                                        </div>
+                                                                  </Poptip>
+                                                            </Col>
+                                                      </Row>
+                                                </Card>
+                                          </Col>
                                     </Row>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <Button type="primary" size="small" :icon="changeBtnIcon" slot="extra" style="margin:5px"
-                            @click.native="changeBtn"></Button>
-                </Tabs>
-            </Col>
-        </div>
-        <div style="position:absolute;width:350px;top:20px;right:-10px;z-index:9990;padding-top:30px;padding-right:30px;float: right"
-             type="flex" justify="end">
-            <car-info @close="closeItem" ref="carInfoRef" @switchGJ="switchGJ"></car-info>
-        </div>
-        <div class="body-F" style="height:100%;">
-            <my-map ref="map" @codeEvent="codeEvent"></my-map>
-        </div>
-    </div>
+                              </TabPane>
+                              <Button type="primary" size="small" :icon="changeBtnIcon" slot="extra" style="margin:5px"
+                                      @click.native="changeBtn"></Button>
+                        </Tabs>
+                  </Col>
+            </div>
+            <div style="position:absolute;width:350px;top:20px;right:-10px;z-index:9990;padding-top:30px;padding-right:30px;float: right"
+                 type="flex" justify="end">
+                  <car-info @close="closeItem" ref="carInfoRef" @switchGJ="switchGJ"></car-info>
+            </div>
+            <div class="body-F" style="height:100%;">
+                  <!--<my-map ref="map" @codeEvent="codeEvent"></my-map>-->
+                  <component ref="map" :is="compName"></component>
+            </div>
+      </div>
 </template>
 
 <script>
 
-    import myMap from '../../map/carJK.vue';
+    import B_myMap from '../../map/carJK.vue';
+    import G_myMap from '../../map_G/carJK.vue';
+
     import carInfo from './carInfo';
 
     export default {
         name: 'VehicleMonitoring',
         components: {
-            myMap, carInfo
+            carInfo, B_myMap, G_myMap
+        },
+        computed: {
+            local() {
+                return this.$store.state.app.local;
+            }
+        },
+        watch: {
+            local: function (n, o) {
+                if (n == 'en-US') {
+                    this.compName = 'G_myMap'
+                } else {
+                    this.compName = 'B_myMap'
+                }
+                this.initGps()
+            }
         },
         data() {
             return {
-                showGJ:false,
+                compName: this.local == 'en-US' ? 'G_myMap' : 'B_myMap',
+                showGJ: false,
                 tabShowFlag: false,
                 SpinShow: false,
                 componentName: '',
@@ -429,6 +448,7 @@
             };
         },
         created() {
+            this.compName = this.local == 'en-US' ? 'G_myMap' : 'B_myMap'
             this.$store.commit('setCurrentPath', [{
                 title: '首页',
             }, {
@@ -436,7 +456,11 @@
             }, {
                 title: '位置监控',
             }])
-            this.initGps()
+          this.initGps()
+        },
+        mounted() {
+            this.$nextTick(() => {
+            })
         },
         beforeDestroy() {
             try {
@@ -448,18 +472,18 @@
             }
         },
         methods: {
-            switchGJ(s){
+            switchGJ(s) {
                 this.showGJ = s;
                 // console.log("shsh564564sh",this.showGJ)
                 /*this.$refs.map.init();
                 this.$refs.carInfoRef.init(item);*/
-                if(this.showGJ && this.choosedCar != null){
+                if (this.showGJ && this.choosedCar != null) {
                     // console.log("shshsh",this.showGJ)
                     this.getCarListCode(this.choosedCar.zdbh);
-                }else {
+                } else {
                     this.mapCarList = [];
-                    this.carArray[0].forEach((item ,index)=>{
-                        if(item.zdbh == this.choosedCar.zdbh){
+                    this.carArray[0].forEach((item, index) => {
+                        if (item.zdbh == this.choosedCar.zdbh) {
                             this.mapCarList.push(item);
                         }
                     })
@@ -681,7 +705,12 @@
             },
             initGps() {
                 var v = this
-                this.$http.get(this.apis.CLJK.QUERY, {params: {zdLx: '30'}}).then((res) => {
+                this.$http.get(this.apis.CLJK.QUERY, {
+                    params: {
+                        zdLx: '30',
+                        positionType: this.local == 'en-US' ? 'gcj02' : ''
+                    }
+                }).then((res) => {
                     if (res.code === 200) {
                         this.$store.commit('ChcarCodeList', [])
                         this.initTime = new Date().getTime();
@@ -822,7 +851,7 @@
                 this.$refs.carInfoRef.init(item);
             },
             rowClick(item) {
-                this.showGJ =false;
+                this.showGJ = false;
                 if (this.choosedCar == item) return;
                 this.choosedCar = item;
                 this.mapCarList = [this.choosedCar];
@@ -841,7 +870,7 @@
                 })
             },
             changeTabMarkPoint(name) {
-                this.showGJ =false;
+                this.showGJ = false;
                 this.choosedCar = null;
                 this.$refs.carInfoRef.close();
                 let s = parseInt(name.charAt(4));

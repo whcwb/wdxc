@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import { localRead } from '@/libs/util'
+import { localRead ,localSave} from '@/libs/util'
 import customZhCn from './lang/zh-CN'
 import customEnUs from './lang/en-US'
 
@@ -16,6 +16,10 @@ const navLang = navigator.language
 const localLang = (navLang === 'zh-CN' || navLang === 'en-US') ? navLang : false
 let lang = localLang || localRead('local') || 'zh-CN'
 // let lang = 'en-US'
+
+if(!localRead('local')){
+    localSave('local','en-US')
+}
 
 Vue.config.lang = lang
 
