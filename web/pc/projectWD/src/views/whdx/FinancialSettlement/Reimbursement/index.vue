@@ -12,10 +12,10 @@
                         <div style="height: 45px;line-height: 45px;">
                               <div class="margin-top-10 box-row">
                                     <div class="titmess">
-                                          <span>报销记账</span>
+                                          <span>{{$t("REIMBURSES")}}</span>
                                     </div>
                                     <div class="body-r-1 inputSty">
-                                          <Input v-model="param.gnmcLike" placeholder="请输入功能名称" style="width: 200px"
+                                          <Input v-model="param.gnmcLike" :placeholder='$t("CAR_FUNCTION_NAME")' style="width: 200px"
                                                  @on-change="getPageData()"></Input>
                                     </div>
                                     <div class="butevent">
@@ -30,7 +30,7 @@
                         </div>
                   </Row>
                   <Row style="position: relative;">
-                        <Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTitle"
+                        <Table ref="table"  :height="tabHeight" :row-class-name="rowClassName" :columns="tableTiT"
                                :data="pageData"></Table>
                   </Row>
                   <Row class="margin-top-10 pageSty">
@@ -48,10 +48,11 @@
 <script>
     import mixins from '@/mixins'
     import formData from './comp/formData.vue'
+    import i18nTabTit from '@/mixins/i18nTabTit'
 
     export default {
         name: 'char',
-        mixins: [mixins],
+        mixins: [mixins,i18nTabTit],
         components: {
             formData
         },
@@ -63,13 +64,12 @@
                 tabHeight: 220,
                 componentName: '',
                 choosedItem: null,
-                tableTitle: [
-                    {title: "序号", width: 80, align: 'center', type: 'index'},
-                    {title: '报销人', align: 'center', key: 'bxr'},
-                    {title: '报销事项', align: 'center', key: 'bxsx'},
-                    {title: '报销时间', align: 'center', key: 'bxsj'},
-                    {title: '报销金额', align: 'center', key: 'bxje'},
-                    {title: '发票数量', align: 'center', key: 'fpsl'}
+                  tableTiT: [
+                    {title: "序号", tit:"ORDER",width: 80, align: 'center', type: 'index'},
+                    {title: '报销人',tit:"EWIMBUR_PERSON", align: 'center', key: 'bxr'},
+                    {title: '报销事项',tit:"TIME", align: 'center', key: 'bxsx'},
+                    {title: '报销金额',tit:"REIM_AMOUNT", align: 'center', key: 'bxje'},
+                    {title: '发票数量',tit:"NUM_INVOICE", align: 'center', key: 'fpsl'}
                 ],
                 pageData: [],
                 param: {

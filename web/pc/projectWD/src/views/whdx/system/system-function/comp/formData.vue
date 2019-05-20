@@ -7,7 +7,7 @@
 <template>
       <div>
             <Modal v-model="showModal" width='900' :closable='false'
-                   :mask-closable="false" :title="operate+'功能'">
+                   :mask-closable="false" :title='operate+$t("FUNCTION_")'>
                   <div style="overflow: auto;height: 500px;">
                         <Form
                                 ref="form"
@@ -20,13 +20,13 @@
                                           <FormItem :prop='i.prop' :label='i.label'>
                                                 <Input type="text" v-model="formItem[i.prop]"
                                                        :readonly="i.readonly"
-                                                       :placeholder="'请填写'+i.label+'...'"></Input>
+                                                       :placeholder='$t("PLEASE_ENTER")+i.label'></Input>
                                           </FormItem>
                                     </Col>
                                     <Col span="12">
-                                          <FormItem label='状态'>
+                                          <FormItem :label='$t("STATUS")'>
                                                 <Select filterable clearable v-model="formItem.zt"
-                                                        placeholder="请填选择状态...">
+                                                        :placeholder='$t("STATUS_TAB")'>
                                                       <Option v-for='(item,index) in Dictionary' :value="item.key">
                                                             {{item.val}}
                                                       </Option>
@@ -34,18 +34,18 @@
                                           </FormItem>
                                     </Col>
                                     <Col span="12">
-                                          <FormItem label='排序'>
+                                          <FormItem :label='$t("ORDER")'>
                                                 <!--<Input type="number" v-model="formItem.px" placeholder="请填写排序..."></Input>-->
                                                 <input class="input" type="number" min="0" v-model="formItem.px"
-                                                       placeholder="请填写排序..."/>
+                                                       :placeholder='$t("ORDER_ENTER")'/>
                                           </FormItem>
                                     </Col>
                               </Row>
                         </Form>
                   </div>
                   <div slot='footer'>
-                        <Button type="default" @click="v.util.closeDialog(v)" style="color: #949494">取消</Button>
-                        <Button type="primary" @click="v.util.save(v)">确定</Button>
+                        <Button type="default" @click="v.util.closeDialog(v)" style="color: #949494">{{$t("CANCEL")}}</Button>
+                        <Button type="primary" @click="v.util.save(v)">{{$t("DETERMINE")}}</Button>
                   </div>
             </Modal>
       </div>
@@ -58,7 +58,7 @@
             return {
                 v: this,
                 apiRoot: this.apis.FUNCTION,
-                operate: '新建',
+                operate: this.$t("CREATE"),
                 showModal: true,
                 readonly: false,
                 formItem: {
@@ -66,21 +66,21 @@
                     zt: '00'
                 },
                 formInputs: [
-                    {label: '功能名称', prop: 'gnmc', required: true, readonly: false},
-                    {label: '功能代码', prop: 'gndm', required: true, readonly: false},
-                    {label: '服务代码', prop: 'fwdm', required: true, readonly: false},
-                    {label: 'URL', prop: 'url', required: true, readonly: false},
-                    {label: '图标', prop: 'tb', required: true, readonly: false},
-                    {label: '父节点', prop: 'fjd', readonly: false},
-                    {label: '跳转地址', prop: 'tzdz', required: true, readonly: false},
-                    {label: 'API 前缀', prop: 'apiQz', required: true, readonly: false},
-                    {label: 'API 后缀', prop: 'apiHz', readonly: false},
-                    {label: '备注信息', prop: 'bz', readonly: false},
+                    {label: this.$t("FUNCTION_NAME_TAB"), prop: 'gnmc', required: true, readonly: false},
+                    {label: this.$t("FUNCTION_CODE"), prop: 'gndm', required: true, readonly: false},
+                    {label: this.$t("SURVICE_CODE_TAB"), prop: 'fwdm', required: true, readonly: false},
+                    {label: this.$t("URL"), prop: 'url', required: true, readonly: false},
+                    {label: this.$t("ICON_TAB"), prop: 'tb', required: true, readonly: false},
+                    {label: this.$t("PARENT_NODE"), prop: 'fjd', readonly: false},
+                    {label: this.$t("LIVE_LINK"), prop: 'tzdz', required: true, readonly: false},
+                    {label: this.$t("API_PREFIX"), prop: 'apiQz', required: true, readonly: false},
+                    {label: this.$t("API_SUFFIX"), prop: 'apiHz', readonly: false},
+                    {label: this.$t("COMMONT"), prop: 'bz', readonly: false},
                 ],
                 ruleInline: {
                     px: [
-                        {required: true, message: '请将信息填写完整', trigger: 'blur'},
-                        {min: 0, message: '请将信息填写完整', trigger: 'blur'}
+                        {required: true, message: this.$t("ERROR_ALERM"), trigger: 'blur'},
+                        {min: 0, message: this.$t("ERROR_ALERM"), trigger: 'blur'}
                     ],
                 }
             }
@@ -93,7 +93,7 @@
         },
         created() {
             this.util.initFormModal(this);
-            if (this.v.operate == '编辑') {
+            if (this.v.operate == this.$t("EDIT")) {
                 // this.formInputs[1].readonly = true;
             }
         },

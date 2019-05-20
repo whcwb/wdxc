@@ -1,19 +1,19 @@
 <!--角色分配-->
 <template>
   <div class="root">
-    <Modal v-model='RootShow' height="400" :closable='false' :mask-closable="false" title="角色分配">
+    <Modal v-model='RootShow' height="400" :closable='false' :mask-closable="false" :title='$t("ROLE_ASSIGN")'>
       <div v-if="SpinShow" style="width:100%;height:100%;position: fixed;top: 0;left:0;z-index: 1111;">
         <Spin fix>
           <Icon type="load-c" size=55 class="demo-spin-icon-load"></Icon>
-          <div style="font-size: 30px;">数据加载中请稍后</div>
+          <div style="font-size: 30px;">{{$t("DATA_LOADING")}}</div>
         </Spin>
       </div>
       <div style="overflow: auto;height: 600px;width: 500px">
         <select-role v-if="showRoleTable" :hasIds="hasIds" @arrIds="arrIds"></select-role>
       </div>
       <div slot='footer'>
-        <Button type="primary" @click="save">确定</Button>
-        <Button type="default" @click="close" style="color: #949494">取消</Button>
+        <Button type="primary" @click="save">{{$t("DETERMINE")}}</Button>
+        <Button type="default" @click="close" style="color: #949494">{{$t("CANCEL")}}</Button>
       </div>
     </Modal>
   </div>
@@ -48,7 +48,7 @@
     },
     created() {
       // this.checkGroup = usermes
-      console.log('数据传输', this.usermes)
+      console.log(this.$t("DATA_TRANS"), this.usermes)
     },
     mounted() {
       this.getUserRoles();
@@ -89,7 +89,7 @@
           roleIds: this.checkGroup
         }).then((res) => {
           if (res.code === 200) {
-            this.$Message.success('操作成功');
+            this.$Message.success(this.$t("OPERATION_SUCCESS"));
             this.$emit('listF', res)
             v.SpinShow = false
           }

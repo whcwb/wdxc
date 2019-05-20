@@ -3,11 +3,11 @@
 </style>
 <template>
 	<div>
-		<Modal v-model="showModal" width='900' :closable='mesF' :mask-closable="mesF" title="新建角色">
+		<Modal v-model="showModal" width='900' :closable='mesF' :mask-closable="mesF" :title='$t("CREATE_ROLE")'>
 			<div v-if="SpinShow" style="width:100%;height:100%;position: fixed;top: 0;left:0;z-index: 1111;">
 				<Spin fix>
 					<Icon type="load-c" size=55 class="demo-spin-icon-load"></Icon>
-					<div style="font-size: 30px;">数据加载中请稍后</div>
+					<div style="font-size: 30px;">{{$t("DATA_LOADING")}}</div>
 				</Spin>
 			</div>
 			<div style="overflow: auto;height: 300px;">
@@ -16,8 +16,8 @@
 
 			</div>
 			<div slot='footer'>
-				<Button type="default" @click="colse"style="color: #949494">取消</Button>
-				<Button type="primary" @click="AddDataListOk('addmess')">确定</Button>
+				<Button type="default" @click="colse"style="color: #949494">{{$t("CANCEL")}}</Button>
+				<Button type="primary" @click="AddDataListOk('addmess')">{{$t("DETERMINE")}}</Button>
 			</div>
 		</Modal>
 	</div>
@@ -40,7 +40,7 @@
                 },
                 ruleInline: {
                     jsmc: [
-                        { required: true, message: '请输角色名称', trigger: 'blur' }
+                        { required: true, message: this.$t("ROLE_NAME_TAB"), trigger: 'blur' }
                     ]
                 },
                 data4: [
@@ -85,7 +85,7 @@
                 this.getChoosedIds(this.data4);
                 this.$http.post(this.apis.FUNCTION.SET_ROLE_FUNCTIONS,{'jsdm':this.addmess.jsId,'gndms':this.choosedIds}).then((res) =>{
                     if(res.code===200){
-                        v.$Message.success('修改成功');
+                        v.$Message.success(this.$t("OPERATION_SUCCESS"));
                     }
                 })
             },
@@ -105,31 +105,31 @@
                         if(v.usermesType){
                             v.$http.post(this.apis.ROLE.ADD,v.addmess).then((res) =>{
                                 if(res.code===200){
-                                    v.$Message.success('角色注册成功');
+                                    v.$Message.success(this.$t("ADD_ROLE_SUCCESS"));
                                     this.setRolePermission();
                                     v.$emit('listF',res)
                                     v.SpinShow = false
                                 }
                             }).catch((error) =>{
-								v.$Message.error('出错了！！！');
+								v.$Message.error(this.$t("ERROR_ALERM"));
 								v.SpinShow = false
 							})
                         }else{
                             v.$http.post(this.apis.ROLE.CHANGE,v.addmess).then((res) =>{
                                 if(res.code===200){
-                                    v.$Message.success('角色修改成功');
+                                    v.$Message.success(this.$t("MODIFY_ROLE_SUCCESS"));
                                     this.setRolePermission();
                                     v.$emit('listF',res)
                                     v.SpinShow = false
                                 }
                             }).catch((error) =>{
-								v.$Message.error('出错了！！！');
+								v.$Message.error(this.$t("ERROR_ALERM"));
 								v.SpinShow = false
 							})
                         }
                     } else {
                     	v.SpinShow = false
-                        v.$Message.error('请认真填写角色信息!');
+                        v.$Message.error(this.$t("WRITE_INFOR"));
                     }
                 })
             },

@@ -6,7 +6,7 @@
 			width="900"
 		    :closable='false'
 		    :mask-closable="false"
-		    :title="operate+'用户'">
+		    :title='operate+$t("USER")'>
     		<Form
     			ref="addmess"
     			:model="addmess"
@@ -16,58 +16,58 @@
 	    		<div style="overflow: auto;height: 400px;width:800px">
 					<Row>
 						<Col span="12">
-							<FormItem prop="jgdm" label='组织机构：'>
-								<Cascader @on-change="change" v-model="orgPath" change-on-select :data="orgTree"  placeholder="请选择组织机构"  filterable clearable  ></Cascader>
+							<FormItem prop="jgdm" :label='$t("ORGANITION")+":"'>
+								<Cascader @on-change="change" v-model="orgPath" change-on-select :data="orgTree"  :placeholder='$t("SELECT_ORGANIZATION")'  filterable clearable  ></Cascader>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem prop="zh" label='用户名：'>
-								<Input :readonly="!usermesType" type="text" v-model="addmess.zh" placeholder="请设置用户帐号">
+							<FormItem prop="zh" :label='$t("NAME")+":"'>
+								<Input :readonly="!usermesType" type="text" v-model="addmess.zh" :placeholder='$t("USER_ACCOUNT")'>
 								</Input>
 							</FormItem>
 						</Col>
 						<Col span="12" v-if="showPsd">
-							<FormItem prop="mm" label='密码：'>
-								<Input type="password" v-model="addmess.mm" placeholder="请设置用户密码">
+							<FormItem prop="mm" :label='$t("PASSWORD")+":"'>
+								<Input type="password" v-model="addmess.mm" :placeholder='$t("PASSWORD_TAB")'>
 								</Input>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem prop="xm" label='姓名：'>
-								<Input type="text" v-model="addmess.xm" placeholder="请输入姓名">
+							<FormItem prop="xm" :label='$t("NAME")+":"'>
+								<Input type="text" v-model="addmess.xm" :placeholder='$t("NAME_TAB")'>
 								</Input>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem label="性别： ">
+							<FormItem :label='$t("GENDER")+":"'>
 								<Select filterable clearable  v-model="addmess.xb">
-									<Option value="1">男</Option>
-									<Option value="0">女</Option>
+									<Option value="1">{{$t("MALE")}}</Option>
+									<Option value="0">{{$t("FEMALE")}}</Option>
 								</Select>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem label='类型：'>
+							<FormItem :label='$t("TYPE")+":"'>
 								<Select filterable clearable  v-model="addmess.lx">
 									<Option v-for="item in yhlxDict" :value="item.key">{{item.val}}</Option>
 								</Select>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem label='职务：'>
-								<Input type="text" v-model="addmess.zw" placeholder="请输入职务">
+							<FormItem :label='$t("DUTY")+":"'>
+								<Input type="text" v-model="addmess.zw" :placeholder='$t("DUTY_TAB")'>
 								</Input>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem prop="sjh" label='手机号码：'>
-								<Input type="text" v-model="addmess.sjh" placeholder="请输入手机号码">
+							<FormItem prop="sjh" :label='$t("TELPHONE_NUM")+":"'>
+								<Input type="text" v-model="addmess.sjh" :placeholder='$t("PHONE_NUMBER")'>
 								</Input>
 							</FormItem>
 						</Col>
 						<Col span="12">
-							<FormItem prop="zjhm" label='证件号码：'>
-								<Input type="text" v-model="addmess.zjhm" placeholder="请输入证件号码">
+							<FormItem prop="zjhm" :label='$t("ID_NUMBER")+":"'>
+								<Input type="text" v-model="addmess.zjhm" :placeholder='$t("ID_NUMBER_TAB")'>
 								</Input>
 							</FormItem>
 						</Col>
@@ -75,8 +75,8 @@
 	    		</div>
     		</Form>
 		    <div slot='footer'>
-		    	<Button type="default" @click="colse" style="color: #949494">取消</Button>
-	        	<Button type="primary" @click="AddDataListOk('addmess')">确定</Button>
+		    	<Button type="default" @click="colse" style="color: #949494">{{$t("CANCEL")}}</Button>
+	        	<Button type="primary" @click="AddDataListOk('addmess')">{{$t("DETERMINE")}}</Button>
 		    </div>
 		</Modal>
 	</div>
@@ -90,7 +90,7 @@
 		data(){
 			return {
 				showModal:true,
-				operate:"新增",
+				operate:this.$t("ADD "),
 				//新增数据
             	addmess: {
                     zh: '',
@@ -106,13 +106,13 @@
                 showPsd:false,
                 ruleInline: {
                   zh: [
-                      { required: true, message: '请输入用户名', trigger: 'blur' }
+                      { required: true, message: this.$t("USER_NAME"), trigger: 'blur' }
                   ],
                   xm: [
-                      { required: true, message: '请输入姓名', trigger: 'blur' }
+                      { required: true, message: this.$t("NAME_TAB"), trigger: 'blur' }
                   ],
                   sjh:[
-                      { required: true,message: '请输入手机号码', trigger: 'blur' }
+                      { required: true,message: this.$t("PHONE_NUMBER"), trigger: 'blur' }
                   ],
               	},
                 yhlxDict:[],
@@ -139,7 +139,7 @@
                 this.showPsd = true;
             }else{
                 this.addmess = this.usermes
-                this.operate = '编辑'
+                this.operate = this.$t("EDIT")
                 this.getOrgPath(this.addmess.jgdm);
 			}
 			this.yhlxDict = this.$parent.yhlxDict
@@ -174,11 +174,11 @@
                         v.$Message.error(res.message);
                     }
                 }).catch((error) =>{
-                    v.$Message.error('出错了！！！');
+                    v.$Message.error(this.$t("ERROR_ALERM"));
                 })
 			},
 			fullcal(){
-				log('信息',this.usermes)
+				log(this.$t("INFORMATION"),this.usermes)
 			},
 			colse(){
 				var v = this
@@ -193,29 +193,29 @@
                     	if(v.usermesType){
                     		v.$http.post(this.apis.USER.ADD,v.addmess).then((res) =>{
 								if(res.code===200){
-			                    	v.$Message.success('用户注册成功');
+			                    	v.$Message.success(this.$t("ADD_USER_SUCCESS"));
 									v.$emit('listF',res)
 								}else{
                                     v.$Message.error(res.message);
 								}
 							}).catch((error) =>{
-								v.$Message.error('出错了！！！');
+								v.$Message.error(this.$t("ERROR_ALERM"));
 							})
                     	}else{
                     	    delete v.addmess.mm;
                     		v.$http.post(this.apis.USER.CHANGE,v.addmess).then((res) =>{
 								if(res.code===200){
-									v.$Message.success('用户修改成功');
+									v.$Message.success(this.$t("MODIFY_USER_SUCCESS"));
 									v.$emit('listF',res)
 								}else{
                                     v.$Message.error(res.message);
 								}
 							}).catch((error) =>{
-								v.$Message.error('出错了！！！');
+								v.$Message.error(this.$t("ERROR_ALERM"));
 							})
                     	}
                     } else {
-                        v.$Message.error('请认真填写用户信息!');
+                        v.$Message.error(this.$t("WRITE_INFOR"));
                     }
                 })
             },

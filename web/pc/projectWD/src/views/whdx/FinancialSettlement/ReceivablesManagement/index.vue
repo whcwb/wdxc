@@ -11,26 +11,26 @@
                         <Menu mode="horizontal" theme="light" active-name="1" @on-select="MenuClick">
                               <MenuItem name="1">
                                     <Icon type="ios-paper"></Icon>
-                                    {{$t("NOTE_RECEIVABLE")}}
+                                    {{$t("RECEIVABLE")}}
                               </MenuItem>
                               <MenuItem name="2">
                                     <Icon type="android-checkbox-outline"></Icon>
-                                    已收单据
+                                    {{$t("RECEIVED")}}
                               </MenuItem>
                         </Menu>
                   </Col>
                   <Col span="15">
                         <div style="height: 60px;line-height: 60px;background-color: #fff;border-bottom: 1px solid #dddee1;padding: 0 15px;">
-                              单笔费用结算公式：里程 * 单价 + 过路费 + 过桥费 + 等时费 = 合计总价
+                              {{$t("FORMULA")}}
                         </div>
                   </Col>
                   <Col span="3">
                         <div style="height: 60px;line-height: 60px;background-color: #fff;border-bottom: 1px solid #dddee1;padding: 0 15px;">
                               <div v-show="param.ddzt === '30'">
-                                    应收单据：{{list.length}}单
+                                    {{$t("RECEIVABLE")}}: {{list.length}}
                               </div>
                               <div v-show="param.ddzt === '40'">
-                                    已收单据：{{list.length}}单
+                                    {{$t("RECEIVED")}}: {{list.length}}
                               </div>
                         </div>
                   </Col>
@@ -38,12 +38,12 @@
                         <div style="height: 60px;line-height: 60px;background-color: #fff;border-bottom: 1px solid #dddee1;padding: 0 15px;">
                               <Cascader
                                       style="width:300px;float: left;margin-top: 16px;margin-left: 4px;padding-right: 10px;"
-                                      @on-change="change" change-on-select :data="orgTree" placeholder="请选择用车单位"
+                                      @on-change="change" change-on-select :data="orgTree" :placeholder='$t("USE_UNIT")'
                                       filterable clearable></Cascader>
                               <DatePicker v-model="param.startTime" :options="dateOpts" type="datetime"
-                                          placeholder="请输入开始时间"></DatePicker>
+                                          :placeholder='$t("ENTER_START_TIME")'></DatePicker>
                               <DatePicker v-model="param.endTime" :options="dateOpts" type="datetime"
-                                          placeholder="请输入结束时间"></DatePicker>
+                                          :placeholder='$t("ENTER_STOP_TIME")'></DatePicker>
                               <Button type="primary" @click="getData()">
                                     <Icon type="md-search"></Icon>
                               </Button>
@@ -59,11 +59,11 @@
                               </div>
                               <span slot="extra">
 			        	<span>
-			        		收款金额：{{item.amount}}元
+			        		{{$t("AMOUNT_COLLECT")}}：{{item.amount}}
 			        		<Button type="success" size="small"
-                                                        @click="print(item,index)">打印</Button>
+                                                        @click="print(item,index)">{{$t("PRINT")}}</Button>
 			        		<Button v-if="param.ddzt === '30'" type="primary" size="small"
-                                                        @click="confirm(index)">确认</Button>
+                                                        @click="confirm(index)">{{$t("DETERMINE")}}</Button>
 			        	</span>
 			        </span>
                               <!--信息-->
@@ -96,13 +96,13 @@
                 dateOpts: {
                     shortcuts: [
                         {
-                            text: '今天',
+                            text:this.$t("TODAY"),
                             value() {
                                 return new Date();
                             }
                         },
                         {
-                            text: '三天前',
+                            text: this.$t("THREE_DAY_AGO"),
                             value() {
                                 const date = new Date();
                                 date.setTime(date.getTime() - 3600 * 1000 * 24 * 3);
@@ -110,7 +110,7 @@
                             }
                         },
                         {
-                            text: '一周前',
+                            text: this.$t("WEEK_AGO"),
                             value() {
                                 const date = new Date();
                                 date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
@@ -130,36 +130,46 @@
                     },
                     {
                         title: '用车人员',
+                          tit:"USERS",
                         key: 'ck'
                     },
                     {
                         title: '候车地点',
+                          tit:"USERS",
                         key: 'hcdz'
                     },
                     {
                         title: '目的地',
+                          tit:"DESTINATION",
                         key: 'mdd'
                     }, {
                         title: '司机',
+                            tit:"DRIVER",
                         key: 'sjxm'
                     }, {
                         title: '车型',
+                            tit:"CAR_TYPE_TAB",
                         key: 'zws'
                     }, {
                         title: '出车时间',
+                            tit:"TIME_DEPARTURE",
                         key: 'yysj'
                     }, {
                         title: '里程(公里)',
+                            tit:"MILEAGE",
                         key: 'lc'
                     }, {
                         title: '车费合计',
+                            tit:"TOTAL_FARE",
                         key: 'zj'
                     }, {
                         title: '事由',
+                            tit:"CONTENT_TAB",
                         key: 'sy'
                     },
                     {
                         title: '操作',
+                          tit:"OPERATION",
                         key: 'action',
                         align: 'center',
                         render: (h, params) => {
@@ -178,7 +188,7 @@
                                             this.componentName = 'edit';
                                         }
                                     }
-                                }, '编辑')
+                                }, this.$t("EDIT"))
                             ]);
                         }
                     }
