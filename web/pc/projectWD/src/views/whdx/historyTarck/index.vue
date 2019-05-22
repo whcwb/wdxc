@@ -124,6 +124,7 @@
                                                 format="yyyy/MM/dd"
                                                 type="daterange"
                                                 placement="bottom-end"
+                                                @on-change="setTime"
                                                 placeholder="请选择时间段" style="width:100%"></DatePicker>
                               </div>
                               <div style="margin-top: 6px;text-align: center">
@@ -272,6 +273,7 @@
         },
         watch: {
             timeRange: function (newQuestion, oldQuestion) {
+                console.log(newQuestion);
                 if (typeof newQuestion[0] === 'string') {
                     return;
                 }
@@ -357,6 +359,10 @@
             this.getCarList();
         },
         methods: {
+            setTime(val){
+                this.formItem.startTime = val[0] + " 00:00:00";
+                this.formItem.endTime = val[1] + " 23:59:59";
+            },
             itemClick(item, index) {
                 this.item = item;
                 this.choosedIndex = index;
@@ -408,12 +414,12 @@
             formItemList() {
                 let startTime = this.formItem.startTime;
                 let endTime = this.formItem.endTime;
-                if (typeof startTime === 'object') {
-                    startTime = startTime.format('yyyy-MM-dd hh:mm:ss');
-                }
-                if (typeof endTime === 'object') {
-                    endTime = endTime.format('yyyy-MM-dd hh:mm:ss');
-                }
+                // if (typeof startTime === 'object') {
+                //     startTime = startTime.format('yyyy-MM-dd hh:mm:ss');
+                // }
+                // if (typeof endTime === 'object') {
+                //     endTime = endTime.format('yyyy-MM-dd hh:mm:ss');
+                // }
                 let p = {
                     startTime: startTime,
                     endTime: endTime,
