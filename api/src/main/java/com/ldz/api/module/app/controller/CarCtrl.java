@@ -23,10 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import sun.util.resources.cldr.ar.CalendarData_ar_LY;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -109,8 +107,8 @@ public class CarCtrl extends BaseController<ClCl,String> {
         String userId = (String) ContextUtil.getSessionAttribute("userId");
         RuntimeCheck.ifBlank(userId,"未找到登录用户");
         RuntimeCheck.ifBlank(zdbh,"请选择车辆");
-        ClZdgl device = zdglMapper.selectByPrimaryKey(zdbh);
-        RuntimeCheck.ifNull(device,"车辆不存在");
+        /*ClZdgl device = zdglMapper.selectByPrimaryKey(zdbh);
+        RuntimeCheck.ifNull(device,"车辆不存在");*//**/
         SimpleCondition clZdCond = new SimpleCondition(ClZdYh.class);
         clZdCond.eq(ClZdYh.InnerColumn.userId,userId);
         clZdCond.eq(ClZdYh.InnerColumn.deviceId,zdbh);
@@ -133,7 +131,16 @@ public class CarCtrl extends BaseController<ClCl,String> {
         List<ClZdYh> zdYhs = zdYhMapper.selectByExample(condition);
         if (zdYhs.size() == 0) return ApiResponse.success(new ArrayList<>());
         List<String> deviceIds = zdYhs.stream().map(ClZdYh::getDeviceId).collect(Collectors.toList());
-
+        if(CollectionUtils.isEmpty(deviceIds)){
+            return ApiResponse.success(new ArrayList<>());
+        }
+        condition = new SimpleCondition(ClZdgl.class);
+        condition.in(ClZdgl.InnerColumn.zdbh, deviceIds);
+        List<ClZdgl> zdgls = zdglMapper.selectByExample(condition);
+        deviceIds = zdgls.stream().map(ClZdgl::getZdbh).collect(Collectors.toList());
+        if(CollectionUtils.isEmpty(deviceIds)){
+            return ApiResponse.success(new ArrayList<>());
+        }
         condition = new SimpleCondition(ClCl.class);
         condition.in(ClCl.InnerColumn.zdbh,deviceIds);
         List<ClCl> cars = clclmapper.selectByExample(condition);
