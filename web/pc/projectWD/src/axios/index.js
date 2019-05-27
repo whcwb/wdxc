@@ -85,10 +85,6 @@ httpInstance.interceptors.response.use((response) => {
     // 对响应数据做点什么
     // store.commit('CloadingType', false);
     iView.Spin.hide()
-
-    if (response.status === 404) {
-        router.push({name: 'error-404'});
-    }
     if (response.status === 200) {
         if (response.data.code === 999) {
             Cookies.remove('user');
