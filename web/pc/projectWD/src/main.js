@@ -18,9 +18,8 @@ import './styles/common.less'
 import swal from 'sweetalert2'
 
 Vue.use(iView, {
-    i18n: (key, value) => i18n.t(key, value)
+    i18n: (key, value) => i18n.t(key, value),
 })
-Vue.use(iView);
 
 //替换原始网络框架
 Vue.prototype.session = session

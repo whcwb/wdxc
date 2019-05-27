@@ -91,8 +91,8 @@
           if (res.code === 200) {
             this.$Message.success(this.$t("OPERATION_SUCCESS"));
             this.$emit('listF', res)
-            v.SpinShow = false
           }
+          v.SpinShow = false
         })
       },
       arrIds(jsIds) {
