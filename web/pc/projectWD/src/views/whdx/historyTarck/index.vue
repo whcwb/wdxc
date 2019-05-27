@@ -414,6 +414,8 @@
             formItemList() {
                 let startTime = this.formItem.startTime;
                 let endTime = this.formItem.endTime;
+                startTime = startTime.replace(new RegExp('/','gm'),'-');
+                endTime = endTime.replace(new RegExp('/','gm'),'-');
                 // if (typeof startTime === 'object') {
                 //     startTime = startTime.format('yyyy-MM-dd hh:mm:ss');
                 // }
