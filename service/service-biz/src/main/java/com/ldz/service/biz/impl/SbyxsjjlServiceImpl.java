@@ -419,7 +419,12 @@ public class SbyxsjjlServiceImpl extends BaseServiceImpl<ClSbyxsjjl, String> imp
 						Gps gps = PositionUtil.bd09_To_Gcj02(clyy.getLatitude().doubleValue(),clyy.getLongitude().doubleValue());
 						p.setLatitude(gps.getWgLat());
 						p.setLongitude(gps.getWgLon());
-					}else{
+					}else if("wgs_84".equals(type)){
+						Gps gp = PositionUtil.bd09_To_Gcj02(clyy.getLatitude().doubleValue(),clyy.getLongitude().doubleValue());
+						Gps gps = PositionUtil.gcj_To_Gps84(gp.getWgLat(), gp.getWgLon());
+						p.setLatitude(gps.getWgLat());
+						p.setLongitude(gps.getWgLon());
+					} else{
 						p.setLatitude(clyy.getLatitude().doubleValue());
 						p.setLongitude(clyy.getLongitude().doubleValue());
 					}
@@ -466,6 +471,11 @@ public class SbyxsjjlServiceImpl extends BaseServiceImpl<ClSbyxsjjl, String> imp
 				if (StringUtils.isNotEmpty(type)){
 					if ("gcj02".equals(type)){
 						Gps gps = PositionUtil.bd09_To_Gcj02(clyy.getLatitude().doubleValue(),clyy.getLongitude().doubleValue());
+						p.setLatitude(gps.getWgLat());
+						p.setLongitude(gps.getWgLon());
+					}else if("wgs_84".equals(type)){
+						Gps gp = PositionUtil.bd09_To_Gcj02(clyy.getLatitude().doubleValue(),clyy.getLongitude().doubleValue());
+						Gps gps = PositionUtil.gcj_To_Gps84(gp.getWgLat(), gp.getWgLon());
 						p.setLatitude(gps.getWgLat());
 						p.setLongitude(gps.getWgLon());
 					}else{

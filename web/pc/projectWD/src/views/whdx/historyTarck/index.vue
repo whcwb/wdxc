@@ -121,7 +121,7 @@
                               </div>
                               <div class="sTime" style="margin-top: 6px">
                                     <DatePicker v-model="timeRange"
-                                                format="yyyy/MM/dd"
+                                                format="yyyy-MM-dd"
                                                 type="daterange"
                                                 placement="bottom-end"
                                                 @on-change="setTime"
