@@ -1185,6 +1185,16 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
             String clxcKey = "CX," + zdbh;
             // 当前GPS点时间
             String currentTime = gpsInfo.getStartTime();
+            DateTime startTime = DateTime.parse(currentTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+            DateTime endTime = DateTime.now();
+            Period per = new Period(startTime, endTime, PeriodType.minutes());
+            int minute = per.getMinutes();
+            //如果新的GPS点数据和上一次缓存的GPS点数据相差20分钟，认为上一次行程已经结束，新传入的GPS点作为开始时间
+            if (minute >= 20){
+                errorLog.error("minute >= 20");
+                //prevTime = endTime.toString("yyyy-MM-dd HH:mm:ss");
+                return;
+            }
             //上一次的GPS点时间
             String prevTime = null;
 
@@ -1196,7 +1206,14 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                         prevTime = tmpKey.split(",")[2];
                     }
                     if ("50".equals(gpsInfo.getEventType())){
-                        redis.delete(clxcKey+"," + prevTime);
+                        Object o = redis.boundValueOps(clxcKey + "," + prevTime).get();
+                        if(o != null){
+                            redis.delete(clxcKey + "," + prevTime);
+                            // 点火事件 结束当前轨迹
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            redis.boundValueOps("endNow,"+zdbh+","+prevTime).set(currentTime, 1, TimeUnit.MILLISECONDS);
+                        }
+
                         prevTime = gpsInfo.getStartTime();
                         redis.boundValueOps(clxcKey + "," + prevTime).set(currentTime, 5, TimeUnit.MINUTES);
                         return;
@@ -1206,15 +1223,15 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                 }
 
             if(StringUtils.equals(gpsInfo.getEventType(), "60") && StringUtils.isNotBlank(prevTime)){
-                redis.boundValueOps(clxcKey + "," + prevTime).set(currentTime, 1, TimeUnit.SECONDS);
+                redis.boundValueOps(clxcKey + "," + prevTime).set(currentTime, 1, TimeUnit.MILLISECONDS);
                 return;
             }
             if (StringUtils.isBlank(prevTime)){
                 errorLog.error("StringUtils.isBlank(prevTime)");
-                DateTime startTime = DateTime.parse(currentTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
-                DateTime endTime = DateTime.now();
-                Period per = new Period(startTime, endTime, PeriodType.minutes());
-                int minute = per.getMinutes();
+                startTime = DateTime.parse(currentTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+                 endTime = DateTime.now();
+                 per = new Period(startTime, endTime, PeriodType.minutes());
+                 minute = per.getMinutes();
                 //如果新的GPS点数据和上一次缓存的GPS点数据相差20分钟，认为上一次行程已经结束，新传入的GPS点作为开始时间
                 if (minute >= 20){
                     redis.delete(clxcKey+"*");
