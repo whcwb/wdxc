@@ -792,8 +792,12 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                     List<Map<String,BigDecimal>> ls = gpsLsService.getJdAndWd(device.getZdbh(),t);
                     websocketInfo.setGpsList(ls);
                 }*/
-                list.add(websocketInfo);
-                continue;
+                if(zdbhClMap.containsKey(device.getZdbh())){
+                    list.add(websocketInfo);
+                    continue;
+                }else{
+                    redis.delete(key);
+                }
             }
 
             WebsocketInfo websocketInfo = new WebsocketInfo();
