@@ -18,7 +18,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 @Sharable
 public class BizBaseHandler extends ChannelInboundHandlerAdapter {
-	
+
 	protected Logger accessLog = LoggerFactory.getLogger("access_info");
 	protected Logger errorLog = LoggerFactory.getLogger("error_info");
 	@Autowired
@@ -27,12 +27,12 @@ public class BizBaseHandler extends ChannelInboundHandlerAdapter {
 	protected RedisTemplateUtil redisDao;
 	//当前终端ID
 	protected String mId;
-	
+
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		errorLog.error("通道["+this.mId+"]业务处理异常", cause.fillInStackTrace());
+//		errorLog.error("通道["+this.mId+"]业务处理异常", cause.fillInStackTrace());
 	}
-	
+
 	/**
 	 * 获取通道ID值，如果获取ID值不存在，则抛出业务异常
 	 * @param channel
@@ -41,10 +41,10 @@ public class BizBaseHandler extends ChannelInboundHandlerAdapter {
 	public void readChannelId(Channel channel) throws Exception{
 		this.mId = channel.attr(ServerChannelHandler.DEVICENO).get();
         if (StringUtils.isEmpty(this.mId)){
-        	throw new BizException("未读取到在线终端ID"); 
+        	throw new BizException("未读取到在线终端ID");
         }
 	}
-	
+
 	/**
 	 * 通用标准应答协议
 	 * @param messageBean
@@ -56,7 +56,7 @@ public class BizBaseHandler extends ChannelInboundHandlerAdapter {
 		//消息ID,上行协议,结果
 		String data = messageBean.getMid() + "," + messageBean.getCommand() + ",1";
 		sendData.setData(data);
-		
+
 		iotServer.sendMsg(sendData);
 	}
 }

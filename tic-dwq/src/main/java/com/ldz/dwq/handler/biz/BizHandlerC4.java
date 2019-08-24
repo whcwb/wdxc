@@ -128,8 +128,10 @@ public class BizHandlerC4 extends BizBaseHandler {
 			String data = messageBean.getMid() + "," + DateTime.now().withZone(DateTimeZone.UTC).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss") + ",0,0,0";
 			sendData.setData(data);
 
-			iotServer.sendMsg(sendData);
+//			iotServer.sendMsg(sendData);
 		}
+		ctx.writeAndFlush("success");
+		ctx.close();
 
 	}
 
