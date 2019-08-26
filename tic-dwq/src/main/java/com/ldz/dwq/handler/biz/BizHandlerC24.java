@@ -133,6 +133,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 					}else{
 						dto.setSczt("10");
 					}
+					dto.setLbs(dataArray[15 + gpsNum]);
 					dtoList.add(dto);
 					log.info("推送到biz数据："+dto.toString());
 					redisDao.convertAndSend("dwq_info", gpsInfo);
@@ -175,6 +176,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 			dto.setStartTime(data.getTime());
 			dto.setEndTime(data.getTime());
 			dto.setFxj(data.getFx());
+			dto.setLbs(data.getLbs());
 			dto.setSpeed(StringUtils.isEmpty(data.getSd()) ? "0" : data.getSd());
 			if (dto.getSpeed().contains(".")){
 				dto.setSpeed(""+Math.round(new Float(dto.getSpeed())));

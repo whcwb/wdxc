@@ -128,6 +128,7 @@ public class BizHandlerC4 extends BizBaseHandler {
 		}
 		dto.setEventType(getEventType(dataArray[4]));
 		dto.setSczt("10");
+		dto.setLbs(gps.getLbs());
 		redisDao.convertAndSend("gps", dto);
 		redisDao.convertAndSend("dwq_info", gps);
         redisTemplateUtil.opsForList().leftPush("dwq_gps",gps);

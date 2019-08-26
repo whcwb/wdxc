@@ -106,6 +106,8 @@ public class ClGps implements Serializable {
     @Column(name = "STAR_NUM")
     private String startNum;
 
+    private String gsm;
+
     private static final long serialVersionUID = 1L;
 
 
@@ -123,6 +125,14 @@ public class ClGps implements Serializable {
 
     public void setStartNum(String startNum) {
         this.startNum = startNum;
+    }
+
+    public String getGsm() {
+        return gsm;
+    }
+
+    public void setGsm(String gsm) {
+        this.gsm = gsm;
     }
 
     /**

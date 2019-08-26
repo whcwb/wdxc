@@ -387,7 +387,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         ClGps entity = changeCoordinates(event.getGpsInfo());
         ClGpsLs gpsls = new ClGpsLs(genId(), entity.getZdbh(), entity.getCjsj(), entity.getJd(), entity.getWd(),
                 entity.getGgjd(), entity.getGgwd(), entity.getBdjd(), entity.getBdwd(), entity.getGdjd(), entity.getGdwd(),
-                entity.getLx(), entity.getDwjd(), entity.getFxj(), entity.getYxsd(),entity.getStartNum());
+                entity.getLx(), entity.getDwjd(), entity.getFxj(), entity.getYxsd(),entity.getStartNum(),entity.getGsm());
         YingyanResponse addPoints = GuiJIApi.addPoint(changeModel(gpsls), GuiJIApi.addPointURL);
         if (addPoints.getStatus().equals("0")){
             log.info(entity.getZdbh()+"-"+addPoints.toString());
@@ -500,6 +500,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
 
         clGps.setGdjd(clGps.getGgjd());
         clGps.setGdwd(clGps.getGgwd());
+        clGps.setGsm(entity.getLbs());
         return clGps;
     }
 
