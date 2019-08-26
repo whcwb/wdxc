@@ -1,10 +1,13 @@
 package com.ldz.dwq.handler.biz;
 
 import com.ldz.dao.dwq.model.GpsBean;
+import com.ldz.util.commonUtil.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,9 @@ import com.ldz.util.bean.RequestCommonParamsDto;
 import com.ldz.util.redis.RedisTemplateUtil;
 
 import io.netty.channel.ChannelHandlerContext;
+
+import javax.swing.text.AbstractDocument;
+import java.util.Scanner;
 
 /**
  * 终端定位数据上报命令解析
@@ -60,25 +66,27 @@ import io.netty.channel.ChannelHandlerContext;
 @SuppressWarnings("static-access")
 public class BizHandlerC4 extends BizBaseHandler {
 
+    Logger accessLog = LoggerFactory.getLogger("access_info");
+
     @Autowired
     private RedisTemplateUtil redisTemplateUtil;
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		MessageBean messageBean = (MessageBean)msg;
-
 		String[] dataArray = messageBean.getData().split(",");
+        accessLog.info("dataArray -- > {}"  , JsonUtil.toJson(dataArray));
 		GpsBean gps = new GpsBean();
 		gps.setXxlx(dataArray[4]);
 		gps.setLcs(dataArray[9]);
 		//接收终端时间是0时区的，需要先转换再存储
-		String time = DateTime.now().parse(dataArray[10], DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
+		String time = DateTime.parse(dataArray[10], DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
 		gps.setTime(time);
 		if (StringUtils.isNotBlank(dataArray[13])){
 			//GPS定位
 			String[] gpsArray = dataArray[13].split("\\|");
 			String d = "20"+gpsArray[0]+gpsArray[1];
-			String t = DateTime.now().parse(d.trim(), DateTimeFormat.forPattern("yyyyMMddHHmmss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
+			String t = DateTime.parse(d.trim(), DateTimeFormat.forPattern("yyyyMMddHHmmss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
 			gps.setGpsTime(t);
 			gps.setJd(gpsArray[2]);
 			gps.setWd(gpsArray[3]);
@@ -94,6 +102,12 @@ public class BizHandlerC4 extends BizBaseHandler {
 			//LBS定位
 			gps.setLbs(dataArray[15]);
 		}
+		if(StringUtils.isNotBlank(dataArray[14])){
+		    gps.setWifi(dataArray[14]);
+        }
+		if(StringUtils.isNotBlank(dataArray[15])){
+		    gps.setLbs(dataArray[15]);
+        }
 		//将GPS存储到List集合中
 		//redisDao.boundListOps(GpsBean.class.getName() + "-" + messageBean.getImei()).leftPush(gps);
 
@@ -183,4 +197,35 @@ public class BizHandlerC4 extends BizBaseHandler {
 		}
 		return null;
 	}
+
+	public static void main(String[] args) {
+        String dd= "[C24,27,864767040063652,1,0,0,10.00,0,0,0,2019-08-26 04:40:40,460,0,1,190826|044040|114.045048|22.678618|0.000|254.31|-79.6|12|5,,9375#4242#-85]";
+        String[] dataArray = dd.split(",");
+        GpsBean gps = new GpsBean();
+        gps.setXxlx(dataArray[4]);
+        gps.setLcs(dataArray[9]);
+        //接收终端时间是0时区的，需要先转换再存储
+        String time = DateTime.parse(dataArray[10], DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
+        gps.setTime(time);
+        if (StringUtils.isNotBlank(dataArray[13])){
+            //GPS定位
+            String[] gpsArray = dataArray[13].split("\\|");
+            String d = "20"+gpsArray[0]+gpsArray[1];
+            String t = DateTime.parse(d.trim(), DateTimeFormat.forPattern("yyyyMMddHHmmss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
+            gps.setGpsTime(t);
+            gps.setJd(gpsArray[2]);
+            gps.setWd(gpsArray[3]);
+            gps.setSd(gpsArray[4]);
+            if (gpsArray.length > 5){
+                gps.setFx(gpsArray[5]);
+                gps.setHb(gpsArray[6]);
+            }
+        }else if (StringUtils.isNotBlank(dataArray[14])){
+            //WIFI定位
+            gps.setWifi(dataArray[14]);
+        }else if (StringUtils.isNotBlank(dataArray[15])){
+            //LBS定位
+            gps.setLbs(dataArray[15]);
+        }
+    }
 }
