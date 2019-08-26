@@ -114,6 +114,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
      */
     @Override
     public ApiResponse<String> onReceiveGps(GpsInfo gpsInfo) {
+        errorLog.error("gpsinfo:"  + JsonUtil.toJson(gpsInfo));
         ClZdgl zd = zdglservice.findById(gpsInfo.getDeviceId());
         if(zd == null){
             return ApiResponse.fail("终端不存在");
@@ -241,6 +242,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
 
 
     private boolean handleEvent(GpsInfo gpsInfo){
+        errorLog.error("gpsinfo:"+ JsonUtil.toJson(gpsInfo));
         String eventType = gpsInfo.getEventType();
         String deviceId = gpsInfo.getDeviceId();
 
@@ -312,6 +314,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
             newGps.setStatus(newStatus);
             gpsls.setId(genId());
             gpsls.setZdbh(deviceId);
+            errorLog.error("gpsinfo:"+ JsonUtil.toJson(gpsls));
             redis.boundListOps(ClGpsLs.class.getSimpleName() + deviceId).leftPush(JsonUtil.toJson(gpsls));
             // 更新存入redis(实时点位)
             redis.boundValueOps(ClGps.class.getSimpleName() + deviceId).set(JsonUtil.toJson(newGps));
@@ -455,6 +458,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
     @Override
     public ClGps changeCoordinates(GpsInfo entity) {
         ClGps clGps = new ClGps();
+        clGps.setGsm(entity.getLbs());
         clGps.setStartNum(entity.getStarNum());
         if (entity.getLatitude() != null) {
             if ("-1".equals(entity.getLatitude())) return clGps;
@@ -482,6 +486,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         if (entity.getSpeed() != null) {
             clGps.setYxsd(String.valueOf(entity.getSpeed()));
         }
+        errorLog.error("gpsinfo:"+ JsonUtil.toJson(clGps));
         // 将收到的gps转换成火星坐标系(谷歌)
         Gps gps84_To_Gcj02 = PositionUtil.gps84_To_Gcj02(clGps.getWd().doubleValue(), clGps.getJd().doubleValue());
         if (gps84_To_Gcj02 == null){
@@ -500,7 +505,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
 
         clGps.setGdjd(clGps.getGgjd());
         clGps.setGdwd(clGps.getGgwd());
-        clGps.setGsm(entity.getLbs());
+
         return clGps;
     }
 

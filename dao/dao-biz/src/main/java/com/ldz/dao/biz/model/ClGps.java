@@ -105,11 +105,10 @@ public class ClGps implements Serializable {
 
     @Column(name = "STAR_NUM")
     private String startNum;
-
+    @Column(name="GSM")
     private String gsm;
 
     private static final long serialVersionUID = 1L;
-
 
     public String getStatus() {
         return status;

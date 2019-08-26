@@ -108,6 +108,7 @@ public class ClGpsLs implements Serializable {
     @Column(name = "STAR_NUM")
     private String starNum;
 
+    @Column(name = "GSM")
     private String gsm;
 
     private static final long serialVersionUID = 1L;
@@ -183,6 +184,14 @@ public class ClGpsLs implements Serializable {
      */
     public Date getCjsj() {
         return cjsj;
+    }
+
+    public String getGsm() {
+        return gsm;
+    }
+
+    public void setGsm(String gsm) {
+        this.gsm = gsm;
     }
 
     /**

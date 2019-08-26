@@ -2,36 +2,44 @@ package com.ldz.biz.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ldz.biz.controller.ClSbyxsjjlCtrl;
 import com.ldz.dao.biz.bean.GpsInfo;
 import com.ldz.dao.biz.model.ClGpsLs;
 import com.ldz.dao.biz.model.ClSbyxsjjl;
+import com.ldz.dao.biz.model.ClXc;
 import com.ldz.dao.biz.model.ClZdgl;
+import com.ldz.service.biz.impl.XcServiceImpl;
 import com.ldz.service.biz.interfaces.*;
 import com.ldz.sys.base.LimitedCondition;
 import com.ldz.sys.constant.Dict;
 import com.ldz.sys.model.SysYh;
 import com.ldz.sys.service.YhService;
 import com.ldz.util.bean.ApiResponse;
+import com.ldz.util.bean.SimpleCondition;
 import com.ldz.util.commonUtil.DateUtils;
+import com.ldz.util.commonUtil.ExcelUtil;
 import com.ldz.util.commonUtil.JwtUtil;
 import com.ldz.util.exception.RuntimeCheck;
 import com.ldz.util.redis.RedisTemplateUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /*
  * 业务系统对外开放的接口
@@ -56,6 +64,56 @@ public class MessageApi {
 	private GpsLsService gpsLsService;
 	@Autowired
 	private SbyxsjjlService sbyxsjjlService;
+	@Autowired
+	private XcService xcService;
+	@Autowired
+	private ZdglService zdglService;
+	//事件 10急加速，20急刹车，30急转弯 ，40超速，50点火，60熄火,70不在电子围栏范围,80离线
+	@GetMapping("/testExcel")
+	public void testExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+
+
+
+
+			List<Map<Integer, String>> data = new ArrayList<>();
+			Map<Integer, String> map = new HashMap<>();
+			map.put(0, "终端编号");
+			map.put(1, "开始时间");
+			map.put(2, "结束时间");
+			map.put(3, "开始轨迹");
+			map.put(4, "结束轨迹");
+			map.put(5, "总里程");
+			data.add(map);
+		List<ClZdgl> zdgls = zdglService.findEq(ClZdgl.InnerColumn.zdLx, "30");
+		Set<String> set = zdgls.stream().map(ClZdgl::getZdbh).collect(Collectors.toSet());
+		SimpleCondition simpleCondition = new SimpleCondition(ClXc.class);
+			simpleCondition.setOrderByClause(" xc_kssj desc ");
+			simpleCondition.in(ClXc.InnerColumn.clZdbh, set);
+		List<ClXc> clXcs = xcService.findByCondition(simpleCondition);
+			for (ClXc clXc : clXcs) {
+				Map<Integer, String> dataMap = new HashMap<>();
+				dataMap.put(0, clXc.getClZdbh());
+				dataMap.put(1, clXc.getXcKssj());
+				dataMap.put(2, clXc.getXcJssj());
+				dataMap.put(3, clXc.getStartAddress());
+				dataMap.put(4,clXc.getEndAddress());
+				dataMap.put(5, clXc.getXcLc());
+				data.add(dataMap);
+				System.out.println(data.size());
+			}
+
+		String fileName = java.net.URLEncoder.encode(DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + ".xls", "UTF-8");
+		response.setContentType("application/msexcel");
+		request.setCharacterEncoding("UTF-8");
+		response.setHeader("pragma", "no-cache");
+		response.addHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("utf-8"), "ISO8859-1") + ".xls");
+		OutputStream out = response.getOutputStream();
+		ExcelUtil.createSheet(out,"行程统计",data);
+
+	}
+
+
 
 	@RequestMapping("gpsLsPager")
 	public ApiResponse<List<ClGpsLs>> gpsLsPager(Page<ClGpsLs> pager){
