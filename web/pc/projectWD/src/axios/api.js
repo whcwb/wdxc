@@ -1,7 +1,7 @@
 // let url = 'http://10.113.4.70:'//8080
-// let url = 'http://127.0.0.1:'//8080
+let url = 'http://127.0.0.1:'//8080
 // let url = 'http://192.168.123.6:'//8081宋陵云
-let url = 'http://119.23.242.234:'//8080
+// let url = 'http://119.23.242.234:'//8080
 let port = '8080'
 // let port = '8081'
 export default {
