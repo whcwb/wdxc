@@ -568,7 +568,7 @@ public class ZdglServiceImpl extends BaseServiceImpl<ClZdgl,String> implements Z
         entity.setCjsj(new Date());
         String[] split = zdbhs.split(",");
         if(split !=null){
-            RuntimeCheck.ifTrue(split.length + count > jg.getZdsl() ,"当前新增终端数量大于当前机构的剩余数量" );
+            RuntimeCheck.ifTrue(split.length + count > (jg.getZdsl()==null?0:jg.getZdsl()) ,"当前新增终端数量大于当前机构的剩余数量" );
             for (String zdbh : split) {
                 ClZdgl zdgl = new ClZdgl();
                 BeanUtils.copyProperties(entity,zdgl,"zdbh");

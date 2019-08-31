@@ -111,7 +111,7 @@
                         </Col>
                   </Row>
             </div>
-            <div style="width: 260px;background-color: #262743">
+            <div style="width: 310px;background-color: #262743">
                   <div class="box">
                         <div style="padding: 8px">
                               <div class="carNumber">
@@ -135,20 +135,20 @@
                               </div>
                               <div class="carMessH" style="margin-top: 6px">
                                     <div class="box-row-nh">
-                                          <!--<div class="body-1" style="margin: 4px;">-->
-                                          <!--<div class="tit">-->
-                                          <!--行驶里程(km)-->
-                                          <!--</div>-->
-                                          <!--<div class="mess">-->
-                                          <!--200-->
-                                          <!--</div>-->
-                                          <!--</div>-->
                                           <div class="body-1" style="margin: 4px;">
                                                 <div class="tit">
-                                                      驾驶时长(min)
+                                                      总时长(min)
                                                 </div>
                                                 <div class="mess">
                                                       {{getMinute(totalTime) | GLmess}}
+                                                </div>
+                                          </div>
+                                          <div class="body-1" style="margin: 4px;">
+                                                <div class="tit">
+                                                      总里程(km)
+                                                </div>
+                                                <div class="mess">
+                                                      {{(totalLC/1000).toFixed(2)}}
                                                 </div>
                                           </div>
                                           <div class="body-1" style="margin: 4px;">
@@ -346,6 +346,7 @@
                 },
                 item: {},
                 totalTime: 0,
+                totalLC: 0,
                 speeds: {},
                 choosedIndex: 0,
             }
@@ -359,7 +360,7 @@
             this.getCarList();
         },
         methods: {
-            setTime(val){
+            setTime(val) {
                 this.formItem.startTime = val[0] + " 00:00:00";
                 this.formItem.endTime = val[1] + " 23:59:59";
             },
@@ -414,8 +415,8 @@
             formItemList() {
                 let startTime = this.formItem.startTime;
                 let endTime = this.formItem.endTime;
-                startTime = startTime.replace(new RegExp('/','gm'),'-');
-                endTime = endTime.replace(new RegExp('/','gm'),'-');
+                startTime = startTime.replace(new RegExp('/', 'gm'), '-');
+                endTime = endTime.replace(new RegExp('/', 'gm'), '-');
                 // if (typeof startTime === 'object') {
                 //     startTime = startTime.format('yyyy-MM-dd hh:mm:ss');
                 // }
@@ -430,6 +431,7 @@
                     brennschluss: this.formItem.brennschluss
                 }
                 this.totalTime = 0;
+                this.totalLC = 0;
                 this.pathList = [];
                 this.item = {};
                 this.showMap = false;
@@ -447,7 +449,7 @@
                             r.ksdz = '出发地';
                             r.jsdz = '目的地';
                             this.totalTime += r.sc;
-
+                            this.totalLC += parseFloat(r.distance)
                             // console.log(r);
                             //解析开始地址
                             geoc.getLocation(new BMap.Point(r.ksjd, r.kswd), (rs) => {

@@ -114,6 +114,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
      */
     @Override
     public ApiResponse<String> onReceiveGps(GpsInfo gpsInfo) {
+        errorLog.error("gpsinfo:"  + JsonUtil.toJson(gpsInfo));
         ClZdgl zd = zdglservice.findById(gpsInfo.getDeviceId());
         if(zd == null){
             return ApiResponse.fail("终端不存在");
@@ -241,6 +242,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
 
 
     private boolean handleEvent(GpsInfo gpsInfo){
+        errorLog.error("gpsinfo:"+ JsonUtil.toJson(gpsInfo));
         String eventType = gpsInfo.getEventType();
         String deviceId = gpsInfo.getDeviceId();
 
@@ -312,6 +314,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
             newGps.setStatus(newStatus);
             gpsls.setId(genId());
             gpsls.setZdbh(deviceId);
+            errorLog.error("gpsinfo:"+ JsonUtil.toJson(gpsls));
             redis.boundListOps(ClGpsLs.class.getSimpleName() + deviceId).leftPush(JsonUtil.toJson(gpsls));
             // 更新存入redis(实时点位)
             redis.boundValueOps(ClGps.class.getSimpleName() + deviceId).set(JsonUtil.toJson(newGps));
@@ -387,7 +390,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         ClGps entity = changeCoordinates(event.getGpsInfo());
         ClGpsLs gpsls = new ClGpsLs(genId(), entity.getZdbh(), entity.getCjsj(), entity.getJd(), entity.getWd(),
                 entity.getGgjd(), entity.getGgwd(), entity.getBdjd(), entity.getBdwd(), entity.getGdjd(), entity.getGdwd(),
-                entity.getLx(), entity.getDwjd(), entity.getFxj(), entity.getYxsd(),entity.getStartNum());
+                entity.getLx(), entity.getDwjd(), entity.getFxj(), entity.getYxsd(),entity.getStartNum(),entity.getGsm());
         YingyanResponse addPoints = GuiJIApi.addPoint(changeModel(gpsls), GuiJIApi.addPointURL);
         if (addPoints.getStatus().equals("0")){
             log.info(entity.getZdbh()+"-"+addPoints.toString());
@@ -455,6 +458,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
     @Override
     public ClGps changeCoordinates(GpsInfo entity) {
         ClGps clGps = new ClGps();
+        clGps.setGsm(entity.getLbs());
         clGps.setStartNum(entity.getStarNum());
         if (entity.getLatitude() != null) {
             if ("-1".equals(entity.getLatitude())) return clGps;
@@ -482,6 +486,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         if (entity.getSpeed() != null) {
             clGps.setYxsd(String.valueOf(entity.getSpeed()));
         }
+        errorLog.error("gpsinfo:"+ JsonUtil.toJson(clGps));
         // 将收到的gps转换成火星坐标系(谷歌)
         Gps gps84_To_Gcj02 = PositionUtil.gps84_To_Gcj02(clGps.getWd().doubleValue(), clGps.getJd().doubleValue());
         if (gps84_To_Gcj02 == null){
@@ -500,6 +505,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
 
         clGps.setGdjd(clGps.getGgjd());
         clGps.setGdwd(clGps.getGgwd());
+
         return clGps;
     }
 
@@ -792,8 +798,12 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                     List<Map<String,BigDecimal>> ls = gpsLsService.getJdAndWd(device.getZdbh(),t);
                     websocketInfo.setGpsList(ls);
                 }*/
-                list.add(websocketInfo);
-                continue;
+                if(zdbhClMap.containsKey(device.getZdbh())){
+                    list.add(websocketInfo);
+                    continue;
+                }else{
+                    redis.delete(key);
+                }
             }
 
             WebsocketInfo websocketInfo = new WebsocketInfo();
@@ -1185,6 +1195,16 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
             String clxcKey = "CX," + zdbh;
             // 当前GPS点时间
             String currentTime = gpsInfo.getStartTime();
+            DateTime startTime = DateTime.parse(currentTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+            DateTime endTime = DateTime.now();
+            Period per = new Period(startTime, endTime, PeriodType.minutes());
+            int minute = per.getMinutes();
+            //如果新的GPS点数据和上一次缓存的GPS点数据相差20分钟，认为上一次行程已经结束，新传入的GPS点作为开始时间
+            if (minute >= 20){
+                errorLog.error("minute >= 20");
+                //prevTime = endTime.toString("yyyy-MM-dd HH:mm:ss");
+                return;
+            }
             //上一次的GPS点时间
             String prevTime = null;
 
@@ -1196,7 +1216,14 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                         prevTime = tmpKey.split(",")[2];
                     }
                     if ("50".equals(gpsInfo.getEventType())){
-                        redis.delete(clxcKey+"," + prevTime);
+                        Object o = redis.boundValueOps(clxcKey + "," + prevTime).get();
+                        if(o != null){
+                            redis.delete(clxcKey + "," + prevTime);
+                            // 点火事件 结束当前轨迹
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            redis.boundValueOps("endNow,"+zdbh+","+prevTime).set(currentTime, 1, TimeUnit.MILLISECONDS);
+                        }
+
                         prevTime = gpsInfo.getStartTime();
                         redis.boundValueOps(clxcKey + "," + prevTime).set(currentTime, 5, TimeUnit.MINUTES);
                         return;
@@ -1206,15 +1233,15 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                 }
 
             if(StringUtils.equals(gpsInfo.getEventType(), "60") && StringUtils.isNotBlank(prevTime)){
-                redis.boundValueOps(clxcKey + "," + prevTime).set(currentTime, 1, TimeUnit.SECONDS);
+                redis.boundValueOps(clxcKey + "," + prevTime).set(currentTime, 1, TimeUnit.MILLISECONDS);
                 return;
             }
             if (StringUtils.isBlank(prevTime)){
                 errorLog.error("StringUtils.isBlank(prevTime)");
-                DateTime startTime = DateTime.parse(currentTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
-                DateTime endTime = DateTime.now();
-                Period per = new Period(startTime, endTime, PeriodType.minutes());
-                int minute = per.getMinutes();
+                startTime = DateTime.parse(currentTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+                 endTime = DateTime.now();
+                 per = new Period(startTime, endTime, PeriodType.minutes());
+                 minute = per.getMinutes();
                 //如果新的GPS点数据和上一次缓存的GPS点数据相差20分钟，认为上一次行程已经结束，新传入的GPS点作为开始时间
                 if (minute >= 20){
                     redis.delete(clxcKey+"*");

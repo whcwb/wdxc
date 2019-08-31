@@ -92,7 +92,7 @@ public class TopicMessageListener implements MessageListener {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
         	if (StringUtils.contains(topic, "expired")) {
-                if((StringUtils.contains(itemValue,"CX") && !StringUtils.contains(itemValue,"xc")) || StringUtils.contains(itemValue,"compencate")){
+                if((StringUtils.contains(itemValue,"CX") && !StringUtils.contains(itemValue,"xc")) || StringUtils.contains(itemValue,"compencate")|| StringUtils.startsWith(itemValue, "endNow")){
                     // 过期事件存储车辆行程
                     saveClXc(itemValue, simpleDateFormat);
                 }else if(StringUtils.contains(itemValue,"offline")){
@@ -326,7 +326,7 @@ public class TopicMessageListener implements MessageListener {
             start_end = guiJiJiuPian(guijis); // 鹰眼纠偏接口
             error.error("["+zdbh+"]新纠偏接口:"+start_end);
         }catch (Exception e2){
-            if(StringUtils.equals(type,"CX")) {
+            if(StringUtils.equals(type,"CX") || StringUtils.equals(type,"endNow")) {
                 // 百度轨迹点异常 ， 存储异常行程 ， 等待第二次纠偏
                 redisTemplate.boundValueOps("compencate," + zdbh + "," + startTime).set("1", 1, TimeUnit.MINUTES);
                 return;

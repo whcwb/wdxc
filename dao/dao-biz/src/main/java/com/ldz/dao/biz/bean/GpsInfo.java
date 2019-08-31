@@ -84,4 +84,5 @@ public class GpsInfo {
 	private String cmdParams;//其它参数（推送消息时使用）
 	private String fxj;//方向角
 	private String gpsjd;//GPS精度
+	private String lbs;
 }

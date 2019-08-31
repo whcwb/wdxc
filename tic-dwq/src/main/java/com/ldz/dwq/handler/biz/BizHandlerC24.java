@@ -5,6 +5,7 @@ import com.ldz.dao.dwq.model.GpsBeanNew;
 import com.ldz.dao.dwq.model.GpsInfo;
 import com.ldz.dwq.common.bean.MessageBean;
 import com.ldz.util.bean.RequestCommonParamsDto;
+import com.ldz.util.commonUtil.JsonUtil;
 import com.ldz.util.redis.RedisTemplateUtil;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +13,13 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,6 +42,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 
     @Autowired
     private RedisTemplateUtil redisTemplateUtil;
+	Logger accessLog = LoggerFactory.getLogger("access_info");
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -49,7 +54,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 		data.setXxlx(dataArray[4]);
 		data.setLcs(dataArray[9]);
 		//接收终端时间是0时区的，需要先转换再存储
-		String time = DateTime.now().parse(dataArray[10], DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
+		String time = DateTime.parse(dataArray[10], DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
 		data.setTime(time);
 		int gpsNum = 0;
 		List<GpsInfo> gpsInfos = null;
@@ -67,7 +72,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 				//GPS定位
 				String[] gpsArray = gpsInfo.split("\\|");
 				String d = "20"+gpsArray[0]+gpsArray[1];
-				String t = DateTime.now().parse(d.trim(), DateTimeFormat.forPattern("yyyyMMddHHmmss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
+				String t = DateTime.parse(d.trim(), DateTimeFormat.forPattern("yyyyMMddHHmmss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
 				info.setTime(t);
 				info.setJd(gpsArray[2]);
 				info.setWd(gpsArray[3]);
@@ -85,8 +90,17 @@ public class BizHandlerC24 extends BizBaseHandler {
 			data.setWifi(dataArray[14 + gpsNum]);
 		}else if (StringUtils.isNotBlank(dataArray[15 + gpsNum])){
 			//LBS定位
-			data.setLbs(dataArray[15]);
+			data.setLbs(dataArray[15+gpsNum]);
 		}
+		if(StringUtils.isNotBlank(dataArray[14 +gpsNum])){
+			data.setWifi(dataArray[14+gpsNum]);
+		}
+		if(StringUtils.isNotBlank(dataArray[15+gpsNum])){
+			data.setLbs(dataArray[15+gpsNum]);
+		}
+
+		accessLog.info("C24:  dataArray ->"+ Arrays.toString(dataArray));
+		accessLog.info("C24:  gpsNum ->"  + gpsNum);
 		log.info("gpsInfo:"+data.toString());
 		//将GPS存储到List集合中
 		//redisDao.boundListOps(GpsBean.class.getName() + "-" + messageBean.getImei()).leftPush(gps);
@@ -119,6 +133,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 					}else{
 						dto.setSczt("10");
 					}
+					dto.setLbs(dataArray[15 + gpsNum]);
 					dtoList.add(dto);
 					log.info("推送到biz数据："+dto.toString());
 					redisDao.convertAndSend("dwq_info", gpsInfo);
@@ -133,6 +148,9 @@ public class BizHandlerC24 extends BizBaseHandler {
 					bean.setWd(gpsInfo.getWd());
 					bean.setTime(gpsInfo.getTime());
 					bean.setXxlx(dataArray[4]);
+					bean.setWifi(dataArray[14 + gpsNum]);
+					bean.setLbs(dataArray[15 + gpsNum]);
+					accessLog.info(" gpsSize  != 0  ----> " + JsonUtil.toJson(bean));
 					redisTemplateUtil.opsForList().leftPush("dwq_gps",bean);
 				}
 				redisDao.convertAndSend("gpsList", dtoList);
@@ -158,6 +176,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 			dto.setStartTime(data.getTime());
 			dto.setEndTime(data.getTime());
 			dto.setFxj(data.getFx());
+			dto.setLbs(data.getLbs());
 			dto.setSpeed(StringUtils.isEmpty(data.getSd()) ? "0" : data.getSd());
 			if (dto.getSpeed().contains(".")){
 				dto.setSpeed(""+Math.round(new Float(dto.getSpeed())));

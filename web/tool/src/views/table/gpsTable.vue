@@ -32,7 +32,9 @@
                     {title: '方向角', key:'fxj',minWidth:100},
                     {title: '运行速度', key:'yxsd',minWidth:100},
                     {title: '卫星个数', key:'starNum',minWidth:100},
+                    {title:'GSM',key:'gsm',minWidth:100},
                     {title: '终端编号', key:'zdbh',searchKey:'zdbhLike',fixed:"right",minWidth:100},
+
                 ],
                 pageData: [],
                 param:{
