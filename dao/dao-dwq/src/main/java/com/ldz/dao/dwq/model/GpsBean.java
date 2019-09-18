@@ -57,4 +57,5 @@ public class GpsBean implements Serializable{/**
 	private String wifi;
 	//LBS定位信息.LAC#CI#Dbm|LAC#CI#Dbm|…。
 	private String lbs;
+	private String tempurature; // 温度
 }

@@ -2,11 +2,15 @@ package com.ldz.biz.config;
 
 
 import com.ldz.dao.biz.bean.GpsInfo;
+import com.ldz.dao.dwq.mapper.DwqGpsMapper;
+import com.ldz.dao.dwq.model.GpsBean;
 import com.ldz.service.biz.interfaces.GpsService;
 import com.ldz.service.biz.interfaces.SpkService;
 import com.ldz.util.bean.RequestCommonParamsDto;
+import com.ldz.util.bean.SimpleCondition;
 import com.ldz.util.redis.RedisTemplateUtil;
 import lombok.val;
+import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,10 +30,12 @@ public class MessageReceiver  implements MessageListener {
 
 	private RedisTemplateUtil redisTemplate;
 
-	public MessageReceiver(SpkService spkService, GpsService gpsservice, RedisTemplateUtil redisTemplate) {
+	private  DwqGpsMapper dwqGpsMapper;
+	public MessageReceiver(SpkService spkService, GpsService gpsservice, RedisTemplateUtil redisTemplate, DwqGpsMapper dwqGpsMapper) {
 		this.spkService = spkService;
 		this.gpsservice = gpsservice;
 		this.redisTemplate = redisTemplate;
+		this.dwqGpsMapper = dwqGpsMapper;
 	}
 
 	@Override
@@ -66,6 +72,18 @@ public class MessageReceiver  implements MessageListener {
 					gpsInfos.add(gpsInfo2);
 				}
 				gpsservice.onReceiveGpsList(gpsInfos);
+				break;
+			case "dwq_temperature":
+				GpsBean dtot = (GpsBean) eventMessage;
+				SimpleCondition condition = new SimpleCondition(GpsBean.class);
+				condition.eq("device_id",dtot.getDeviceId());
+				condition.setOrderByClause("time desc");
+				List<GpsBean> gpsLs2 = dwqGpsMapper.selectByExampleAndRowBounds(condition,new RowBounds(0,1));
+				if (gpsLs2.size() != 0){
+					gpsLs2.get(0).setTempurature(dtot.getTempurature());
+					dwqGpsMapper.updateByPrimaryKeySelective(gpsLs2.get(0));
+				}
+
 				break;
 		}
 		System.out.println("收到一条消息："+redisChannel);

@@ -39,6 +39,11 @@ public class BizHandlerC23 extends BizBaseHandler {
 		log.info("imei: "+imei);
 		log.info("tempurature: "+tempurature);
 
+		String deviceId = iotServer.getDeviceIdByChannel(ctx.channel());
+		GpsBean gps = new GpsBean();
+		gps.setDeviceId(deviceId);
+		gps.setTempurature(tempurature);
+		redisDao.convertAndSend("dwq_temperature", gps);
 		//读取数据成功后，向终端响应结果
 		String cid = ctx.channel().id().asShortText();
 		String onlineKey = messageBean.getImei()+"-"+cid+"-"+ IotServer.ONLINE_KEY;

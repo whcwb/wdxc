@@ -1,5 +1,6 @@
 package com.ldz.biz.config;
 
+import com.ldz.dao.dwq.mapper.DwqGpsMapper;
 import com.ldz.dao.dwq.mapper.MileDwqMapper;
 import com.ldz.dao.obd.mapper.ObdFaultCodeMapper;
 import com.ldz.service.biz.interfaces.*;
@@ -46,6 +47,8 @@ public class RedisConfig {
 	private ZdxmService zdxmService;
 	@Autowired
 	private RedisConnectionFactory redisConnectionFactory;
+	@Autowired
+	private DwqGpsMapper dwqGpsMapper;
 
 
 	private RedisTemplateUtil redisTemplateUtil;
@@ -121,7 +124,7 @@ public class RedisConfig {
 		PatternTopic channelTopic = new PatternTopic("__keyevent@*__:expired");
 		SpkService spkService = SpringContextUtil.getBean(SpkService.class);
 		GpsService gpsservice = SpringContextUtil.getBean(GpsService.class);
-		MessageReceiver messageReceiver = new MessageReceiver(spkService,gpsservice,redisTemplateUtil);
+		MessageReceiver messageReceiver = new MessageReceiver(spkService,gpsservice,redisTemplateUtil,dwqGpsMapper);
 
 
 
