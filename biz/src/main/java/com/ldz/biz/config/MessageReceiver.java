@@ -2,6 +2,7 @@ package com.ldz.biz.config;
 
 
 import com.ldz.dao.biz.bean.GpsInfo;
+import com.ldz.dao.biz.model.ClGpsLs;
 import com.ldz.dao.dwq.mapper.DwqGpsMapper;
 import com.ldz.dao.dwq.model.GpsBean;
 import com.ldz.service.biz.interfaces.GpsService;

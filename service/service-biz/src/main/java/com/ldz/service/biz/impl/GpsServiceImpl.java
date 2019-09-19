@@ -271,7 +271,6 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
                 default:
             }
         }
-
         ClGps newGps = changeCoordinates(gpsInfo);
 
         String sczt = gpsInfo.getSczt();
@@ -390,7 +389,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         ClGps entity = changeCoordinates(event.getGpsInfo());
         ClGpsLs gpsls = new ClGpsLs(genId(), entity.getZdbh(), entity.getCjsj(), entity.getJd(), entity.getWd(),
                 entity.getGgjd(), entity.getGgwd(), entity.getBdjd(), entity.getBdwd(), entity.getGdjd(), entity.getGdwd(),
-                entity.getLx(), entity.getDwjd(), entity.getFxj(), entity.getYxsd(),entity.getStartNum(),entity.getGsm());
+                entity.getLx(), entity.getDwjd(), entity.getFxj(), entity.getYxsd(),entity.getStartNum(),entity.getGsm(),entity.getTemperature());
         YingyanResponse addPoints = GuiJIApi.addPoint(changeModel(gpsls), GuiJIApi.addPointURL);
         if (addPoints.getStatus().equals("0")){
             log.info(entity.getZdbh()+"-"+addPoints.toString());
@@ -460,6 +459,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         ClGps clGps = new ClGps();
         clGps.setGsm(entity.getLbs());
         clGps.setStartNum(entity.getStarNum());
+        clGps.setTemperature(entity.getTemperature());
         if (entity.getLatitude() != null) {
             if ("-1".equals(entity.getLatitude())) return clGps;
             clGps.setWd(new BigDecimal(entity.getLatitude()));

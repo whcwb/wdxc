@@ -111,6 +111,9 @@ public class ClGpsLs implements Serializable {
     @Column(name = "GSM")
     private String gsm;
 
+    @Column(name = "TEMPERATURE")
+    private String temperature;
+
     private static final long serialVersionUID = 1L;
 
     public ClGpsLs(){};
@@ -131,6 +134,7 @@ public class ClGpsLs implements Serializable {
         this.yxsd = gps.getYxsd();
         this.starNum = gps.getStartNum();
         this.gsm = gps.getGsm();
+        this.temperature = gps.getTemperature();
     }
 
     public String getStarNum() {

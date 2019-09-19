@@ -34,6 +34,8 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter{
 	final static String PIPELINE_BIZ_HANDLER_NAME = "serviceHandler";
 	//通道终端no属性字段
 	public final static AttributeKey<String> DEVICENO = AttributeKey.newInstance("deviceno");
+
+	public final static AttributeKey<String> TEMPERATURE = AttributeKey.newInstance("temperature");
 	//同步执行属性
 	public final static AttributeKey<CountDownLatch> SYNC = AttributeKey.newInstance("sync");
 	//命令队列属性字段。因为同一个通道同一时间只能有一个命令执行，命令不能同时执行，所以需要队列方式来保存需要执行的命令
