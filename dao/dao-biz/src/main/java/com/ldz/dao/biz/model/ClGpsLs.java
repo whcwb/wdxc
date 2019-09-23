@@ -137,6 +137,14 @@ public class ClGpsLs implements Serializable {
         this.temperature = gps.getTemperature();
     }
 
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
     public String getStarNum() {
         return starNum;
     }

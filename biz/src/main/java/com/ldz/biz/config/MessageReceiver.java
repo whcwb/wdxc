@@ -9,6 +9,7 @@ import com.ldz.service.biz.interfaces.GpsService;
 import com.ldz.service.biz.interfaces.SpkService;
 import com.ldz.util.bean.RequestCommonParamsDto;
 import com.ldz.util.bean.SimpleCondition;
+import com.ldz.util.commonUtil.JsonUtil;
 import com.ldz.util.redis.RedisTemplateUtil;
 import lombok.val;
 import org.apache.ibatis.session.RowBounds;
@@ -80,6 +81,7 @@ public class MessageReceiver  implements MessageListener {
 				condition.eq("device_id",dtot.getDeviceId());
 				condition.setOrderByClause("time desc");
 				List<GpsBean> gpsLs2 = dwqGpsMapper.selectByExampleAndRowBounds(condition,new RowBounds(0,1));
+				errorLog.error("gpsLs2:"+ JsonUtil.toJson(gpsLs2));
 				if (gpsLs2.size() != 0){
 					gpsLs2.get(0).setTempurature(dtot.getTempurature());
 					dwqGpsMapper.updateByPrimaryKeySelective(gpsLs2.get(0));

@@ -310,10 +310,12 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         if (statusChange || positionChange){
             change = true;
             ClGpsLs gpsls = new ClGpsLs(newGps);
+            errorLog.error("gpsinfoNewGps:"+ JsonUtil.toJson(newGps));
             newGps.setStatus(newStatus);
             gpsls.setId(genId());
             gpsls.setZdbh(deviceId);
-            errorLog.error("gpsinfo:"+ JsonUtil.toJson(gpsls));
+            errorLog.error("gpsinfoLs:"+ JsonUtil.toJson(gpsls));
+            errorLog.error("temperature:"+ gpsls.getTemperature());
             redis.boundListOps(ClGpsLs.class.getSimpleName() + deviceId).leftPush(JsonUtil.toJson(gpsls));
             // 更新存入redis(实时点位)
             redis.boundValueOps(ClGps.class.getSimpleName() + deviceId).set(JsonUtil.toJson(newGps));
@@ -486,7 +488,7 @@ public class GpsServiceImpl extends BaseServiceImpl<ClGps, String> implements Gp
         if (entity.getSpeed() != null) {
             clGps.setYxsd(String.valueOf(entity.getSpeed()));
         }
-        errorLog.error("gpsinfo:"+ JsonUtil.toJson(clGps));
+        errorLog.error("gpsinfoGPS:"+ JsonUtil.toJson(clGps));
         // 将收到的gps转换成火星坐标系(谷歌)
         Gps gps84_To_Gcj02 = PositionUtil.gps84_To_Gcj02(clGps.getWd().doubleValue(), clGps.getJd().doubleValue());
         if (gps84_To_Gcj02 == null){

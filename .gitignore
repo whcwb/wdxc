@@ -52,3 +52,5 @@ fabric.properties
 /web/stars_App/unpackage/
 /web/pc/clw/node_modules/
 /web/pc/clw/dist/
+/web/tool/node_modules/
+/web/tool/dist/
