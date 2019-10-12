@@ -36,15 +36,15 @@ public class ScheduleComponent {
         // 定位器行程数据存储job
         addJob(TravelDataSaveJob.class,"0 0/1 * * * ? *","TravelDataSaveJob");
         // 定位器数据存储job
-        addJob(DwqGpsSaveJob.class,"0 0/1 * * * ? *","DwqGpsSaveJob");
+        addJob(DwqGpsSaveJob.class,"0/5 * * * * ? *","DwqGpsSaveJob");
         // 行程报告存储job
         addJob(TravelReportSaveJob.class,"0 0/1 * * * ? *","travelReportSave");
         // gps+obd 存储 job
-        addJob(GpsObdSaveJob.class,"0 0/1 * * * ? *","GpsObdSaveJob");
+        addJob(GpsObdSaveJob.class,"0/5 * * * * ? *","GpsObdSaveJob");
         // 上传鹰眼定时任务
         addJob(ZdToYyJob.class,"0 0 0 1/1 * ? ","zdToYy");
         // gps同步job
-        addJob(GpsSaveJob.class,"0 0/1 * * * ? *","GPSSync");
+        addJob(GpsSaveJob.class,"0/5 * * * * ? *","GPSSync");
         // 设备运行事件记录周期，每一分钟运行一次
         addJob(SbYxSjJlJob.class,"0 0/1 * * * ? *","sbyxsjjl");
         // 车辆年审日期获取job
