@@ -11,7 +11,7 @@
   <description>智能站牌网络服务</description>
 
   <properties>
-      <netty.version>4.1.16.Final</netty.version>
+      <netty.version>4.1.42.Final</netty.version>
   </properties>
 
   <dependencies>
