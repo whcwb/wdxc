@@ -85,4 +85,5 @@ public class GpsInfo {
 	private String fxj;//方向角
 	private String gpsjd;//GPS精度
 	private String lbs;
+	private String temperature;
 }
