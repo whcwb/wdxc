@@ -26,7 +26,7 @@ import io.netty.util.ReferenceCountUtil;
 
 @Component
 @Sharable
-public class ServerChannelHandler extends ChannelInboundHandlerAdapter{
+public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
 
 	Logger accessLog = LoggerFactory.getLogger("access_info");
 	Logger log = LoggerFactory.getLogger("error_info");
@@ -36,6 +36,8 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter{
 	public final static AttributeKey<String> DEVICENO = AttributeKey.newInstance("deviceno");
 
 	public final static AttributeKey<String> TEMPERATURE = AttributeKey.newInstance("temperature");
+
+	public final static AttributeKey<String> ICCID = AttributeKey.newInstance("ICCID");
 	//同步执行属性
 	public final static AttributeKey<CountDownLatch> SYNC = AttributeKey.newInstance("sync");
 	//命令队列属性字段。因为同一个通道同一时间只能有一个命令执行，命令不能同时执行，所以需要队列方式来保存需要执行的命令

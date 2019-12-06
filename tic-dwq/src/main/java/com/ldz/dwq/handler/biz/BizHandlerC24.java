@@ -152,9 +152,11 @@ public class BizHandlerC24 extends BizBaseHandler {
 					bean.setTime(gpsInfo.getTime());
 					bean.setXxlx(dataArray[4]);
 					bean.setWifi(dataArray[14 + gpsNum]);
-					bean.setLbs(dataArray[15 + gpsNum]);
+					String gsm = ctx.channel().attr(ServerChannelHandler.ICCID).get();
+//					bean.setLbs(dataArray[15 + gpsNum]);
+					bean.setLbs(gsm);
 					accessLog.info(" gpsSize  != 0  ----> " + JsonUtil.toJson(bean));
-					redisTemplateUtil.opsForList().leftPush("dwq_gps",bean);
+					redisTemplateUtil.opsForList().leftPush("dwq_gps", bean);
 				}
 				redisDao.convertAndSend("gpsList", dtoList);
 			}else{
