@@ -94,4 +94,6 @@ public class RequestCommonParamsDto implements Serializable {
 
 	private String fxj;//方向角
 	private String lbs;
+	private String temperature;
+
 }
