@@ -4,6 +4,7 @@ import com.ldz.dao.dwq.model.GpsBean;
 import com.ldz.dao.dwq.model.GpsBeanNew;
 import com.ldz.dao.dwq.model.GpsInfo;
 import com.ldz.dwq.common.bean.MessageBean;
+import com.ldz.dwq.handler.ServerChannelHandler;
 import com.ldz.util.bean.RequestCommonParamsDto;
 import com.ldz.util.commonUtil.JsonUtil;
 import com.ldz.util.redis.RedisTemplateUtil;
@@ -111,6 +112,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 				List<RequestCommonParamsDto> dtoList = new ArrayList<>(gpsInfos.size());
 				boolean sendEvent = false;
 				int eventType = Integer.parseInt(dataArray[4]);
+				String temperature = ctx.channel().attr(ServerChannelHandler.TEMPERATURE).get();
 				for (GpsInfo gpsInfo : gpsInfos) {
 					RequestCommonParamsDto dto = new RequestCommonParamsDto();
 					dto.setDeviceId(messageBean.getImei());
@@ -119,6 +121,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 					dto.setStartTime(gpsInfo.getTime());
 					dto.setEndTime(gpsInfo.getTime());
 					dto.setFxj(gpsInfo.getFx());
+					dto.setTemperature(temperature);
 					dto.setStarNum(gpsInfo.getKjwxgs());
 					dto.setSpeed(StringUtils.isEmpty(gpsInfo.getSd()) ? "0" : gpsInfo.getSd());
 					if (dto.getSpeed().contains(".")){

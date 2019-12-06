@@ -1,6 +1,7 @@
 package com.ldz.dwq.handler.biz;
 
 import com.ldz.dao.dwq.model.GpsBean;
+import com.ldz.dwq.handler.ServerChannelHandler;
 import com.ldz.util.commonUtil.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -129,6 +130,8 @@ public class BizHandlerC4 extends BizBaseHandler {
 		dto.setEventType(getEventType(dataArray[4]));
 		dto.setSczt("10");
 		dto.setLbs(gps.getLbs());
+		String temperature = ctx.channel().attr(ServerChannelHandler.TEMPERATURE).get();
+		dto.setTemperature(temperature);
 		redisDao.convertAndSend("gps", dto);
 		redisDao.convertAndSend("dwq_info", gps);
         redisTemplateUtil.opsForList().leftPush("dwq_gps",gps);

@@ -3,6 +3,7 @@ package com.ldz.dwq.handler.biz;
 import com.ldz.dao.dwq.model.GpsBean;
 import com.ldz.dwq.bean.DeviceBean;
 import com.ldz.dwq.common.bean.MessageBean;
+import com.ldz.dwq.handler.ServerChannelHandler;
 import com.ldz.dwq.handler.ServerChannelInitializer;
 import com.ldz.dwq.server.IotServer;
 import com.ldz.util.bean.RequestCommonParamsDto;
@@ -43,6 +44,7 @@ public class BizHandlerC23 extends BizBaseHandler {
 		GpsBean gps = new GpsBean();
 		gps.setDeviceId(deviceId);
 		gps.setTempurature(tempurature);
+		ctx.channel().attr(ServerChannelHandler.TEMPERATURE).set(tempurature);
 		redisDao.convertAndSend("dwq_temperature", gps);
 		//读取数据成功后，向终端响应结果
 		String cid = ctx.channel().id().asShortText();
