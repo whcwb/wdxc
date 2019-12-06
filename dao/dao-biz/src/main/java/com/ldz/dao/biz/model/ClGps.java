@@ -108,7 +108,18 @@ public class ClGps implements Serializable {
     @Column(name="GSM")
     private String gsm;
 
+    @Column(name = "TEMPERATURE")
+    private String temperature;
+
     private static final long serialVersionUID = 1L;
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
 
     public String getStatus() {
         return status;
