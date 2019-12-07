@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationPid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,7 @@ public class Api {
 	 * @return
 	 */
 	@RequestMapping("s10")
-	public ApiResponse<String> s10(String deviceId){
+	public ApiResponse<String> s10(String deviceId) {
 		MessageBean bean = new MessageBean();
 		bean.setImei(deviceId);
 		bean.setCommand("S10");
@@ -71,15 +72,29 @@ public class Api {
 		iotServer.sendMsg(bean);
 		return ApiResponse.success();
 	}
+
+	@RequestMapping("/s11")
+	public ApiResponse<String> s11(String deviceId, String domain, String ip, String port) {
+		MessageBean messageBean = new MessageBean();
+		messageBean.setImei(deviceId);
+		messageBean.setCommand("S11");
+		messageBean.setMid("0");
+
+		messageBean.setData(domain + "," + ip + "," + port);
+		iotServer.sendMsg(messageBean);
+		return ApiResponse.success();
+	}
+
 	/**
 	 * 写继电器打开持续时间命令
 	 * 该接口暂时是单独向一个继电器写配置信息
-	 * @param facId		通道ID
-	 * @param jdqIndex	继电器通道编号。一共1-16个通道
-	 * @param time		持续开启时间
+	 *
+	 * @param facId    通道ID
+	 * @param jdqIndex 继电器通道编号。一共1-16个通道
+	 * @param time     持续开启时间
 	 * @return
 	 */
-	@GetMapping(value="/setJdqTimeConfig/{facId}/{jdqIndex}/{time}")
+	@GetMapping(value = "/setJdqTimeConfig/{facId}/{jdqIndex}/{time}")
 	public ApiResponse<String> jdqTimeConfig(@PathVariable("facId") String facId, @PathVariable("jdqIndex") Integer jdqIndex, @PathVariable("time") Integer time) {
 		MessageBean message = new MessageBean();
 
