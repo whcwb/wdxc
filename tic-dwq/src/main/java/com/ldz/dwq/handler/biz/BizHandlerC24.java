@@ -9,6 +9,7 @@ import com.ldz.util.bean.RequestCommonParamsDto;
 import com.ldz.util.commonUtil.JsonUtil;
 import com.ldz.util.redis.RedisTemplateUtil;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -37,7 +38,7 @@ import java.util.List;
  * [C24,6,866401020000010,1,1,66,4.0,1,23 4,1532,2017-12-25 11:33:34,460,02,5,171225|113330|114.045172|22.678448|1.37|0|20|12|5,171225|113331|114.045222|22.678338|1.37|0|20|12|5,171225|113332|114.045332|22.678228|1.37|0|20|12|5,171225|113333|114.045442|22.678118|1.37|0|20|12|5,171225|113334|114.045552|22.678468|1.37|0|20|12|5,,9375#4292#-71|9375#4291#-83|9375#3932#-83]
  */
 @Component
-@Slf4j
+@Log4j2
 @SuppressWarnings("static-access")
 public class BizHandlerC24 extends BizBaseHandler {
 
@@ -58,6 +59,8 @@ public class BizHandlerC24 extends BizBaseHandler {
 		String time = DateTime.parse(dataArray[10], DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()).withZone(DateTimeZone.forID("Asia/Shanghai")).toLocalDateTime().toString("yyyy-MM-dd HH:mm:ss");
 		data.setTime(time);
 		int gpsNum = 0;
+		String gsm = ctx.channel().attr(ServerChannelHandler.ICCID).get();
+		log.info("GSM -> " + gsm);
 		List<GpsInfo> gpsInfos = null;
 		if (StringUtils.isNotBlank(dataArray[13])){
 			gpsNum = Integer.parseInt(dataArray[13]);
@@ -91,13 +94,15 @@ public class BizHandlerC24 extends BizBaseHandler {
 			data.setWifi(dataArray[14 + gpsNum]);
 		}else if (StringUtils.isNotBlank(dataArray[15 + gpsNum])){
 			//LBS定位
-			data.setLbs(dataArray[15+gpsNum]);
+//			data.setLbs(dataArray[15+gpsNum]);
+			data.setLbs(gsm);
 		}
 		if(StringUtils.isNotBlank(dataArray[14 +gpsNum])){
 			data.setWifi(dataArray[14+gpsNum]);
 		}
 		if(StringUtils.isNotBlank(dataArray[15+gpsNum])){
-			data.setLbs(dataArray[15+gpsNum]);
+//			data.setLbs(dataArray[15+gpsNum]);
+			data.setLbs(gsm);
 		}
 
 		accessLog.info("C24:  dataArray ->"+ Arrays.toString(dataArray));
@@ -136,7 +141,9 @@ public class BizHandlerC24 extends BizBaseHandler {
 					}else{
 						dto.setSczt("10");
 					}
-					dto.setLbs(dataArray[15 + gpsNum]);
+//					dto.setLbs(dataArray[15 + gpsNum]);
+					data.setLbs(gsm);
+					dto.setLbs(gsm);
 					dtoList.add(dto);
 					log.info("推送到biz数据："+dto.toString());
 					redisDao.convertAndSend("dwq_info", gpsInfo);
@@ -152,7 +159,7 @@ public class BizHandlerC24 extends BizBaseHandler {
 					bean.setTime(gpsInfo.getTime());
 					bean.setXxlx(dataArray[4]);
 					bean.setWifi(dataArray[14 + gpsNum]);
-					String gsm = ctx.channel().attr(ServerChannelHandler.ICCID).get();
+
 //					bean.setLbs(dataArray[15 + gpsNum]);
 					bean.setLbs(gsm);
 					accessLog.info(" gpsSize  != 0  ----> " + JsonUtil.toJson(bean));
