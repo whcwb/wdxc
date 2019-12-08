@@ -87,7 +87,7 @@ public class Api {
 		MessageBean messageBean = new MessageBean();
 		messageBean.setImei(deviceId);
 		messageBean.setCommand("S11");
-		messageBean.setMid("0");
+		messageBean.setMid("11");
 		messageBean.setData(domain + "," + ip + "," + port);
 		iotServer.sendMsg(messageBean);
 		return ApiResponse.success();
