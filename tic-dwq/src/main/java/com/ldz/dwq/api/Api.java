@@ -73,13 +73,21 @@ public class Api {
 		return ApiResponse.success();
 	}
 
+	/**
+	 * 平台下发服务器修改命令(S11,C5)
+	 * 域名和 IP 地址二选一，不能同时为空
+	 * @param deviceId
+	 * @param domain
+	 * @param ip
+	 * @param port
+	 * @return
+	 */
 	@RequestMapping("/s11")
 	public ApiResponse<String> s11(String deviceId, String domain, String ip, String port) {
 		MessageBean messageBean = new MessageBean();
 		messageBean.setImei(deviceId);
 		messageBean.setCommand("S11");
 		messageBean.setMid("0");
-
 		messageBean.setData(domain + "," + ip + "," + port);
 		iotServer.sendMsg(messageBean);
 		return ApiResponse.success();
