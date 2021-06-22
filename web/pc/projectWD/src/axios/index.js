@@ -52,7 +52,7 @@ httpInstance.interceptors.request.use((config) => {
         //     }
         // })
     }
-
+// debugger
     var headers = config.headers;
     var contentType = headers['Content-Type'];
     if (contentType == "application/x-www-form-urlencoded") {

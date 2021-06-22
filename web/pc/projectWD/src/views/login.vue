@@ -19,7 +19,7 @@
 
                   }
                   .fromList {
-                        padding-top: 20px;
+                        //padding-top: 20px;
                   }
             }
 
@@ -28,61 +28,58 @@
 
 <template>
       <div class="login" style="overflow-y: auto" @keydown.enter="handleSubmit">
-            <div class="loginTit" style="background-color: #495060">
-                  <div class="text" style="left: 38%;cursor: pointer" @click="changeTo">
-                        <img src="static/icon/xq.png"
-                        style="vertical-align: middle;padding-right: 5px;padding-bottom: 3px">
-                        <span style="padding-top: 3px">平台简介</span>
-                  </div>
-            </div>
+<!--            <div class="loginTit">-->
+<!--              <div>-->
+<!--              </div>-->
+<!--            </div>-->
             <div class="loginForm">
-                  <div class="login-con">
-                        <Card :bordered="false" style="width: 100%;height:310px;">
-                              <div class="form-con">
-                                    <div class="body-O from">
-                                          <div class="loginTiT">
-                                                <h1>
-                                                      {{$t("CAR_MANAGE")}}
-                                                </h1>
-                                          </div>
-                                          <Form ref="loginForm" :model="form" :rules="rules">
-                                                <div class="fromList">
-                                                      <FormItem prop="username">
-                                                            <Input v-model="form.username" placeholder="请输入用户名">
-                                                            <span slot="prepend">
-                  <Icon :size="16" type="md-person"></Icon>
-                  </span>
-                                                            </Input>
-                                                      </FormItem>
-                                                </div>
-                                                <div class="fromList">
-                                                      <FormItem prop="password">
-                                                            <Input type="password" v-model="form.password"
-                                                                   placeholder="请输入密码">
-                                                            <span slot="prepend">
-                  <Icon :size="14" type="md-key"></Icon>
-                  </span>
-                                                            </Input>
-                                                      </FormItem>
-                                                </div>
-                                                <FormItem>
-                                                      <Button @click="handleSubmit" type="primary" long>登录</Button>
-                                                </FormItem>
-                                          </Form>
-                                    </div>
-                              </div>
-                        </Card>
-                  </div>
-
-            </div>
-            <div class="downApp">
-                  <img class="iosImg" src="/static/img/ios.png" alt="">
-                  <img class="androidImg" src="/static/img/android.png" alt="">
+              <div class="login-con">
+                    <div>
+                      <img src="/static/title2.png" style="height: 60px" alt="">
+                    </div>
+                    <Card :bordered="false" style="width: 100%;">
+                          <div class="form-con">
+                                <div class="body-O from">
+                                      <div class="loginTiTform">
+<!--                                            <h1>-->
+<!--                                                  禾田车辆网平台-->
+<!--                                                      {{$t("CAR_MANAGE")}}-->
+<!--                                                </h1>-->
+                                      </div>
+                                      <Form ref="loginForm" :model="form" :rules="rules">
+                                            <div class="fromList">
+                                                  <FormItem prop="username">
+                                                        <Input v-model="form.username" placeholder="请输入用户名">
+                                                        <span slot="prepend">
+              <Icon :size="16" type="md-person"></Icon>
+              </span>
+                                                        </Input>
+                                                  </FormItem>
+                                            </div>
+                                            <div class="fromList">
+                                                  <FormItem prop="password">
+                                                        <Input type="password" v-model="form.password"
+                                                               placeholder="请输入密码">
+                                                        <span slot="prepend">
+              <Icon :size="14" type="md-key"></Icon>
+              </span>
+                                                        </Input>
+                                                  </FormItem>
+                                            </div>
+<!--                                            <FormItem>-->
+                                                  <Button @click="handleSubmit" type="info" long>登录</Button>
+<!--                                            </FormItem>-->
+                                      </Form>
+                                </div>
+                          </div>
+                    </Card>
+              </div>
             </div>
             <div class="bottomIcon">
-
+              <div>
+                <img src="/static/title1.png" alt="">
+              </div>
             </div>
-            <div class="copyRight bgImg"></div>
 
       </div>
 </template>

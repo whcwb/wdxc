@@ -3,17 +3,20 @@
     height: 100%;
     background-size: cover;
     background-position: center;
+    background-image: linear-gradient(to top right,#e66465, #9198e5);
+    display: flex;
+    flex-direction: column;
     .loginTit{
-        height: 100px;
-        //background-image: url('/static/loginBack.jpg');
-        background-image: url("/static/img/loginTlTBack.png");
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        padding: 80px 20px 20px 20px;
+        img{
+            height: 60px;
+        }
     }
     .loginForm{
-        height: 600px;
-        background-image: url("/static/img/loginFormBack.png");
+        flex: 1;
         background-repeat: no-repeat;
         background-size: 100% 100%;
         position: relative;
@@ -25,43 +28,19 @@
         //    width: 350px;
         //}
     }
-    .xq{
-        height: 100px;
-        background-image:url("/static/icon/xq.png") ;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        position: relative;
-    }
-    .downApp{
-        height: 620px;
-        background-image: url("/static/img/downAppBack.png");
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        position: relative;
-        img{
-            width: 260px;
-            top: 30% ;
-            position: absolute;
-        }
-        .iosImg{
-            left: 34%;
-        }
-        .androidImg{
-            left: 54%;
-        }
-    }
+
     .bottomIcon{
-        height: 90px;
-        background-image: url("/static/img/loginBotton.png");
-        background-repeat: no-repeat;
         background-size: 100% 100%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        //background-color: #0499fe;
+        padding: 40px 0 60px;
+        img {
+            height: 50px;
+        }
     }
-    .copyRight {
-        height: 74px;
-        background-image: url("/static/img/copyRight.png");
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-    }
+
     .text{
         position: absolute;
         z-index: 100;
@@ -73,18 +52,18 @@
     }
     &-con{
         position: absolute;
-        right: 10%;
-        top: 18%;
-        //transform: translate(-50%,-60%);
-        width: 400px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        width: 288px;
         &-header{
             font-size: 16px;
             font-weight: 300;
             text-align: center;
-            padding: 30px 0;
+            //padding: 30px 0;
         }
         .form-con{
-            height: 260px;
+            //height: 260px;
             padding: 10px 0 0;
         }
         .login-tip{

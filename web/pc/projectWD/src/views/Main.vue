@@ -16,11 +16,11 @@
                         <div slot="top" class="logo-con">
                               <div v-show="!shrink"
                                    style="color: white;font-size: 9pt;background-color: rgb(45, 140, 240);border-radius: 10px;padding: 10px;text-align: center">
-                                    车辆管理平台
+                                    禾田车联网平台
                               </div>
                               <div v-show="shrink"
                                    style="color: white;font-size: 9pt;background-color: rgb(45, 140, 240);border-radius: 10px;padding: 10px;text-align: center">
-                                    车
+                                    禾
                               </div>
                               <!--<img v-show="!shrink"  src="../images/logo.png" key="max-logo" />-->
                               <!--<img v-show="shrink" src="../images/logo-min.png" key="min-logo" />-->
